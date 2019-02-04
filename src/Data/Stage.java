@@ -1,5 +1,6 @@
 package Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,9 +10,9 @@ public class Stage {
     private String name;
     private List<Performance> performances;
 
-    public Stage(String name, List<Performance> performances) {
+    public Stage(String name) {
         this.name = name;
-        this.performances = performances;
+        this.performances = new ArrayList<>();
     }
 
     public String getName() {
@@ -26,7 +27,15 @@ public class Stage {
         return performances;
     }
 
-    public void setPerformances(List<Performance> performances) {
-        this.performances = performances;
+    public void addPerformance(Performance performance) {
+        this.performances.add(performance);
+    }
+
+    public void removePerfomance(Performance performance) {
+        if (this.performances.contains(performance)) {
+            this.performances.remove(performance);
+        } else {
+            System.out.println("Performance not found in list!");
+        }
     }
 }
