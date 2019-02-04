@@ -28,14 +28,18 @@ public class Stage {
     }
 
     public void addPerformance(Performance performance) {
-        this.performances.add(performance);
+        if(!this.performances.contains(performance)){
+            this.performances.add(performance);
+        } else {
+            System.out.println("Performance allready in Stage's list");
+        }
     }
 
     public void removePerfomance(Performance performance) {
         if (this.performances.contains(performance)) {
             this.performances.remove(performance);
         } else {
-            System.out.println("Performance not found in list!");
+            System.out.println("Performance not found Stage's list in list!");
         }
     }
 }
