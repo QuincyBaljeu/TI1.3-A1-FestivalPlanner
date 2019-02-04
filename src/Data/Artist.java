@@ -4,11 +4,11 @@ package Data;
  * @author Lucas, Jasper
  */
 public class Artist {
-    private String name;
+    private String name; //Full name
     private Enum<Genre> genre;
     private String artistType;
     private String filePathPFP; //PFP= Profile Picture
-    private String extraInformation;
+    private String extraInformation; //Arbitrary text
     private String country;      //Country
 
     public Artist(String name, Enum<Genre> genre, String artistType, String filePathPFP, String extraInformation, String country) {
