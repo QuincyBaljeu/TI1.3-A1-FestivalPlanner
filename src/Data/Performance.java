@@ -13,12 +13,15 @@ public class Performance {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private int popularity;
+    private Stage stage;
 
-    public Performance(LocalDateTime startTime, LocalDateTime endTime, int popularity) {
+    public Performance(LocalDateTime startTime, LocalDateTime endTime, int popularity, Stage stage) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.popularity = popularity;
         this.artists = new ArrayList<>();
+        this.stage = stage;
+        stage.addPerformance(this);
     }
 
     public void addArtist(Artist artist) {
