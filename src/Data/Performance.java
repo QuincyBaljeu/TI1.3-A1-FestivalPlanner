@@ -37,6 +37,16 @@ public class Performance {
         }
     }
 
+    public void setStage(Stage stage){
+        this.stage.removePerfomance(this);
+        this.stage = stage;
+        this.stage.addPerformance(this);
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
     public List<Artist> getArtists() {
         return artists;
     }
