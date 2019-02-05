@@ -33,7 +33,7 @@ public class Artist {
         this.country = country;
     }
 
-    void addPerformance(Performance performance){
+    public void addPerformance(Performance performance){
         if(!this.performances.contains(performance)){
             this.performances.add(performance);
         } else {
@@ -41,7 +41,7 @@ public class Artist {
         }
     }
 
-    void removePerformance(Performance performance){
+    public void removePerformance(Performance performance){
         if(this.performances.contains(performance)){
             this.performances.remove(performance);
         } else {
