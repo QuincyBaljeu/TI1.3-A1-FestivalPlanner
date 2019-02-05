@@ -28,7 +28,7 @@ public class Stage {
     }
 
     public void addPerformance(Performance performance) {
-        if(!this.performances.contains(performance)){
+        if (!this.performances.contains(performance)) {
             this.performances.add(performance);
         } else {
             System.out.println("Performance allready in Stage's list");

@@ -40,7 +40,7 @@ public class Performance {
         }
     }
 
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
         this.stage.removePerfomance(this);
         this.stage = stage;
         this.stage.addPerformance(this);

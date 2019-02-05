@@ -25,6 +25,14 @@ public class Artist {
         this.country = country;
     }
 
+    public Artist(String name, Enum<Genre> genre, String artistType, String filePathPFP, String country) {
+        this.name = name;
+        this.genre = genre;
+        this.artistType = artistType;
+        this.filePathPFP = filePathPFP;
+        this.country = country;
+    }
+
     void addPerformance(Performance performance){
         if(!this.performances.contains(performance)){
             this.performances.add(performance);
@@ -43,14 +51,6 @@ public class Artist {
 
     public List<Performance> getPerformances() {
         return performances;
-    }
-
-    public Artist(String name, Enum<Genre> genre, String artistType, String filePathPFP, String country) {
-        this.name = name;
-        this.genre = genre;
-        this.artistType = artistType;
-        this.filePathPFP = filePathPFP;
-        this.country = country;
     }
 
     public String getName() {
