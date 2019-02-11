@@ -1,5 +1,9 @@
 package Data;
 
+import sun.misc.Perf;
+
+import java.util.List;
+
 /**
  * @author Lucas, Jasper
  */
@@ -10,6 +14,7 @@ public class Artist {
     private String filePathPFP; //PFP= Profile Picture
     private String extraInformation; //Arbitrary text
     private String country;      //Country
+    private List<Performance> performances;
 
     public Artist(String name, Enum<Genre> genre, String artistType, String filePathPFP, String extraInformation, String country) {
         this.name = name;
@@ -18,6 +23,34 @@ public class Artist {
         this.filePathPFP = filePathPFP;
         this.extraInformation = extraInformation;
         this.country = country;
+    }
+
+    public Artist(String name, Enum<Genre> genre, String artistType, String filePathPFP, String country) {
+        this.name = name;
+        this.genre = genre;
+        this.artistType = artistType;
+        this.filePathPFP = filePathPFP;
+        this.country = country;
+    }
+
+    public void addPerformance(Performance performance){
+        if(!this.performances.contains(performance)){
+            this.performances.add(performance);
+        } else {
+            System.out.println("Performance allready in Artist's list!");
+        }
+    }
+
+    public void removePerformance(Performance performance){
+        if(this.performances.contains(performance)){
+            this.performances.remove(performance);
+        } else {
+            System.out.println("Artist's performance list does not contain the given performance");
+        }
+    }
+
+    public List<Performance> getPerformances() {
+        return performances;
     }
 
     public String getName() {
@@ -53,6 +86,9 @@ public class Artist {
     }
 
     public String getExtraInformation() {
+        if (this.extraInformation == null) {
+            return "No extra information available";
+        }
         return extraInformation;
     }
 

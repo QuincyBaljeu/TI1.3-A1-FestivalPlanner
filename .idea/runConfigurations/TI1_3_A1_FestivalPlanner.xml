@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="TI1.3-A1-FestivalPlanner" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="GUI.GUI" />
+    <option name="MAIN_CLASS_NAME" value="Main" />
     <module name="TI1.3-A1-FestivalPlanner" />
     <method v="2">
       <option name="Make" enabled="true" />
