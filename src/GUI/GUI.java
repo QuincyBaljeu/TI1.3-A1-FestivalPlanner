@@ -24,11 +24,14 @@ public class GUI extends Application{
     @Override
     public void start(Stage Stage) throws Exception {
 
+
+        //Panes
         BorderPane menuBorderPane = new BorderPane();
         BorderPane editBorderPane = new BorderPane();
         BorderPane viewBorderPane = new BorderPane();
         TabPane tabPane = new TabPane();
 
+        //Menu tabs
         Tab Simulation = new Tab("Simulation");
         Tab View = new Tab("View mode");
         Tab Edit = new Tab("Edit mode");
@@ -36,6 +39,7 @@ public class GUI extends Application{
         tabPane.getTabs().addAll(View,Simulation,Edit);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
+        //
         Menu performanceMenu = new Menu("Manage Performance");
         Menu stagesMenu = new Menu("Manage Stages");
         Menu artistsMenu = new Menu("Manage Artists");
@@ -64,7 +68,7 @@ public class GUI extends Application{
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(performanceMenu,stagesMenu,artistsMenu);
 
-        /**implementeerd de lijst uit agendatable in een tabelview**/
+        //Implements array to tableview
         TableView<AgendaTable> edittable = new TableView<>();
         TableView<AgendaTable> viewtable = new TableView<>();
         //edittable.setEditable(true);
@@ -80,14 +84,14 @@ public class GUI extends Application{
         viewtable.setItems(getAgendaTable());
         viewtable.getColumns().addAll(Time);
 
-        /**zet de tabel in de de borderpane**/
+        //Adds table to borderpane
         editBorderPane.setCenter(edittable);
         editBorderPane.setTop(menuBar);
         viewBorderPane.setTop(viewtable);
-        /**zet de borderpane(tabel) in de tabpane**/
+        //Adds borderpane to tabpane
         Edit.setContent(editBorderPane);
         View.setContent(viewtable);
-        /**zet de tabpane in de eind borderpane**/
+        //Adds tabpane to final borderpane
         menuBorderPane.setCenter(tabPane);
 
         Stage.setTitle("Festival Planner");
