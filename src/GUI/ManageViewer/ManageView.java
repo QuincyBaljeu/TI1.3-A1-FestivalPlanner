@@ -1,6 +1,7 @@
 package GUI.ManageViewer;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -35,12 +36,32 @@ public abstract class ManageView<T> implements ManageViewInterface{
             for (int j = 1; j < variable.length; j++){
                gridPane.add(new Label(variable[j]), j, i+1);
             }
+            gridPane.add(getDELButton(), variable.length, i+1);
+            gridPane.add(getEDITButton(), variable.length+1, i+1);
         }
+        gridPane.add();
+
     }
 
 
     public List<T> getManageAbeles() {
         return manageAbeles;
+    }
+
+    private Button getDELButton() {
+        Button deleteButton = new Button("DEL");
+        deleteButton.setOnAction(e -> {
+
+        });
+        return deleteButton;
+    }
+
+    private Button getEDITButton() {
+        Button EDitButton = new Button("EDIT");
+        EDitButton.setOnAction(e -> {
+
+        });
+        return EDitButton;
     }
 
     public void setManageAbeles(List<T> manageAbeles) {

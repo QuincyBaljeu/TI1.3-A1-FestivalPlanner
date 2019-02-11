@@ -29,3 +29,4 @@ public class ArtistManageView extends ManageView<Artist> {
         return varTypes;
     }
 }
+ 
