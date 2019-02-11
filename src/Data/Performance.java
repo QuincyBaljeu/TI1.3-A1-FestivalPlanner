@@ -39,12 +39,8 @@ public class Performance {
             System.out.println("Artist not found in list!");
         }
     }
-
-<<<<<<< HEAD
-    public void setStage(Stage stage){
-=======
+    
     public void setStage(Stage stage) {
->>>>>>> DataPackage
         this.stage.removePerfomance(this);
         this.stage = stage;
         this.stage.addPerformance(this);
