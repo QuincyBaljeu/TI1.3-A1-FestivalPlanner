@@ -46,7 +46,6 @@ public class FestivalDay {
         }
     }
 
-<<<<<<< HEAD
     public void removePerformance(Performance performance){
         if(this.performances.contains(performance)){
             for(Artist artist : performance.getArtists()){
@@ -67,7 +66,6 @@ public class FestivalDay {
         }
     }
 
-<<<<<<< HEAD
     public void removeStage(Stage stage){
         if(this.stages.contains(stage)){
             for(Performance performance : stage.getPerformances()){
