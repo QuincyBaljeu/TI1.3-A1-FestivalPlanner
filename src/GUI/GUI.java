@@ -24,11 +24,14 @@ public class GUI extends Application{
     @Override
     public void start(Stage Stage) throws Exception {
 
+
+        //Panes
         BorderPane menuBorderPane = new BorderPane();
         BorderPane editBorderPane = new BorderPane();
         BorderPane viewBorderPane = new BorderPane();
         TabPane tabPane = new TabPane();
 
+        //Menu tabs
         Tab Simulation = new Tab("Simulation");
         Tab View = new Tab("View mode");
         Tab Edit = new Tab("Edit mode");
@@ -36,6 +39,7 @@ public class GUI extends Application{
         tabPane.getTabs().addAll(View,Simulation,Edit);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
+        //
         Menu performanceMenu = new Menu("Manage Performance");
         Menu stagesMenu = new Menu("Manage Stages");
         Menu artistsMenu = new Menu("Manage Artists");
