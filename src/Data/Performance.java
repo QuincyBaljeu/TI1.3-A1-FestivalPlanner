@@ -21,6 +21,9 @@ public class Performance {
         this.popularity = popularity;
         this.stage = stage;
         this.stage.addPerformance(this);
+        this.artists = new ArrayList<>();
+        this.stage = stage;
+        stage.addPerformance(this);
     }
 
     public void addArtist(Artist artist) {
@@ -37,7 +40,11 @@ public class Performance {
         }
     }
 
+<<<<<<< HEAD
     public void setStage(Stage stage){
+=======
+    public void setStage(Stage stage) {
+>>>>>>> DataPackage
         this.stage.removePerfomance(this);
         this.stage = stage;
         this.stage.addPerformance(this);
