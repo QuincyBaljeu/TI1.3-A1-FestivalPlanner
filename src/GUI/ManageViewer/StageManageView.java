@@ -10,4 +10,13 @@ public class StageManageView extends ManageView<Stage> implements ManageViewInte
     }
 
 
+    @Override
+    public List<String> getVariables() {
+        return null;
+    }
+
+    @Override
+    public List<String> getVariableTypes() {
+        return null;
+    }
 }
