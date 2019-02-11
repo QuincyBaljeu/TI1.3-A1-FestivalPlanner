@@ -11,7 +11,7 @@ public class Artist {
     private String name;
     private Enum<Genre> genre;
     private String artistType;
-    private String filePathPFP; //PFP= Profile Picture
+    private String filePathPFP;  //PFP= Profile Picture
     private String extraInformation;
     private String country;      //Country
     private List<Performance> performances;
@@ -25,7 +25,15 @@ public class Artist {
         this.country = country;
     }
 
-    void addPerformance(Performance performance){
+    public Artist(String name, Enum<Genre> genre, String artistType, String filePathPFP, String country) {
+        this.name = name;
+        this.genre = genre;
+        this.artistType = artistType;
+        this.filePathPFP = filePathPFP;
+        this.country = country;
+    }
+
+    public void addPerformance(Performance performance){
         if(!this.performances.contains(performance)){
             this.performances.add(performance);
         } else {
@@ -33,7 +41,7 @@ public class Artist {
         }
     }
 
-    void removePerformance(Performance performance){
+    public void removePerformance(Performance performance){
         if(this.performances.contains(performance)){
             this.performances.remove(performance);
         } else {
@@ -78,6 +86,9 @@ public class Artist {
     }
 
     public String getExtraInformation() {
+        if (this.extraInformation == null) {
+            return "No extra information available";
+        }
         return extraInformation;
     }
 
