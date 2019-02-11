@@ -9,4 +9,14 @@ public class ArtistManageView extends ManageView<Artist> implements ManageViewIn
     public ArtistManageView(List<Artist> artists) {
         super(artists);
     }
+
+    @Override
+    public List<String> getVariables() {
+        return null;
+    }
+
+    @Override
+    public List<String> getVariableTypes() {
+        return null;
+    }
 }
