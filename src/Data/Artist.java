@@ -1,7 +1,5 @@
 package Data;
 
-import sun.misc.Perf;
-
 import java.util.List;
 
 /**
@@ -11,25 +9,25 @@ public class Artist {
     private String name; //Full name
     private Enum<Genre> genre;
     private String artistType;
-    private String filePathPFP; //PFP= Profile Picture
+    private String filePathProfilePicture;
     private String extraInformation; //Arbitrary text
     private String country;      //Country
     private List<Performance> performances;
 
-    public Artist(String name, Enum<Genre> genre, String artistType, String filePathPFP, String extraInformation, String country) {
+    public Artist(String name, Enum<Genre> genre, String artistType, String filePathProfilePicture, String extraInformation, String country) {
         this.name = name;
         this.genre = genre;
         this.artistType = artistType;
-        this.filePathPFP = filePathPFP;
+        this.filePathProfilePicture = filePathProfilePicture;
         this.extraInformation = extraInformation;
         this.country = country;
     }
 
-    public Artist(String name, Enum<Genre> genre, String artistType, String filePathPFP, String country) {
+    public Artist(String name, Enum<Genre> genre, String artistType, String filePathProfilePicture, String country) {
         this.name = name;
         this.genre = genre;
         this.artistType = artistType;
-        this.filePathPFP = filePathPFP;
+        this.filePathProfilePicture = filePathProfilePicture;
         this.country = country;
     }
 
@@ -77,12 +75,12 @@ public class Artist {
         this.artistType = artistType;
     }
 
-    public String getFilePathPFP() {
-        return filePathPFP;
+    public String getFilePathProfilePicture() {
+        return filePathProfilePicture;
     }
 
-    public void setFilePathPFP(String filePathPFP) {
-        this.filePathPFP = filePathPFP;
+    public void setFilePathProfilePicture(String filePathProfilePicture) {
+        this.filePathProfilePicture = filePathProfilePicture;
     }
 
     public String getExtraInformation() {

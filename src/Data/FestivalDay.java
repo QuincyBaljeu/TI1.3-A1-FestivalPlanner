@@ -9,7 +9,6 @@ public class FestivalDay {
     /**
      * @author Lucas, Jasper
      */
-
     private List<Stage> stages;
     private List<Performance> performances;
     private List<Artist> artists;
