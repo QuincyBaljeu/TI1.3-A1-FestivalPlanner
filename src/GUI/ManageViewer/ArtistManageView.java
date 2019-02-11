@@ -25,7 +25,7 @@ public class ArtistManageView extends ManageView<Artist> {
         ArrayList<String> varTypes = new ArrayList<>();
         varTypes.add("Name");
         varTypes.add("Genre");
-        varTypes.add("Country of Origine");
+        varTypes.add("Country of Origin");
         return varTypes;
     }
 }

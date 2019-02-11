@@ -50,7 +50,7 @@ public class FestivalDay {
             for(Artist artist : performance.getArtists()){
                 artist.removePerformance(performance);
             }
-            performance.getStage().removePerfomance(performance);
+            performance.getStage().removePerformance(performance);
             this.performances.remove(performance);
         } else {
             System.out.println("Performance does not exist in FestivalDay's list!");

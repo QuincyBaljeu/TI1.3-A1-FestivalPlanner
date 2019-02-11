@@ -15,6 +15,10 @@ public class Stage {
         this.performances = new ArrayList<>();
     }
 
+    public void setPerformances(List<Performance> performances) {
+        this.performances = performances;
+    }
+
     public String getName() {
         return name;
     }
@@ -35,7 +39,7 @@ public class Stage {
         }
     }
 
-    public void removePerfomance(Performance performance) {
+    public void removePerformance(Performance performance) {
         if (this.performances.contains(performance)) {
             this.performances.remove(performance);
         } else {
