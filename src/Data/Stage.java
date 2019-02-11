@@ -1,12 +1,13 @@
 package Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Lucas, Jasper
  */
-public class Stage {
+public class Stage implements Serializable {
     private String name;
     private List<Performance> performances;
 

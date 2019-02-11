@@ -1,5 +1,6 @@
 package Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * @author Lucas, Jasper
  */
-public class Performance {
+public class Performance implements Serializable {
 
     private List<Artist> artists;
     private LocalDateTime startTime;

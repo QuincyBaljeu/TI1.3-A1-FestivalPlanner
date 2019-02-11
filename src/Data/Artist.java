@@ -1,11 +1,12 @@
 package Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Lucas, Jasper
  */
-public class Artist {
+public class Artist implements Serializable {
     private String name; //Full name
     private Enum<Genre> genre;
     private String artistType;
