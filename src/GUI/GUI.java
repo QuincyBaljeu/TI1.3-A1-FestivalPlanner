@@ -5,14 +5,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class GUI extends Application{
 
-    private ObservableList<String> Times =
+    public ObservableList<String> Times =
             FXCollections.observableArrayList(
-                    "10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00"
+                    "10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"
+            );
+
+    public ObservableList<String> Mainstage =
+            FXCollections.observableArrayList(
+                    "","","Brennan Heart","","Hardwell","Hardwell","Hardwell","Hardwell","","Da Tweekaz","Da Tweekaz","",""
             );
 
     @Override
@@ -20,13 +26,14 @@ public class GUI extends Application{
 
         BorderPane menuBorderPane = new BorderPane();
         BorderPane editBorderPane = new BorderPane();
+        BorderPane viewBorderPane = new BorderPane();
         TabPane tabPane = new TabPane();
 
         Tab Simulation = new Tab("Simulation");
-        Tab Map = new Tab("Map");
+        Tab View = new Tab("View mode");
         Tab Edit = new Tab("Edit mode");
 
-        tabPane.getTabs().addAll(Simulation,Map,Edit);
+        tabPane.getTabs().addAll(View,Simulation,Edit);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         Menu performanceMenu = new Menu("Manage Performance");
@@ -57,19 +64,29 @@ public class GUI extends Application{
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(performanceMenu,stagesMenu,artistsMenu);
 
-        TableView table = new TableView();
-        table.setEditable(true);
+        /**implementeerd de lijst uit agendatable in een tabelview**/
+        TableView<AgendaTable> edittable = new TableView<>();
+        TableView<AgendaTable> viewtable = new TableView<>();
+        //edittable.setEditable(true);
 
-        TableColumn Time = new TableColumn("Time");
-        TableColumn Mainstage = new TableColumn("Main Stage");
-        table.getColumns().addAll(Time,Mainstage);
-        table.setItems(Times);
+        TableColumn<AgendaTable, String> Time = new TableColumn<>("Time");
+        TableColumn<AgendaTable, String> Mainstage = new TableColumn<>("Main Stage");
+        Time.setCellValueFactory(new PropertyValueFactory<>("time"));
+        Mainstage.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        edittable.setItems(getAgendaTable());
+        edittable.getColumns().addAll(Time,Mainstage);
+
+        viewtable.setItems(getAgendaTable());
+        viewtable.getColumns().addAll(Time);
 
         /**zet de tabel in de de borderpane**/
-        editBorderPane.setCenter(table);
+        editBorderPane.setCenter(edittable);
         editBorderPane.setTop(menuBar);
+        viewBorderPane.setTop(viewtable);
         /**zet de borderpane(tabel) in de tabpane**/
         Edit.setContent(editBorderPane);
+        View.setContent(viewtable);
         /**zet de tabpane in de eind borderpane**/
         menuBorderPane.setCenter(tabPane);
 
@@ -80,6 +97,15 @@ public class GUI extends Application{
         Stage.setScene(scene);
         Stage.show();
 
+    }
+
+    private ObservableList<AgendaTable> getAgendaTable() {
+        ObservableList<AgendaTable> list = FXCollections.observableArrayList();
+        for(int i = 0; i < Times.size(); i++) {
+            AgendaTable agendaTable = new AgendaTable(Times.get(i), Mainstage.get(i));
+            list.add(agendaTable);
+        }
+        return list;
     }
 
     public static void main(String[] args) {
