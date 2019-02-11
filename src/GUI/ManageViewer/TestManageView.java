@@ -3,7 +3,7 @@ package GUI.ManageViewer;
 import Data.Artist;
 import Data.Performance;
 import Data.Genre;
-import Data.*;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,14 +16,18 @@ public class TestManageView extends Application {
     public void start(Stage primaryStage) throws Exception {
         List<Artist> artists = new ArrayList<>();
         List<Performance> performaces = new ArrayList<>();
-        List<Stage> stages = new ArrayList<>();
+        List<Data.Stage> stages = new ArrayList<>();
+        Data.Stage stage = new Data.Stage("Main Stage");
+        stages.add(stage);
+
+        stages.add(stage);
 
         artists.add(new Artist("Lucas", Genre.COUNTRY, "Singer", "Cool", "Netherlands"));
         artists.add(new Artist("Jasper", Genre.ROCK_MUSIC, "Rocker", "Cool", "Duitsland"));
         artists.add(new Artist("Thijs", Genre.DISCO, "funker", "Cool", "Belgie"));
         artists.add(new Artist("Quincy", Genre.MUSIC_FOR_CHILDREN, "HardBass", "Cool", "Russiesch"));
 
-        primaryStage.setScene(new ArtistManageView(artists).getScene());
+        primaryStage.setScene(new StageManageView(stages).getScene());
         primaryStage.show();
     }
 }
