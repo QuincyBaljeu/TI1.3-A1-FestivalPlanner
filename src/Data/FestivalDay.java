@@ -6,6 +6,10 @@ import java.util.List;
 
 public class FestivalDay {
 
+    /**
+     * @author Lucas, Jasper
+     */
+
     private List<Stage> stages;
     private List<Performance> performances;
     private List<Artist> artists;
@@ -44,6 +48,10 @@ public class FestivalDay {
 
     public void removePerformance(Performance performance){
         if(this.performances.contains(performance)){
+            for(Artist artist : performance.getArtists()){
+                artist.removePerformance(performance);
+            }
+            performance.getStage().removePerfomance(performance);
             this.performances.remove(performance);
         } else {
             System.out.println("Performance does not exist in FestivalDay's list!");
@@ -60,6 +68,9 @@ public class FestivalDay {
 
     public void removeStage(Stage stage){
         if(this.stages.contains(stage)){
+            for(Performance performance : stage.getPerformances()){
+                removePerformance(performance);
+            }
             this.stages.remove(stage);
         } else {
             System.out.println("Stage does not exist in FestivalDay's list!");
