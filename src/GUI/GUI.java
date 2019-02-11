@@ -64,7 +64,7 @@ public class GUI extends Application{
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(performanceMenu,stagesMenu,artistsMenu);
 
-        /**implementeerd de lijst uit agendatable in een tabelview**/
+        //Implements array to tableview
         TableView<AgendaTable> edittable = new TableView<>();
         TableView<AgendaTable> viewtable = new TableView<>();
         //edittable.setEditable(true);
@@ -80,14 +80,14 @@ public class GUI extends Application{
         viewtable.setItems(getAgendaTable());
         viewtable.getColumns().addAll(Time);
 
-        /**zet de tabel in de de borderpane**/
+        //Adds table to borderpane
         editBorderPane.setCenter(edittable);
         editBorderPane.setTop(menuBar);
         viewBorderPane.setTop(viewtable);
-        /**zet de borderpane(tabel) in de tabpane**/
+        //Adds borderpane to tabpane
         Edit.setContent(editBorderPane);
         View.setContent(viewtable);
-        /**zet de tabpane in de eind borderpane**/
+        //Adds tabpane to final borderpane
         menuBorderPane.setCenter(tabPane);
 
         Stage.setTitle("Festival Planner");
