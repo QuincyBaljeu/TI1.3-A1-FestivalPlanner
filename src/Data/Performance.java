@@ -60,4 +60,5 @@ public class Performance {
     public void setPopularity(int popularity) {
         this.popularity = popularity;
     }
+
 }
