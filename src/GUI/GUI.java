@@ -21,6 +21,11 @@ public class GUI extends Application{
                     "","","Brennan Heart","","Hardwell","Hardwell","Hardwell","Hardwell","","Da Tweekaz","Da Tweekaz","",""
             );
 
+    public ObservableList<Data.Stage> stages =
+            FXCollections.observableArrayList(
+              new Data.Stage("Main"), new Data.Stage("Main2"), new Data.Stage("Jupiler Stage")
+            );
+
     @Override
     public void start(Stage Stage) throws Exception {
 
@@ -79,7 +84,10 @@ public class GUI extends Application{
         Mainstage.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         edittable.setItems(getAgendaTable());
-        edittable.getColumns().addAll(Time,Mainstage);
+        edittable.getColumns().add(Time);
+        for (Data.Stage stage : stages){
+            edittable.getColumns().add(new TableColumn(stage.getName()));
+        }
 
         viewtable.setItems(getAgendaTable());
         viewtable.getColumns().addAll(Time);
