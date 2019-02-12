@@ -39,12 +39,16 @@ public class FestivalDay implements Serializable {
     }
 
     /**
-     * Adds a performance to this festivalDay
+     * Adds a performance, it's podium and artists to this festivalDay
      * @param performance the performance to add
      */
     public void addPerformance(Performance performance) {
         if (!this.performances.contains(performance)) {
             this.performances.add(performance);
+            for (Artist artist : performance.getArtists()){
+                this.addArtist(artist);
+            }
+            this.addPodium(performance.getPodium());
         } else {
             System.out.println("Performance allready in FestivalDay's list!");
         }
