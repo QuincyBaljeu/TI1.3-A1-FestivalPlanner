@@ -1,5 +1,7 @@
 package GUI;
 
+import Data.FestivalDay;
+import Data.Podium;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class GUI extends Application{
 
@@ -21,13 +26,10 @@ public class GUI extends Application{
                     "","","Brennan Heart","","Hardwell","Hardwell","Hardwell","Hardwell","","Da Tweekaz","Da Tweekaz","",""
             );
 
-    public ObservableList<Data.Stage> stages =
-            FXCollections.observableArrayList(
-              new Data.Stage("Main"), new Data.Stage("Main2"), new Data.Stage("Jupiler Stage")
-            );
-
     @Override
     public void start(Stage Stage) throws Exception {
+
+        FestivalDay festivalDay = new FestivalDay(LocalDate.of(12,12,12));
 
         //Panes
         BorderPane menuBorderPane = new BorderPane();
@@ -85,15 +87,15 @@ public class GUI extends Application{
         //Edit mode table content
         edittable.setItems(getAgendaTable());
         edittable.getColumns().add(Time);
-        for (Data.Stage stage : stages){
-            edittable.getColumns().add(new TableColumn(stage.getName()));
+        for (Podium podium : festivalDay.getPodia()){
+            edittable.getColumns().add(new TableColumn(podium.getName()));
         }
 
         //View mode table content
         viewtable.setItems(getAgendaTable());
         viewtable.getColumns().add(Time);
-        for(Data.Stage stage : stages){
-            viewtable.getColumns().add(new TableColumn(stage.getName()));
+        for(Podium podium : festivalDay.getPodia()){
+            viewtable.getColumns().add(new TableColumn(podium.getName()));
         }
 
         //Adds table to borderpane

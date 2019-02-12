@@ -16,18 +16,18 @@ public class TestManageView extends Application {
     public void start(Stage primaryStage) throws Exception {
         List<Artist> artists = new ArrayList<>();
         List<Performance> performaces = new ArrayList<>();
-        List<Data.Stage> stages = new ArrayList<>();
-        Data.Stage stage = new Data.Stage("Main Stage");
-        stages.add(stage);
+        List<Data.Podium> stages = new ArrayList<>();
+      //  Data.Podium stage = new Data.Podium("Main Stage");
+      //  stages.add(stage);
 
-        stages.add(new Data.Stage("Secondary Stage"));
+//        stages.add(new Data.Podium("Secondary Stage"));
+//
+//        artists.add(new Artist("Lucas", Genre.COUNTRY, "Singer", "Cool", "Netherlands"));
+//        artists.add(new Artist("Jasper", Genre.ROCK_MUSIC, "Rocker", "Cool", "Duitsland"));
+//        artists.add(new Artist("Thijs", Genre.DISCO, "funker", "Cool", "Belgie"));
+//        artists.add(new Artist("Quincy", Genre.MUSIC_FOR_CHILDREN, "HardBass", "Cool", "Russiesch"));
 
-        artists.add(new Artist("Lucas", Genre.COUNTRY, "Singer", "Cool", "Netherlands"));
-        artists.add(new Artist("Jasper", Genre.ROCK_MUSIC, "Rocker", "Cool", "Duitsland"));
-        artists.add(new Artist("Thijs", Genre.DISCO, "funker", "Cool", "Belgie"));
-        artists.add(new Artist("Quincy", Genre.MUSIC_FOR_CHILDREN, "HardBass", "Cool", "Russiesch"));
-
-        primaryStage.setScene(new StageManageView(stages).getScene());
+      //  primaryStage.setScene(new StageManageView(stages).getScene());
         primaryStage.show();
     }
 }
