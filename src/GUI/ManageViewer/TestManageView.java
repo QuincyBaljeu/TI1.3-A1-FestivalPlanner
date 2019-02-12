@@ -20,7 +20,7 @@ public class TestManageView extends Application {
         Data.Stage stage = new Data.Stage("Main Stage");
         stages.add(stage);
 
-        stages.add(stage);
+        stages.add(new Data.Stage("Secondary Stage"));
 
         artists.add(new Artist("Lucas", Genre.COUNTRY, "Singer", "Cool", "Netherlands"));
         artists.add(new Artist("Jasper", Genre.ROCK_MUSIC, "Rocker", "Cool", "Duitsland"));

@@ -1,5 +1,7 @@
 package GUI.ManageViewer;
 
+import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,6 +19,9 @@ public abstract class ManageView<T> implements ManageViewInterface{
     public ManageView(List<T> manageAbeles) {
         this.manageAbeles = manageAbeles;
         this.scene = new Scene(this.gridPane = new GridPane());
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setAlignment(Pos.CENTER);
         initScene();
         loadObjects();
     }
@@ -39,7 +44,8 @@ public abstract class ManageView<T> implements ManageViewInterface{
             gridPane.add(getDELButton(), variable.length, i+1);
             gridPane.add(getEDITButton(), variable.length+1, i+1);
         }
-        gridPane.add();
+        gridPane.addRow(variables.size()+1, getADDButton());
+        gridPane.add(getBackButton(), variables.get(0).split("#").length+1, variables.size()+1);
 
     }
 
@@ -62,6 +68,22 @@ public abstract class ManageView<T> implements ManageViewInterface{
 
         });
         return EDitButton;
+    }
+
+    private Button getADDButton() {
+        Button ADDButton = new Button("ADD");
+        ADDButton.setOnAction(e -> {
+
+        });
+        return ADDButton;
+    }
+
+    private Button getBackButton() {
+        Button button = new Button("Back");
+        button.setOnAction(e -> {
+            Platform.exit();
+        });
+        return button;
     }
 
     public void setManageAbeles(List<T> manageAbeles) {
