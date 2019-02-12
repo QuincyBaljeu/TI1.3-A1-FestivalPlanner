@@ -44,6 +44,9 @@ public class Artist implements Serializable {
     public void removePerformance(Performance performance){
         if(this.performances.contains(performance)){
             this.performances.remove(performance);
+            if (performance.getArtists().size() == 0){
+                this.festivalDay.removePerformance(performance);
+            }
         } else {
             System.out.println("Artist's performance list does not contain the given performance");
         }
