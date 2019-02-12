@@ -58,4 +58,42 @@ public class Performance implements Serializable {
     public Podium getPodium() {
         return podium;
     }
+
+    public void setArtists(List<Artist> artists) {
+        this.artists = artists;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(int popularity) {
+        this.popularity = popularity;
+    }
+
+    public FestivalDay getFestivalDay() {
+        return festivalDay;
+    }
+
+    public void setFestivalDay(FestivalDay festivalDay) {
+        this.festivalDay = festivalDay;
+    }
+
+
 }

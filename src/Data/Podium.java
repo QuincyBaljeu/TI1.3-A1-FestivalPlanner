@@ -37,4 +37,24 @@ public class Podium implements Serializable {
     public List<Performance> getPerformances() {
         return performances;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPerformances(List<Performance> performances) {
+        this.performances = performances;
+    }
+
+    public FestivalDay getFestivalDay() {
+        return festivalDay;
+    }
+
+    public void setFestivalDay(FestivalDay festivalDay) {
+        this.festivalDay = festivalDay;
+    }
 }

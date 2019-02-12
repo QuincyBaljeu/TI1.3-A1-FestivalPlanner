@@ -15,7 +15,7 @@ public class PerformanceManageView  extends ManageView<Performance> {
     public List<String> getVariables() {
         List<String> variables = new ArrayList<>();
         for (Performance performance : getManageAbeles()) {
-            variables.add(performance.getStage().getName() + "#" + performance.getArtists() + "#" + performance.getStartTime() + "#" + performance.getEndTime());
+            variables.add(performance.getPodium().getName() + "#" + performance.getArtists() + "#" + performance.getStartTime() + "#" + performance.getEndTime());
         }
         return variables;
     }
@@ -29,4 +29,7 @@ public class PerformanceManageView  extends ManageView<Performance> {
         varTypes.add("EndTime");
         return varTypes;
     }
+
+
+
 }

@@ -47,4 +47,68 @@ public class Artist implements Serializable {
             System.out.println("Artist's performance list does not contain the given performance");
         }
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Enum<Genre> getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Enum<Genre> genre) {
+        this.genre = genre;
+    }
+
+    public String getArtistType() {
+        return artistType;
+    }
+
+    public void setArtistType(String artistType) {
+        this.artistType = artistType;
+    }
+
+    public String getFilePathProfilePicture() {
+        return filePathProfilePicture;
+    }
+
+    public void setFilePathProfilePicture(String filePathProfilePicture) {
+        this.filePathProfilePicture = filePathProfilePicture;
+    }
+
+    public String getExtraInformation() {
+        return extraInformation;
+    }
+
+    public void setExtraInformation(String extraInformation) {
+        this.extraInformation = extraInformation;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public List<Performance> getPerformances() {
+        return performances;
+    }
+
+    public void setPerformances(List<Performance> performances) {
+        this.performances = performances;
+    }
+
+    public FestivalDay getFestivalDay() {
+        return festivalDay;
+    }
+
+    public void setFestivalDay(FestivalDay festivalDay) {
+        this.festivalDay = festivalDay;
+    }
 }

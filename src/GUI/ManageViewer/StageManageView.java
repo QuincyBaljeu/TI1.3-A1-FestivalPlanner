@@ -1,21 +1,20 @@
 package GUI.ManageViewer;
 
-import Data.Stage;
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class StageManageView extends ManageView<Stage> {
+public class StageManageView extends ManageView<Data.Podium> {
 
-    public StageManageView(List<Stage> manageAbeles) {
+    public StageManageView(List<Data.Podium> manageAbeles) {
         super(manageAbeles);
     }
 
     @Override
     public List<String> getVariables() {
         List<String>variables = new ArrayList<>();
-        for (Stage stage : getManageAbeles()){
-            variables.add(stage.getName() + "#" + stage.getPerformances().toString());
+        for (Data.Podium podium : getManageAbeles()){
+            variables.add(podium.getName() + "#" + podium.getPerformances().toString());
         }
         return variables;
     }

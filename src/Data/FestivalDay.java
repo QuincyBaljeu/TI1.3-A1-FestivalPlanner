@@ -111,4 +111,16 @@ public class FestivalDay implements Serializable {
     public List<Artist> getArtists() {
         return artists;
     }
+
+    public void setPodia(List<Podium> podia) {
+        this.podia = podia;
+    }
+
+    public void setPerformances(List<Performance> performances) {
+        this.performances = performances;
+    }
+
+    public void setArtists(List<Artist> artists) {
+        this.artists = artists;
+    }
 }
