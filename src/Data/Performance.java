@@ -23,12 +23,12 @@ public class Performance implements Serializable {
         this.popularity = popularity;
         this.podium = podium;
         this.artists = new ArrayList<>();
-        this.podium.addPerformance(this);
         for (Artist artist : artists){
             this.artists.add(artist);
             artist.addPerformance(this);
         }
         this.festivalDay = festivalDay;
+        this.podium.addPerformance(this);
     }
 
     public void addArtist(Artist artist) {

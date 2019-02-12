@@ -29,6 +29,7 @@ public class Podium implements Serializable {
 
     public void removePerfomance(Performance performance) {
         if (this.performances.contains(performance)) {
+            this.performances.remove(performance);
             this.festivalDay.removePerformance(performance);
         } else {
             System.out.println("Performance not found Podium's list in list!");

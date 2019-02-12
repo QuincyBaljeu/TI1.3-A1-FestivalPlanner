@@ -32,6 +32,11 @@ public class FileIOTest extends Application {
         );
         File saveFile = fileChooser.showSaveDialog(primaryStage);
         AgendaModule dummyData = this.getDummyData(saveFile.getPath());
+        /*
+        dummyData.getFestivalDay(0).removePerformance(
+            dummyData.getFestivalDay(0).getPerformances().get(0)
+        );
+        /**/
         dummyData.save();
     }
 
