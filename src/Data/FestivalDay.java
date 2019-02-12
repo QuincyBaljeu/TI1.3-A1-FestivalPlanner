@@ -36,6 +36,13 @@ public class FestivalDay implements Serializable {
     public void removeArtist(Artist artist) {
         if (this.artists.contains(artist)) {
             this.artists.remove(artist);
+            for (Performance performance : artist.getPerformances()){
+                performance.removeArtist(artist);
+                if (performance.getArtists().size() == 0){
+                    this.removePerformance(performance);
+                }
+            }
+
         } else {
             System.out.println("Artist does not exist in FestivalDay's list!");
         }
@@ -63,14 +70,11 @@ public class FestivalDay implements Serializable {
      */
     public void removePerformance(Performance performance){
         if(this.performances.contains(performance)){
+            this.performances.remove(performance);
             for(Artist artist : performance.getArtists()){
                 artist.removePerformance(performance);
             }
-            for (Podium podium : this.getPodia()){
-                podium.removePerfomance(performance);
-            }
             performance.getPodium().removePerfomance(performance);
-            this.performances.remove(performance);
         } else {
             System.out.println("Performance does not exist in FestivalDay's list!");
         }
@@ -89,10 +93,10 @@ public class FestivalDay implements Serializable {
 
     public void removePodium(Podium podium){
         if(this.podia.contains(podium)){
+            this.podia.remove(podium);
             for(Performance performance : podium.getPerformances()){
                 removePerformance(performance);
             }
-            this.podia.remove(podium);
         } else {
             System.out.println("Podium does not exist in FestivalDay's list!");
         }
