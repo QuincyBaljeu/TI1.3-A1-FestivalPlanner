@@ -10,13 +10,13 @@ public class FestivalDay implements Serializable {
     /**
      * @author Lucas, Jasper
      */
-    private List<Stage> stages;
+    private List<Podium> podia;
     private List<Performance> performances;
     private List<Artist> artists;
     private LocalDate date;
 
     public FestivalDay(LocalDate date) {
-        this.stages = new ArrayList<>();
+        this.podia = new ArrayList<>();
         this.performances = new ArrayList<>();
         this.artists = new ArrayList<>();
         this.date = date;
@@ -38,6 +38,10 @@ public class FestivalDay implements Serializable {
         }
     }
 
+    /**
+     * Adds a performance to this festivalDay
+     * @param performance the performance to add
+     */
     public void addPerformance(Performance performance) {
         if (!this.performances.contains(performance)) {
             this.performances.add(performance);
@@ -46,34 +50,41 @@ public class FestivalDay implements Serializable {
         }
     }
 
+    /**
+     * Removes the given performance from the festival day, from it's podium and from it's artist
+     * @param performance The performance to remove
+     */
     public void removePerformance(Performance performance){
         if(this.performances.contains(performance)){
             for(Artist artist : performance.getArtists()){
                 artist.removePerformance(performance);
             }
-            performance.getStage().removePerfomance(performance);
+            for (Podium podium : this.getPodia()){
+                podium.removePerfomance(performance);
+            }
+            performance.getPodium().removePerfomance(performance);
             this.performances.remove(performance);
         } else {
             System.out.println("Performance does not exist in FestivalDay's list!");
         }
     }
 
-    public void addStage(Stage stage) {
-        if (!this.stages.contains(stage)) {
-            this.stages.add(stage);
+    public void addPodium(Podium podium) {
+        if (!this.podia.contains(podium)) {
+            this.podia.add(podium);
         } else {
-            System.out.println("Stage allready in FestivalDay's list!");
+            System.out.println("podium allready in FestivalDay's list!");
         }
     }
 
-    public void removeStage(Stage stage){
-        if(this.stages.contains(stage)){
-            for(Performance performance : stage.getPerformances()){
+    public void removePodium(Podium podium){
+        if(this.podia.contains(podium)){
+            for(Performance performance : podium.getPerformances()){
                 removePerformance(performance);
             }
-            this.stages.remove(stage);
+            this.podia.remove(podium);
         } else {
-            System.out.println("Stage does not exist in FestivalDay's list!");
+            System.out.println("Podium does not exist in FestivalDay's list!");
         }
     }
 
@@ -85,8 +96,8 @@ public class FestivalDay implements Serializable {
         this.date = date;
     }
 
-    public List<Stage> getStages() {
-        return stages;
+    public List<Podium> getPodia() {
+        return this.podia;
     }
 
     public List<Performance> getPerformances() {

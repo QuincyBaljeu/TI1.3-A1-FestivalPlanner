@@ -1,6 +1,7 @@
 package Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,22 +15,21 @@ public class Artist implements Serializable {
     private String extraInformation; //Arbitrary text
     private String country;      //Country
     private List<Performance> performances;
+    private FestivalDay festivalDay;
 
-    public Artist(String name, Enum<Genre> genre, String artistType, String filePathProfilePicture, String extraInformation, String country) {
+    public Artist(String name, Enum<Genre> genre, FestivalDay festivalDay, String artistType, String filePathProfilePicture, String extraInformation, String country) {
         this.name = name;
         this.genre = genre;
         this.artistType = artistType;
         this.filePathProfilePicture = filePathProfilePicture;
         this.extraInformation = extraInformation;
         this.country = country;
+        this.performances = new ArrayList<Performance>();
+        this.festivalDay = festivalDay;
     }
 
-    public Artist(String name, Enum<Genre> genre, String artistType, String filePathProfilePicture, String country) {
-        this.name = name;
-        this.genre = genre;
-        this.artistType = artistType;
-        this.filePathProfilePicture = filePathProfilePicture;
-        this.country = country;
+    public Artist(String name, Enum<Genre> genre, FestivalDay festivalDay, String artistType, String filePathProfilePicture, String country) {
+        this(name, genre, festivalDay, artistType, filePathProfilePicture, "No extra information", country);
     }
 
     public void addPerformance(Performance performance){
@@ -47,60 +47,4 @@ public class Artist implements Serializable {
             System.out.println("Artist's performance list does not contain the given performance");
         }
     }
-
-    public List<Performance> getPerformances() {
-        return performances;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Enum<Genre> getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Enum<Genre> genre) {
-        this.genre = genre;
-    }
-
-    public String getArtistType() {
-        return artistType;
-    }
-
-    public void setArtistType(String artistType) {
-        this.artistType = artistType;
-    }
-
-    public String getFilePathProfilePicture() {
-        return filePathProfilePicture;
-    }
-
-    public void setFilePathProfilePicture(String filePathProfilePicture) {
-        this.filePathProfilePicture = filePathProfilePicture;
-    }
-
-    public String getExtraInformation() {
-        if (this.extraInformation == null) {
-            return "No extra information available";
-        }
-        return extraInformation;
-    }
-
-    public void setExtraInformation(String extraInformation) {
-        this.extraInformation = extraInformation;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
 }
-

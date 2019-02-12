@@ -27,7 +27,7 @@ public class AgendaModule extends Storable {
             if (this.festivalDays.contains(festivalDay)) {
                 this.festivalDays.remove(festivalDay);
             } else {
-                System.out.println("Couldn't find stage to remove");
+                System.out.println("Couldn't find podium to remove");
             }
         }
     }

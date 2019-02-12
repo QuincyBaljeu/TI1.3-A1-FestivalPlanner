@@ -14,17 +14,21 @@ public class Performance implements Serializable {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private int popularity;
-    private Stage stage;
+    private Podium podium;
+    private FestivalDay festivalDay;
 
-    public Performance(LocalDateTime startTime, LocalDateTime endTime, int popularity, Stage stage) {
+    public Performance(LocalDateTime startTime, LocalDateTime endTime, int popularity, FestivalDay festivalDay, Podium podium, Artist ... artists) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.popularity = popularity;
-        this.stage = stage;
-        this.stage.addPerformance(this);
+        this.podium = podium;
         this.artists = new ArrayList<>();
-        this.stage = stage;
-        stage.addPerformance(this);
+        this.podium.addPerformance(this);
+        for (Artist artist : artists){
+            this.artists.add(artist);
+            artist.addPerformance(this);
+        }
+        this.festivalDay = festivalDay;
     }
 
     public void addArtist(Artist artist) {
@@ -41,42 +45,9 @@ public class Performance implements Serializable {
         }
     }
     
-    public void setStage(Stage stage) {
-        this.stage.removePerfomance(this);
-        this.stage = stage;
-        this.stage.addPerformance(this);
+    public void setPodium(Podium podium) {
+        this.podium.removePerfomance(this);
+        this.podium = podium;
+        this.podium.addPerformance(this);
     }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public List<Artist> getArtists() {
-        return artists;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public int getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(int popularity) {
-        this.popularity = popularity;
-    }
-
 }
