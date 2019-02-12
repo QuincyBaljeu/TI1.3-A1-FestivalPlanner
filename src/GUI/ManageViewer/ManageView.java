@@ -23,7 +23,6 @@ public abstract class ManageView<T> implements ManageViewInterface{
         gridPane.setVgap(10);
         gridPane.setAlignment(Pos.CENTER);
         initScene();
-        loadObjects();
     }
 
     private void initScene() {
@@ -31,6 +30,7 @@ public abstract class ManageView<T> implements ManageViewInterface{
         for (int i = 0; i < varTypes.size(); i++) {
             gridPane.addColumn(i, new Label(varTypes.get(i)));
         }
+        loadObjects();
     }
 
     private void loadObjects() {
