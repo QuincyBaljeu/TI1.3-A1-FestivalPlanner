@@ -92,6 +92,9 @@ public class GUI extends Application{
         //View mode table content
         viewtable.setItems(getAgendaTable());
         viewtable.getColumns().add(Time);
+        for(Data.Stage stage : stages){
+            viewtable.getColumns().add(new TableColumn(stage.getName()));
+        }
 
         //Adds table to borderpane
         editBorderPane.setCenter(edittable);
