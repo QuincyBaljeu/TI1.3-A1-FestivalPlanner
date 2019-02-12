@@ -33,4 +33,8 @@ public class Podium implements Serializable {
             System.out.println("Performance not found Podium's list in list!");
         }
     }
+
+    public List<Performance> getPerformances() {
+        return performances;
+    }
 }

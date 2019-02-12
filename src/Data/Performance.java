@@ -50,4 +50,12 @@ public class Performance implements Serializable {
         this.podium = podium;
         this.podium.addPerformance(this);
     }
+
+    public List<Artist> getArtists() {
+        return artists;
+    }
+
+    public Podium getPodium() {
+        return podium;
+    }
 }
