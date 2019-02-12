@@ -1,5 +1,7 @@
 package Data;
 
+import sun.misc.Perf;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,8 +38,12 @@ public class FestivalDay implements Serializable {
     public void removeArtist(Artist artist) {
         if (this.artists.contains(artist)) {
             this.artists.remove(artist);
-            for (Performance performance : artist.getPerformances()){
-                performance.removeArtist(artist);
+            for (int i = 0; i < artist.getPerformances().size(); i++) {
+                Performance performance = artist.getPerformances().get(i);
+                if (performance.getArtists().contains(artist)){
+                    performance.removeArtist(artist);
+                    i -= 1;
+                }
                 if (performance.getArtists().size() == 0){
                     this.removePerformance(performance);
                 }

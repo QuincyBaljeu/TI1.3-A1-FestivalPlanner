@@ -32,7 +32,7 @@ public class AgendaModule extends Storable {
         }
     }
 
-    public FestivalDay getFestivalDay(int index) {
-        return this.festivalDays.get(index);
+    public List<FestivalDay> getFestivalDays() {
+        return festivalDays;
     }
 }

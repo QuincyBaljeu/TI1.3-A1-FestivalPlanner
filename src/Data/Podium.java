@@ -13,9 +13,9 @@ public class Podium implements Serializable {
     private FestivalDay festivalDay;
 
     public Podium(String name, FestivalDay festivalDay) {
+        this.festivalDay = festivalDay;
         this.name = name;
         this.performances = new ArrayList<>();
-        this.festivalDay = festivalDay;
     }
 
     public void addPerformance(Performance performance) {
