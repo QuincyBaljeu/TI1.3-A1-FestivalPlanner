@@ -13,7 +13,7 @@ public class GUI extends Application{
 
     public ObservableList<String> Times =
             FXCollections.observableArrayList(
-                    "10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"
+                    "12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00", "23:00", "24:00"
             );
 
     public ObservableList<String> Mainstage =
@@ -28,7 +28,6 @@ public class GUI extends Application{
 
     @Override
     public void start(Stage Stage) throws Exception {
-
 
         //Panes
         BorderPane menuBorderPane = new BorderPane();
@@ -83,14 +82,16 @@ public class GUI extends Application{
         Time.setCellValueFactory(new PropertyValueFactory<>("time"));
         Mainstage.setCellValueFactory(new PropertyValueFactory<>("name"));
 
+        //Edit mode table content
         edittable.setItems(getAgendaTable());
         edittable.getColumns().add(Time);
         for (Data.Stage stage : stages){
             edittable.getColumns().add(new TableColumn(stage.getName()));
         }
 
+        //View mode table content
         viewtable.setItems(getAgendaTable());
-        viewtable.getColumns().addAll(Time);
+        viewtable.getColumns().add(Time);
 
         //Adds table to borderpane
         editBorderPane.setCenter(edittable);
