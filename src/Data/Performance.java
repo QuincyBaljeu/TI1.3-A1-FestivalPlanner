@@ -46,7 +46,7 @@ public class Performance implements Serializable {
     }
     
     public void setPodium(Podium podium) {
-        this.podium.removePerfomance(this);
+        this.podium.removePerformance(this);
         this.podium = podium;
         this.podium.addPerformance(this);
     }

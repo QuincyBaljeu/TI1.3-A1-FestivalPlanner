@@ -22,11 +22,11 @@ public class Podium implements Serializable {
         if (!this.performances.contains(performance)) {
             this.performances.add(performance);
         } else {
-            System.out.println("Performance allready in Podium's list");
+            System.out.println("Performance already in Podium's list");
         }
     }
 
-    public void removePerfomance(Performance performance) {
+    public void removePerformance(Performance performance) {
         if (this.performances.contains(performance)) {
             this.performances.remove(performance);
         } else {

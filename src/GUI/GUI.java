@@ -30,6 +30,8 @@ public class GUI extends Application{
     public void start(Stage Stage) throws Exception {
 
         FestivalDay festivalDay = new FestivalDay(LocalDate.of(12,12,12));
+        festivalDay.addPodium(new Podium("main", festivalDay));
+        festivalDay.addPodium(new Podium("Main2", festivalDay));
 
         //Panes
         BorderPane menuBorderPane = new BorderPane();

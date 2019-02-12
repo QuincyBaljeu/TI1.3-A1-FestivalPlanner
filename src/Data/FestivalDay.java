@@ -64,9 +64,9 @@ public class FestivalDay implements Serializable {
                 artist.removePerformance(performance);
             }
             for (Podium podium : this.getPodia()){
-                podium.removePerfomance(performance);
+                podium.removePerformance(performance);
             }
-            performance.getPodium().removePerfomance(performance);
+            performance.getPodium().removePerformance(performance);
             this.performances.remove(performance);
         } else {
             System.out.println("Performance does not exist in FestivalDay's list!");
@@ -77,7 +77,7 @@ public class FestivalDay implements Serializable {
         if (!this.podia.contains(podium)) {
             this.podia.add(podium);
         } else {
-            System.out.println("podium allready in FestivalDay's list!");
+            System.out.println("podium already in FestivalDay's list!");
         }
     }
 
