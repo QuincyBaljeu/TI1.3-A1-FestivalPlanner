@@ -47,4 +47,8 @@ public class Artist implements Serializable {
             System.out.println("Artist's performance list does not contain the given performance");
         }
     }
+
+    public List<Performance> getPerformances() {
+        return performances;
+    }
 }

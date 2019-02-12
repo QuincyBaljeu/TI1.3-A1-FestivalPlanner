@@ -25,6 +25,9 @@ public class FestivalDay implements Serializable {
     public void addArtist(Artist artist) {
         if (!this.artists.contains(artist)) {
             this.artists.add(artist);
+            for (Performance performance : artist.getPerformances()){
+                this.addPerformance(performance);
+            }
         } else {
             System.out.println("Artist allready in FestivalDay's list!");
         }
@@ -76,6 +79,9 @@ public class FestivalDay implements Serializable {
     public void addPodium(Podium podium) {
         if (!this.podia.contains(podium)) {
             this.podia.add(podium);
+            for (Performance performance : podium.getPerformances()){
+                this.addPerformance(performance);
+            }
         } else {
             System.out.println("podium allready in FestivalDay's list!");
         }
