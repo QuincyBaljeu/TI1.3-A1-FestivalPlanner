@@ -35,6 +35,7 @@ public class Artist implements Serializable {
     public void addPerformance(Performance performance){
         if(!this.performances.contains(performance)){
             this.performances.add(performance);
+            this.festivalDay.addPerformance(performance);
         } else {
             System.out.println("Performance allready in Artist's list!");
         }
