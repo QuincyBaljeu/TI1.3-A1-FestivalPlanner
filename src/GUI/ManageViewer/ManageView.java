@@ -2,7 +2,7 @@ package GUI.ManageViewer;
 
 import Data.Artist;
 import Data.Performance;
-import Data.Stage;
+import Data.Podium;
 import GUI.ManageViewer.EditMenu.ArtistEditMenu;
 import GUI.ManageViewer.EditMenu.PerformanceEditMenu;
 import GUI.ManageViewer.EditMenu.StageEditMenue;
@@ -71,18 +71,18 @@ public abstract class ManageView<T> implements ManageViewInterface{
     private Button getEDITButton(T object) {
         Button EDitButton = new Button("EDIT");
         EDitButton.setOnAction(e -> {
+            javafx.stage.Stage stage = new javafx.stage.Stage();
             if (object.getClass().equals(Artist.class)) {
-                javafx.stage.Stage stage = new javafx.stage.Stage();
                 stage.setScene(new ArtistEditMenu((Artist) object).getScene());
-                stage.show();
             } else if (object.getClass().equals(Performance.class)) {
-                new PerformanceEditMenu((Performance) object);
-            } else if (object.getClass().equals(Stage.class)) {
-                new StageEditMenue((Stage) object);
+                stage.setScene(new PerformanceEditMenu((Performance) object).getScene());
+            } else if (object.getClass().equals(Podium.class)) {
+                stage.setScene(new StageEditMenue((Podium) object).getScene());
             } else {
                 System.out.println("### ERROR ###" +
                         "Unknown class given");
             }
+            stage.show();
         });
         return EDitButton;
     }
@@ -90,16 +90,18 @@ public abstract class ManageView<T> implements ManageViewInterface{
     private Button getADDButton(T object) {
         Button ADDButton = new Button("ADD");
         ADDButton.setOnAction(e -> {
+            javafx.stage.Stage stage = new javafx.stage.Stage();
             if (object.getClass().equals(Artist.class)) {
-                new ArtistEditMenu();
+                stage.setScene(new ArtistEditMenu().getScene());
             } else if (object.getClass().equals(Performance.class)) {
-                //new PerformanceEditMenu();
-            } else if (object.getClass().equals(Stage.class)) {
-                //new StageEditMenue();
+                stage.setScene(new PerformanceEditMenu().getScene());
+            } else if (object.getClass().equals(Podium.class)) {
+                stage.setScene(new StageEditMenue().getScene());
             } else {
                 System.out.println("### ERROR ###" +
                         "Unknown class given");
             }
+            stage.show();
         });
         return ADDButton;
     }
@@ -107,7 +109,7 @@ public abstract class ManageView<T> implements ManageViewInterface{
     private Button getBackButton() {
         Button button = new Button("Back");
         button.setOnAction(e -> {
-            Platform.exit();
+
         });
         return button;
     }

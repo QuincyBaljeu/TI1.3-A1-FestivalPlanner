@@ -28,7 +28,7 @@ public class Artist implements Serializable {
         this.festivalDay = festivalDay;
     }
 
-    public Artist(String name, Enum<Genre> genre, FestivalDay festivalDay, String artistType, String filePathProfilePicture, String country) {
+    public Artist(String name, Enum<Genre> genre, String artistType, String filePathProfilePicture, String country) {
         this(name, genre, festivalDay, artistType, filePathProfilePicture, "No extra information", country);
     }
 
