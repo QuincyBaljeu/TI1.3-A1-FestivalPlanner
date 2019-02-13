@@ -90,14 +90,16 @@ public class GUI extends Application{
         edittable.setItems(getAgendaTable());
         edittable.getColumns().add(Time);
         for (Podium podium : festivalDay.getPodia()){
-            edittable.getColumns().add(new TableColumn(podium.getName()));
+            TableColumn column = new TableColumn(podium.getName());
+            edittable.getColumns().add(column);
         }
 
         //View mode table content
         viewtable.setItems(getAgendaTable());
         viewtable.getColumns().add(Time);
         for(Podium podium : festivalDay.getPodia()){
-            viewtable.getColumns().add(new TableColumn(podium.getName()));
+            TableColumn column = new TableColumn(podium.getName());
+            viewtable.getColumns().add(column);
         }
 
         //Adds table to borderpane
