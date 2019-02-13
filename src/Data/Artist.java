@@ -115,4 +115,5 @@ public class Artist implements Serializable {
     public void setFestivalDay(FestivalDay festivalDay) {
         this.festivalDay = festivalDay;
     }
+
 }

@@ -1,7 +1,5 @@
 package Data;
 
-import sun.misc.Perf;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -138,5 +136,14 @@ public class FestivalDay implements Serializable {
 
     public void setArtists(List<Artist> artists) {
         this.artists = artists;
+    }
+
+    public Artist getArtist(Artist artist) {
+        for (Artist artist1 : this.artists) {
+            if (artist1.equals(artist)) {
+                return artist;
+            }
+        }
+        return null;
     }
 }

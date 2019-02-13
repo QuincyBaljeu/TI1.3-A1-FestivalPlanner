@@ -34,5 +34,14 @@ public enum Genre implements Serializable {
     TRADITIONAL_MUSIC,
     INDEPENDENT_MUSIC,
     CHRISTIAN_RAP,
-    RUSSIAN_HARD_BASS
+    RUSSIAN_HARD_BASS;
+
+    public static Genre getByCode(String genderCode) {
+        for (Genre g : Genre.values()) {
+            if (g.toString() == genderCode) {
+                return g;
+            }
+        }
+        return null;
+    }
 }

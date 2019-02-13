@@ -2,6 +2,7 @@ package GUI;
 
 import Data.*;
 
+import GUI.ManageTables.ArtistManager;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,6 +54,7 @@ public class GUI extends Application{
         Menu artistsMenu = new Menu("Manage Artists");
 
 
+
         MenuItem AddPerformance = new MenuItem("Add Performance");
         performanceMenu.getItems().add(AddPerformance);
         MenuItem RemovePerformance = new MenuItem("Remove Performance");
@@ -78,7 +80,7 @@ public class GUI extends Application{
 
         MenuItem manageArtist = new MenuItem("Manage Artists");
         manageArtist.setOnAction((e)->{
-
+            new ArtistManager(festivalDay);
         });
         artistsMenu.getItems().add(manageArtist);
 
