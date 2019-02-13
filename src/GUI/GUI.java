@@ -1,8 +1,7 @@
 package GUI;
 
 import Data.*;
-import GUI.ManageViewer.ArtistManageView;
-import GUI.ManageViewer.StageManageView;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -79,13 +78,7 @@ public class GUI extends Application{
 
         MenuItem manageArtist = new MenuItem("Manage Artists");
         manageArtist.setOnAction((e)->{
-            Stage stage = new Stage();
-            stage.setScene(
-                new ArtistManageView(
-                    festivalDay.getArtists(),
-                    festivalDay
-                ).getScene());
-            stage.show();
+
         });
         artistsMenu.getItems().add(manageArtist);
 
