@@ -1,6 +1,7 @@
 package GUI.ManageViewer;
 
 import Data.Artist;
+import Data.FestivalDay;
 import Data.Performance;
 import Data.Podium;
 import GUI.ManageViewer.EditMenu.ArtistEditMenu;
@@ -21,8 +22,10 @@ public abstract class ManageView<T> implements ManageViewInterface{
     private List<T> manageAbeles;
     private GridPane gridPane;
     private Scene scene;
+    private FestivalDay festivalDay;
 
-    public ManageView(List<T> manageAbeles) {
+    public ManageView(List<T> manageAbeles, FestivalDay festivalDay) {
+        this.festivalDay = festivalDay;
         this.manageAbeles = manageAbeles;
         this.scene = new Scene(this.gridPane = new GridPane());
         gridPane.setHgap(10);
@@ -73,7 +76,7 @@ public abstract class ManageView<T> implements ManageViewInterface{
         EDitButton.setOnAction(e -> {
             javafx.stage.Stage stage = new javafx.stage.Stage();
             if (object.getClass().equals(Artist.class)) {
-                stage.setScene(new ArtistEditMenu((Artist) object).getScene());
+                stage.setScene(new ArtistEditMenu((Artist) object, this.festivalDay).getScene());
             } else if (object.getClass().equals(Performance.class)) {
                 stage.setScene(new PerformanceEditMenu((Performance) object).getScene());
             } else if (object.getClass().equals(Podium.class)) {
@@ -92,7 +95,7 @@ public abstract class ManageView<T> implements ManageViewInterface{
         ADDButton.setOnAction(e -> {
             javafx.stage.Stage stage = new javafx.stage.Stage();
             if (object.getClass().equals(Artist.class)) {
-                stage.setScene(new ArtistEditMenu().getScene());
+                stage.setScene(new ArtistEditMenu(this.festivalDay).getScene());
             } else if (object.getClass().equals(Performance.class)) {
                 stage.setScene(new PerformanceEditMenu().getScene());
             } else if (object.getClass().equals(Podium.class)) {

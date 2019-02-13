@@ -1,13 +1,15 @@
 package GUI.ManageViewer;
 
+import Data.FestivalDay;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class StageManageView extends ManageView<Data.Podium> {
 
-    public StageManageView(List<Data.Podium> manageAbeles) {
-        super(manageAbeles);
+    public StageManageView(List<Data.Podium> manageAbeles, FestivalDay festivalDay) {
+        super(manageAbeles, festivalDay);
     }
 
     @Override

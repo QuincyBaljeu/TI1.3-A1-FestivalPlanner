@@ -1,9 +1,6 @@
 package GUI;
 
-import Data.FestivalDay;
-import Data.Podium;
-import Data.Artist;
-import Data.Genre;
+import Data.*;
 import GUI.ManageViewer.ArtistManageView;
 import GUI.ManageViewer.StageManageView;
 import javafx.application.Application;
@@ -22,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GUI extends Application{
+    public static FestivalDay festivalDay;
 
     public ObservableList<String> Times =
             FXCollections.observableArrayList(
@@ -35,10 +33,6 @@ public class GUI extends Application{
 
     @Override
     public void start(Stage Stage) throws Exception {
-
-        FestivalDay festivalDay = new FestivalDay(LocalDate.of(12,12,12));
-        festivalDay.addPodium(new Podium("main", festivalDay));
-        festivalDay.addPodium(new Podium("Main2", festivalDay));
 
         //Panes
         BorderPane menuBorderPane = new BorderPane();
@@ -59,6 +53,7 @@ public class GUI extends Application{
         Menu stagesMenu = new Menu("Manage Stages");
         Menu artistsMenu = new Menu("Manage Artists");
 
+
         MenuItem AddPerformance = new MenuItem("Add Performance");
         performanceMenu.getItems().add(AddPerformance);
         MenuItem RemovePerformance = new MenuItem("Remove Performance");
@@ -73,12 +68,26 @@ public class GUI extends Application{
         MenuItem EditStage = new MenuItem("Edit Stage");
         stagesMenu.getItems().add(EditStage);
 
+        /*
         MenuItem AddArtist = new MenuItem("Add Artist");
         artistsMenu.getItems().add(AddArtist);
         MenuItem RemoveArtist = new MenuItem("Remove Artist");
         artistsMenu.getItems().add(RemoveArtist);
         MenuItem EditArtist = new MenuItem("Edit Artist");
         artistsMenu.getItems().add(EditArtist);
+        /**/
+
+        MenuItem manageArtist = new MenuItem("Manage Artists");
+        manageArtist.setOnAction((e)->{
+            Stage stage = new Stage();
+            stage.setScene(
+                new ArtistManageView(
+                    festivalDay.getArtists(),
+                    festivalDay
+                ).getScene());
+            stage.show();
+        });
+        artistsMenu.getItems().add(manageArtist);
 
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(performanceMenu,stagesMenu,artistsMenu);
@@ -133,9 +142,5 @@ public class GUI extends Application{
             list.add(agendaTable);
         }
         return list;
-    }
-
-    public static void main(String[] args) {
-        launch(GUI.class);
     }
 }

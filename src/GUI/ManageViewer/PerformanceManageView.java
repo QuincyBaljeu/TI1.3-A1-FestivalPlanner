@@ -1,5 +1,6 @@
 package GUI.ManageViewer;
 
+import Data.FestivalDay;
 import Data.Performance;
 
 import java.util.ArrayList;
@@ -7,8 +8,8 @@ import java.util.List;
 
 public class PerformanceManageView  extends ManageView<Performance> {
 
-    public PerformanceManageView(List<Performance> manageAbeles) {
-        super(manageAbeles);
+    public PerformanceManageView(List<Performance> manageAbeles, FestivalDay festivalDay) {
+        super(manageAbeles, festivalDay);
     }
 
     @Override

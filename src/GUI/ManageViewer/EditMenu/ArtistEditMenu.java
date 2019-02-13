@@ -1,6 +1,7 @@
 package GUI.ManageViewer.EditMenu;
 
 import Data.Artist;
+import Data.FestivalDay;
 import Data.Genre;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
@@ -23,15 +24,18 @@ public class ArtistEditMenu extends EditMenu<Artist> {
     private String filePathProfilePic;
     private TextArea extraInfo;
     private String country;
+    private FestivalDay festivalDay;
 
-    public ArtistEditMenu(Artist object) {
+    public ArtistEditMenu(Artist object, FestivalDay festivalDay) {
         super();
+        this.festivalDay = festivalDay;
         this.artist = object;
         super.initScene();
     }
 
-    public ArtistEditMenu() {
+    public ArtistEditMenu(FestivalDay festivalDay) {
         super();
+        this.festivalDay = festivalDay;
         super.initScene();
     }
 
@@ -111,7 +115,7 @@ public class ArtistEditMenu extends EditMenu<Artist> {
                     this.filePathProfilePic + "\n" +
                     this.extraInfo.getText() +"\n" +
                     this.country
-                    );
+                );
         });
         return done;
     }

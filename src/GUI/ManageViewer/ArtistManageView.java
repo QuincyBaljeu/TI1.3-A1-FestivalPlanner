@@ -1,14 +1,15 @@
 package GUI.ManageViewer;
 
 import Data.Artist;
+import Data.FestivalDay;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistManageView extends ManageView<Artist> {
 
-    public ArtistManageView(List<Artist> artists) {
-        super(artists);
+    public ArtistManageView(List<Artist> artists, FestivalDay festivalday) {
+        super(artists, festivalday);
     }
 
     @Override
