@@ -18,22 +18,23 @@ public class Performance implements Serializable {
     private FestivalDay festivalDay;
 
     public Performance(LocalDateTime startTime, LocalDateTime endTime, int popularity, FestivalDay festivalDay, Podium podium, Artist ... artists) {
+        this.festivalDay = festivalDay;
         this.startTime = startTime;
         this.endTime = endTime;
         this.popularity = popularity;
         this.podium = podium;
         this.artists = new ArrayList<>();
-        this.podium.addPerformance(this);
         for (Artist artist : artists){
-            this.artists.add(artist);
+            this.addArtist(artist);
             artist.addPerformance(this);
         }
-        this.festivalDay = festivalDay;
+        this.podium.addPerformance(this);
     }
 
     public void addArtist(Artist artist) {
         this.artists.add(artist);
         artist.addPerformance(this);
+        this.festivalDay.addArtist(artist);
     }
 
     public void removeArtist(Artist artist) {

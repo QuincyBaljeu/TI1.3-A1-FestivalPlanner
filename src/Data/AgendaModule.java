@@ -31,4 +31,8 @@ public class AgendaModule extends Storable {
             }
         }
     }
+
+    public List<FestivalDay> getFestivalDays() {
+        return festivalDays;
+    }
 }

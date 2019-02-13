@@ -32,6 +32,11 @@ public class FileIOTest extends Application {
         );
         File saveFile = fileChooser.showSaveDialog(primaryStage);
         AgendaModule dummyData = this.getDummyData(saveFile.getPath());
+        /**/
+        dummyData.getFestivalDays().get(0).removeArtist(
+            dummyData.getFestivalDays().get(0).getArtists().get(0)
+        );
+        /**/
         dummyData.save();
     }
 
@@ -55,6 +60,15 @@ public class FileIOTest extends Application {
                     "",
                     "Likes his mom",
                     "South west new maryland"
+                ),
+                new Artist(
+                    "Peter",
+                    Genre.BLUES,
+                    festivalDay,
+                    "Undead",
+                    "",
+                    "Should probably not drink as much",
+                    "Africa"
                 )
             )
         );
