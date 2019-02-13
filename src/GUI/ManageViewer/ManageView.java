@@ -1,5 +1,11 @@
 package GUI.ManageViewer;
 
+import Data.Artist;
+import Data.Performance;
+import Data.Stage;
+import GUI.ManageViewer.EditMenu.ArtistEditMenu;
+import GUI.ManageViewer.EditMenu.PerformanceEditMenu;
+import GUI.ManageViewer.EditMenu.StageEditMenue;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,7 +29,6 @@ public abstract class ManageView<T> implements ManageViewInterface{
         gridPane.setVgap(10);
         gridPane.setAlignment(Pos.CENTER);
         initScene();
-        loadObjects();
     }
 
     private void initScene() {
@@ -31,6 +36,7 @@ public abstract class ManageView<T> implements ManageViewInterface{
         for (int i = 0; i < varTypes.size(); i++) {
             gridPane.addColumn(i, new Label(varTypes.get(i)));
         }
+        loadObjects();
     }
 
     private void loadObjects() {
@@ -41,10 +47,10 @@ public abstract class ManageView<T> implements ManageViewInterface{
             for (int j = 1; j < variable.length; j++){
                gridPane.add(new Label(variable[j]), j, i+1);
             }
-            gridPane.add(getDELButton(), variable.length, i+1);
-            gridPane.add(getEDITButton(), variable.length+1, i+1);
+            gridPane.add(getDELButton(this.manageAbeles.get(i)), variable.length, i+1);
+            gridPane.add(getEDITButton(this.manageAbeles.get(i)), variable.length+1, i+1);
         }
-        gridPane.addRow(variables.size()+1, getADDButton());
+        gridPane.addRow(variables.size()+1, getADDButton(this.manageAbeles.get(0)));
         gridPane.add(getBackButton(), variables.get(0).split("#").length+1, variables.size()+1);
 
     }
@@ -54,7 +60,7 @@ public abstract class ManageView<T> implements ManageViewInterface{
         return manageAbeles;
     }
 
-    private Button getDELButton() {
+    private Button getDELButton(T object) {
         Button deleteButton = new Button("DEL");
         deleteButton.setOnAction(e -> {
 
@@ -62,18 +68,38 @@ public abstract class ManageView<T> implements ManageViewInterface{
         return deleteButton;
     }
 
-    private Button getEDITButton() {
+    private Button getEDITButton(T object) {
         Button EDitButton = new Button("EDIT");
         EDitButton.setOnAction(e -> {
-
+            if (object.getClass().equals(Artist.class)) {
+                javafx.stage.Stage stage = new javafx.stage.Stage();
+                stage.setScene(new ArtistEditMenu((Artist) object).getScene());
+                stage.show();
+            } else if (object.getClass().equals(Performance.class)) {
+                new PerformanceEditMenu((Performance) object);
+            } else if (object.getClass().equals(Stage.class)) {
+                new StageEditMenue((Stage) object);
+            } else {
+                System.out.println("### ERROR ###" +
+                        "Unknown class given");
+            }
         });
         return EDitButton;
     }
 
-    private Button getADDButton() {
+    private Button getADDButton(T object) {
         Button ADDButton = new Button("ADD");
         ADDButton.setOnAction(e -> {
-
+            if (object.getClass().equals(Artist.class)) {
+                new ArtistEditMenu();
+            } else if (object.getClass().equals(Performance.class)) {
+                //new PerformanceEditMenu();
+            } else if (object.getClass().equals(Stage.class)) {
+                //new StageEditMenue();
+            } else {
+                System.out.println("### ERROR ###" +
+                        "Unknown class given");
+            }
         });
         return ADDButton;
     }
