@@ -80,7 +80,7 @@ public class FestivalDay implements Serializable {
             for(Artist artist : performance.getArtists()){
                 artist.removePerformance(performance);
             }
-            performance.getPodium().removePerfomance(performance);
+            performance.getPodium().removePerformance(performance);
         } else {
             System.out.println("Performance does not exist in FestivalDay's list!");
         }
