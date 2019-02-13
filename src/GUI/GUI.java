@@ -58,17 +58,6 @@ public class GUI extends Application{
         Menu performanceMenu = new Menu("Manage Performance");
         Menu stagesMenu = new Menu("Manage Stages");
         Menu artistsMenu = new Menu("Manage Artists");
-        artistsMenu.setOnAction(e -> {
-            javafx.stage.Stage stage = new Stage();
-        //Test
-            List<Artist> artists = new ArrayList<>();
-            artists.add(new Artist("Lucas", Genre.COUNTRY, "Singer", "Cool", "Netherlands"));
-            artists.add(new Artist("Jasper", Genre.ROCK_MUSIC, "Rocker", "Cool", "Duitsland"));
-            artists.add(new Artist("Thijs", Genre.DISCO, "funker", "Cool", "Belgie"));
-            artists.add(new Artist("Quincy", Genre.MUSIC_FOR_CHILDREN, "HardBass", "Cool", "Russiesch"));
-
-            stage.setScene(new ArtistManageView(artists).getScene());
-        });
 
         MenuItem AddPerformance = new MenuItem("Add Performance");
         performanceMenu.getItems().add(AddPerformance);
@@ -86,19 +75,6 @@ public class GUI extends Application{
 
         MenuItem AddArtist = new MenuItem("Add Artist");
         artistsMenu.getItems().add(AddArtist);
-        AddArtist.setOnAction(e -> {
-            System.out.println("Action");
-            javafx.stage.Stage stage = new Stage();
-            //Test
-            List<Artist> artists = new ArrayList<>();
-            artists.add(new Artist("Lucas", Genre.COUNTRY, "Singer", "Cool", "Netherlands"));
-            artists.add(new Artist("Jasper", Genre.ROCK_MUSIC, "Rocker", "Cool", "Duitsland"));
-            artists.add(new Artist("Thijs", Genre.DISCO, "funker", "Cool", "Belgie"));
-            artists.add(new Artist("Quincy", Genre.MUSIC_FOR_CHILDREN, "HardBass", "Cool", "Russiesch"));
-
-            stage.setScene(new ArtistManageView(artists).getScene());
-            stage.show();
-        });
         MenuItem RemoveArtist = new MenuItem("Remove Artist");
         artistsMenu.getItems().add(RemoveArtist);
         MenuItem EditArtist = new MenuItem("Edit Artist");
