@@ -2,10 +2,12 @@ package Data;
 //Genres from:
 //https://research.google.com/audioset/ontology/music_genre_1.html
 
+import java.io.Serializable;
+
 /**
  * @author Lucas, Jasper, Sjors
  */
-public enum Genre {
+public enum Genre implements Serializable {
     POP_MUSIC,
     HIP_HOP_MUSIC,
     ROCK_MUSIC,
@@ -31,5 +33,6 @@ public enum Genre {
     SKA,
     TRADITIONAL_MUSIC,
     INDEPENDENT_MUSIC,
-    CHRISTIAN_RAP
+    CHRISTIAN_RAP,
+    RUSSIAN_HARD_BASS
 }
