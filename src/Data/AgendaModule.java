@@ -18,6 +18,7 @@ public class AgendaModule extends Storable {
 
     public void addFestivalDay(FestivalDay ... festivalDays) {
         for (FestivalDay festivalDay : festivalDays){
+            festivalDay.setAgendaModule(this);
             this.festivalDays.add(festivalDay);
         }
     }

@@ -64,6 +64,12 @@ public class ArtistManager {
             Artist artist = event.getTableView().getItems().get(row);
 
             this.festivalDay.getArtist(artist).setName(newName);
+
+            try {
+                this.festivalDay.getAgendaModule().save();
+            } catch (Exception x){
+                x.printStackTrace();
+            }
         });
         // genre
         ObservableList<Genre> genreList = FXCollections.observableArrayList(Genre.values());
@@ -87,6 +93,12 @@ public class ArtistManager {
             Artist artist = event.getTableView().getItems().get(row);
 
             artist.setGenre(newGenre);
+
+            try {
+                this.festivalDay.getAgendaModule().save();
+            } catch (Exception x){
+                x.printStackTrace();
+            }
         });
 
 
@@ -107,6 +119,12 @@ public class ArtistManager {
             Artist artist = event.getTableView().getItems().get(row);
 
             this.festivalDay.getArtist(artist).setArtistType(newArtistType);
+
+            try {
+                this.festivalDay.getAgendaModule().save();
+            } catch (Exception x){
+                x.printStackTrace();
+            }
         });
 
         countryOfOrigin.setCellValueFactory(new PropertyValueFactory<>("country"));
@@ -121,6 +139,12 @@ public class ArtistManager {
             Artist artist = event.getTableView().getItems().get(row);
 
             this.festivalDay.getArtist(artist).setCountry(newCountry);
+
+            try {
+                this.festivalDay.getAgendaModule().save();
+            } catch (Exception x){
+                x.printStackTrace();
+            }
         });
 
         extraInfo.setCellValueFactory(new PropertyValueFactory<>("extraInformation"));
@@ -135,6 +159,12 @@ public class ArtistManager {
             Artist artist = event.getTableView().getItems().get(row);
 
             this.festivalDay.getArtist(artist).setExtraInformation(newInfo);
+
+            try {
+                this.festivalDay.getAgendaModule().save();
+            } catch (Exception x){
+                x.printStackTrace();
+            }
         });
 
 
@@ -161,6 +191,11 @@ public class ArtistManager {
                                         Artist artist = getTableView().getItems().get(getIndex());
                                         FileChooser fileChooser = new FileChooser();
                                         artist.setFilePathProfilePicture(fileChooser.showOpenDialog(new Stage()).getPath());
+                                        try {
+                                            festivalDay.getAgendaModule().save();
+                                        } catch (Exception x){
+                                            x.printStackTrace();
+                                        }
                                     });
                                     setGraphic(button);
                                     setText(null);

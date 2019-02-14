@@ -14,12 +14,21 @@ public class FestivalDay implements Serializable {
     private List<Performance> performances;
     private List<Artist> artists;
     private LocalDate date;
+    private AgendaModule agendaModule;
 
     public FestivalDay(LocalDate date) {
         this.podia = new ArrayList<>();
         this.performances = new ArrayList<>();
         this.artists = new ArrayList<>();
         this.date = date;
+    }
+
+    public AgendaModule getAgendaModule(){
+        return agendaModule;
+    }
+
+    public void setAgendaModule(AgendaModule agendaModule){
+        this.agendaModule = agendaModule;
     }
 
     public void addArtist(Artist artist) {
@@ -118,20 +127,20 @@ public class FestivalDay implements Serializable {
         return this.podia;
     }
 
-    public List<Performance> getPerformances() {
-        return performances;
-    }
-
-    public List<Artist> getArtists() {
-        return artists;
-    }
-
     public void setPodia(List<Podium> podia) {
         this.podia = podia;
     }
 
+    public List<Performance> getPerformances() {
+        return performances;
+    }
+
     public void setPerformances(List<Performance> performances) {
         this.performances = performances;
+    }
+
+    public List<Artist> getArtists() {
+        return artists;
     }
 
     public void setArtists(List<Artist> artists) {

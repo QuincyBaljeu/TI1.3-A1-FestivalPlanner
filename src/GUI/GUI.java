@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -19,7 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GUI extends Application{
-    public static FestivalDay festivalDay;
+    private AgendaModule agendaModule;
+    private FestivalDay getFestivalDay(){
+        return this.agendaModule.getFestivalDays().get(0);
+    }
 
     public ObservableList<String> Times =
             FXCollections.observableArrayList(
@@ -31,8 +35,25 @@ public class GUI extends Application{
                     "","","Brennan Heart","","Hardwell","Hardwell","Hardwell","Hardwell","","Da Tweekaz","Da Tweekaz","",""
             );
 
+    private void loadAgendaModule(){
+        File storFile = new File("D:\\Workspace\\1\\agenda.bin");
+        if (storFile.exists()){
+            try {
+                this.agendaModule = (AgendaModule)AgendaModule.loadFromFile(storFile.getPath());
+            }
+            catch (Exception x){
+                x.printStackTrace();
+            }
+        }
+        else {
+            this.agendaModule = TestingDataLib.getDummyAgendaModule(storFile.getPath());
+        }
+    }
+
     @Override
     public void start(Stage Stage) throws Exception {
+        // Load data
+        this.loadAgendaModule();
 
         //Panes
         BorderPane menuBorderPane = new BorderPane();
@@ -80,7 +101,7 @@ public class GUI extends Application{
 
         MenuItem manageArtist = new MenuItem("Manage Artists");
         manageArtist.setOnAction((e)->{
-            new ArtistManager(festivalDay);
+            new ArtistManager(this.getFestivalDay());
         });
         artistsMenu.getItems().add(manageArtist);
 
@@ -100,14 +121,14 @@ public class GUI extends Application{
         //Edit mode table content
         edittable.setItems(getAgendaTable());
         edittable.getColumns().add(Time);
-        for (Podium podium : festivalDay.getPodia()){
+        for (Podium podium : this.getFestivalDay().getPodia()){
             edittable.getColumns().add(new TableColumn(podium.getName()));
         }
 
         //View mode table content
         viewtable.setItems(getAgendaTable());
         viewtable.getColumns().add(Time);
-        for(Podium podium : festivalDay.getPodia()){
+        for(Podium podium : this.getFestivalDay().getPodia()){
             viewtable.getColumns().add(new TableColumn(podium.getName()));
         }
 
