@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -35,9 +36,15 @@ public class GUI extends Application{
                     "","","Brennan Heart","","Hardwell","Hardwell","Hardwell","Hardwell","","Da Tweekaz","Da Tweekaz","",""
             );
 
-    private void loadAgendaModule(){
-        File storFile = new File("D:\\Workspace\\1\\agenda.bin");
-        if (storFile.exists()){
+    private void loadAgendaModule(Stage stage){
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Festival utility files (*.fu)", "*.fu");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        File storFile = fileChooser.showOpenDialog(stage);
+        if (storFile == null){
+            this.agendaModule = TestingDataLib.getDummyAgendaModule(fileChooser.showSaveDialog(stage).getPath());
+        }
+        else {
             try {
                 this.agendaModule = (AgendaModule)AgendaModule.loadFromFile(storFile.getPath());
             }
@@ -45,15 +52,12 @@ public class GUI extends Application{
                 x.printStackTrace();
             }
         }
-        else {
-            this.agendaModule = TestingDataLib.getDummyAgendaModule(storFile.getPath());
-        }
     }
 
     @Override
-    public void start(Stage Stage) throws Exception {
+    public void start(Stage stage) throws Exception {
         // Load data
-        this.loadAgendaModule();
+        this.loadAgendaModule(stage);
 
         //Panes
         BorderPane menuBorderPane = new BorderPane();
@@ -142,12 +146,12 @@ public class GUI extends Application{
         //Adds tabpane to final borderpane
         menuBorderPane.setCenter(tabPane);
 
-        Stage.setTitle("Festival Planner");
-        Stage.setWidth(500);
-        Stage.setHeight(500);
+        stage.setTitle("Festival Planner");
+        stage.setWidth(500);
+        stage.setHeight(500);
         Scene scene = new Scene(menuBorderPane);
-        Stage.setScene(scene);
-        Stage.show();
+        stage.setScene(scene);
+        stage.show();
 
     }
 
