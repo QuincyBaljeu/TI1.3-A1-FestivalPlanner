@@ -178,7 +178,7 @@ public class ArtistManager {
                     public TableCell call(final TableColumn<Artist, String> param) {
                         final TableCell<Artist, String> cell = new TableCell<Artist, String>() {
 
-                            final Button button = new Button("Chose Picture");
+                            final Button button = new Button("Choose Picture");
 
                             @Override
                             public void updateItem(String item, boolean empty) {

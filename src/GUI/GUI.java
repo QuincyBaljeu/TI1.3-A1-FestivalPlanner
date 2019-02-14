@@ -70,7 +70,7 @@ public class GUI extends Application{
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         //
-        Menu performanceMenu = new Menu("Manage Performance");
+        Menu performanceMenu = new Menu("Manage Performances");
         Menu stagesMenu = new Menu("Manage Stages");
         Menu artistsMenu = new Menu("Manage Artists");
 
