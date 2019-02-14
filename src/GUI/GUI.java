@@ -3,6 +3,7 @@ package GUI;
 import Data.*;
 
 import GUI.ManageTables.ArtistManager;
+import GUI.ManageTables.PodiumManager;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -86,7 +87,7 @@ public class GUI extends Application{
         performanceMenu.getItems().add(RemovePerformance);
         MenuItem EditPerformance = new MenuItem("Edit Performance");
         performanceMenu.getItems().add(EditPerformance);
-
+/*
         MenuItem AddStage = new MenuItem("Add Stage");
         stagesMenu.getItems().add(AddStage);
         MenuItem RemoveStage = new MenuItem("Remove Stage");
@@ -94,7 +95,7 @@ public class GUI extends Application{
         MenuItem EditStage = new MenuItem("Edit Stage");
         stagesMenu.getItems().add(EditStage);
 
-        /*
+
         MenuItem AddArtist = new MenuItem("Add Artist");
         artistsMenu.getItems().add(AddArtist);
         MenuItem RemoveArtist = new MenuItem("Remove Artist");
@@ -102,6 +103,12 @@ public class GUI extends Application{
         MenuItem EditArtist = new MenuItem("Edit Artist");
         artistsMenu.getItems().add(EditArtist);
         /**/
+
+        MenuItem managePodium = new MenuItem("Manage Podiums");
+        managePodium.setOnAction((e)->{
+            new PodiumManager(this.getFestivalDay());
+        });
+        stagesMenu.getItems().add(managePodium);
 
         MenuItem manageArtist = new MenuItem("Manage Artists");
         manageArtist.setOnAction((e)->{
@@ -126,7 +133,11 @@ public class GUI extends Application{
         edittable.setItems(getAgendaTable());
         edittable.getColumns().add(Time);
         for (Podium podium : this.getFestivalDay().getPodia()){
-            edittable.getColumns().add(new TableColumn(podium.getName()));
+            TableColumn stageColumn = new TableColumn(podium.getName());
+            edittable.getColumns().add(stageColumn);
+            for (Performance performance : podium.getPerformances()) {
+               // stageColumn.setCellFactory();
+            }
         }
 
         //View mode table content
