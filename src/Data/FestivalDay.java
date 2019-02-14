@@ -147,12 +147,4 @@ public class FestivalDay implements Serializable {
         this.artists = artists;
     }
 
-    public Artist getArtist(Artist artist) {
-        for (Artist artist1 : this.artists) {
-            if (artist1.equals(artist)) {
-                return artist;
-            }
-        }
-        return null;
-    }
 }

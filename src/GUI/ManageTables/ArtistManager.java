@@ -63,7 +63,7 @@ public class ArtistManager {
             int row = pos.getRow();
             Artist artist = event.getTableView().getItems().get(row);
 
-            this.festivalDay.getArtist(artist).setName(newName);
+            artist.setName(newName);
 
             try {
                 this.festivalDay.getAgendaModule().save();
@@ -118,7 +118,7 @@ public class ArtistManager {
             int row = pos.getRow();
             Artist artist = event.getTableView().getItems().get(row);
 
-            this.festivalDay.getArtist(artist).setArtistType(newArtistType);
+            artist.setArtistType(newArtistType);
 
             try {
                 this.festivalDay.getAgendaModule().save();
@@ -138,7 +138,7 @@ public class ArtistManager {
             int row = pos.getRow();
             Artist artist = event.getTableView().getItems().get(row);
 
-            this.festivalDay.getArtist(artist).setCountry(newCountry);
+            artist.setCountry(newCountry);
 
             try {
                 this.festivalDay.getAgendaModule().save();
@@ -158,7 +158,7 @@ public class ArtistManager {
             int row = pos.getRow();
             Artist artist = event.getTableView().getItems().get(row);
 
-            this.festivalDay.getArtist(artist).setExtraInformation(newInfo);
+            artist.setExtraInformation(newInfo);
 
             try {
                 this.festivalDay.getAgendaModule().save();
