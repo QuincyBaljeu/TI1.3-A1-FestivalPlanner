@@ -2,6 +2,7 @@ package Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class TestingDataLib {
     public static AgendaModule getDummyAgendaModule(String filePath){
@@ -11,8 +12,8 @@ public class TestingDataLib {
             );
         festivalDay.addPerformance(
             new Performance(
-                LocalDateTime.now(),
-                LocalDateTime.now(),
+                LocalTime.now(),
+                LocalTime.now(),
                 3,
                 festivalDay,
                 new Podium("new york", festivalDay),

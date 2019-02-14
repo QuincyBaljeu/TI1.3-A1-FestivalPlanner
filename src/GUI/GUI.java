@@ -3,6 +3,7 @@ package GUI;
 import Data.*;
 
 import GUI.ManageTables.ArtistManager;
+import GUI.ManageTables.PerformanceManager;
 import GUI.ManageTables.PodiumManager;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -75,12 +76,13 @@ public class GUI extends Application{
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         //
-        Menu performanceMenu = new Menu("Manage Performances");
+
         Menu stagesMenu = new Menu("Manage Stages");
+        Menu performanceMenu = new Menu("Manage Performances");
         Menu artistsMenu = new Menu("Manage Artists");
 
 
-
+/*
         MenuItem AddPerformance = new MenuItem("Add Performance");
         performanceMenu.getItems().add(AddPerformance);
         MenuItem RemovePerformance = new MenuItem("Remove Performance");
@@ -94,7 +96,7 @@ public class GUI extends Application{
         stagesMenu.getItems().add(RemoveStage);
         MenuItem EditStage = new MenuItem("Edit Stage");
         stagesMenu.getItems().add(EditStage);
-
+/*
 
         MenuItem AddArtist = new MenuItem("Add Artist");
         artistsMenu.getItems().add(AddArtist);
@@ -110,6 +112,12 @@ public class GUI extends Application{
         });
         stagesMenu.getItems().add(managePodium);
 
+        MenuItem managePerformance = new MenuItem("Manage Performances");
+        managePerformance.setOnAction((e)->{
+            new PerformanceManager(this.getFestivalDay());
+        });
+        performanceMenu.getItems().add(managePerformance);
+
         MenuItem manageArtist = new MenuItem("Manage Artists");
         manageArtist.setOnAction((e)->{
             new ArtistManager(this.getFestivalDay());
@@ -117,7 +125,7 @@ public class GUI extends Application{
         artistsMenu.getItems().add(manageArtist);
 
         MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(performanceMenu,stagesMenu,artistsMenu);
+        menuBar.getMenus().addAll(stagesMenu,performanceMenu,artistsMenu);
 
         //Implements array to tableview
         TableView<AgendaTable> edittable = new TableView<>();

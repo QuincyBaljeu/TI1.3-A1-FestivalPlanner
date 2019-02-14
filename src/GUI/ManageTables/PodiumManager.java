@@ -2,21 +2,19 @@ package GUI.ManageTables;
 
 import Data.Artist;
 import Data.FestivalDay;
-import Data.Genre;
 import Data.Podium;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class PodiumManager {
 
@@ -43,7 +41,7 @@ public class PodiumManager {
     private void InitializeScene() {
         tableView.setEditable(true);
         TableColumn<Podium, String> name = new TableColumn("name");
-        TableColumn<Podium, Boolean> performance = new TableColumn("performances");
+        //TableColumn<Podium, Boolean> performance = new TableColumn("performances");
 
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -67,7 +65,9 @@ public class PodiumManager {
         });
 
 
-        this.tableView.getColumns().addAll(name, performance);
+
+
+        this.tableView.getColumns().addAll(name);
 
         this.tableView.setItems(FXCollections.observableList(this.festivalDay.getPodia()));
 

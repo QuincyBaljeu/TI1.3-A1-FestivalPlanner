@@ -147,4 +147,13 @@ public class FestivalDay implements Serializable {
         this.artists = artists;
     }
 
+    public Podium getPodiumViaName(String podiumName) {
+        for (Podium podium : this.podia) {
+            if (podium.getName().equals(podiumName)) {
+                return podium;
+            }
+        }
+        return null;
+    }
+
 }

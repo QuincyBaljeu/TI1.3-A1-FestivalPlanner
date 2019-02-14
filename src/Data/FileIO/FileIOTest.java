@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class FileIOTest extends Application {
     public static void main(String[] args){
@@ -45,8 +46,8 @@ public class FileIOTest extends Application {
 
         festivalDay.addPerformance(
             new Performance(
-                LocalDateTime.now(),
-                LocalDateTime.now(),
+                LocalTime.now(),
+                LocalTime.now(),
                 5,
                 festivalDay,
                 new Podium(

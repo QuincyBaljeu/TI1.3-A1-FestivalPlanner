@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class TestManagers extends Application {
     @Override
@@ -16,8 +17,8 @@ public class TestManagers extends Application {
                 );
         festivalDay.addPerformance(
                 new Performance(
-                        LocalDateTime.now(),
-                        LocalDateTime.now(),
+                        LocalTime.now(),
+                        LocalTime.now(),
                         3,
                         festivalDay,
                         new Podium("new york", festivalDay),
