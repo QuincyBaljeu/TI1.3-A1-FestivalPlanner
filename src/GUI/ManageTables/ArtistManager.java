@@ -14,10 +14,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ArtistManager {
 
@@ -75,11 +78,14 @@ public class ArtistManager {
         ObservableList<Genre> genreList = FXCollections.observableArrayList(Genre.values());
 
         genre.setCellValueFactory(param -> {
-            Artist artist = param.getValue();
-
-            String genderCode = artist.getGenre().toString();
-            Genre gernre = Genre.getByCode(genderCode);
-            return new SimpleObjectProperty<>(gernre);
+if (param.getValue() != null) {
+    Artist artist = param.getValue();
+    if (artist.getGenre() != null) {
+        Genre gernre = Genre.getByCode(artist.getGenre().toString());
+        return new SimpleObjectProperty<>(gernre);
+    }
+}
+            return new SimpleObjectProperty<>(null);
         });
 
         genre.setCellFactory(ComboBoxTableCell.forTableColumn(genreList));
@@ -208,6 +214,61 @@ public class ArtistManager {
 
         filePathProfilePic.setCellFactory(cellFactory);
         //end button
+
+
+        HBox bot = new HBox();
+
+        TextField nameField = new TextField();
+        Label nameLabel = new Label("Name");
+        VBox nameSet = new VBox(nameLabel, nameField);
+
+        ComboBox<Genre> genreField = new ComboBox<>();
+        genreField.setItems(FXCollections.observableArrayList(Genre.values()));
+        Label genreLabel = new Label("Genre");
+        VBox genreSet = new VBox(genreLabel, genreField);
+
+        TextField artistTypeField = new TextField();
+        Label artistTypeLabel = new Label("Artist Type");
+        VBox artistTypeSet = new VBox(artistTypeLabel, artistTypeField);
+
+        Button filePathField = new Button("Choose Picture");
+        Label filePathLaber = new Label("Profile Picture");
+        VBox filePathSet = new VBox(filePathLaber, filePathField);
+        AtomicReference<String> tempFilePath = new AtomicReference<>("");
+        filePathField.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            tempFilePath.set(fileChooser.showOpenDialog(new Stage()).getPath());
+        });
+
+        TextField countryField = new TextField();
+        Label countryLabel = new Label("Country");
+        VBox countrySet = new VBox(countryLabel, countryField);
+
+        Button add = new Button("Add");
+        Label addLabel = new Label("Add Artist");
+        VBox addSet = new VBox(addLabel, add);
+
+        add.setOnAction(e -> {
+            if (!nameField.getCharacters().toString().isEmpty() && !genreField.getSelectionModel().isEmpty() && !artistTypeField.getCharacters().toString().isEmpty() && !tempFilePath.toString().isEmpty() && !countryField.getCharacters().toString().isEmpty()) {
+                Artist newArtist = new Artist(nameField.getCharacters().toString(), genreField.getSelectionModel().getSelectedItem(), this.festivalDay, artistTypeField.getCharacters().toString(), tempFilePath.toString(), countryField.getCharacters().toString());
+                this.festivalDay.addArtist(newArtist);
+                //todo add a reload method;
+                System.out.println("added a Artist: " + newArtist.getGenre());
+                this.tableView.setItems(FXCollections.observableList(this.festivalDay.getArtists()));
+                try {
+                    festivalDay.getAgendaModule().save();
+                } catch (Exception x){
+                    x.printStackTrace();
+                }
+            } else {
+                System.out.println("Not all Fields have been filled");
+            }
+        });
+
+
+bot.setSpacing(10);
+        bot.getChildren().addAll(nameSet, genreSet, artistTypeSet, filePathSet, countrySet, addSet);
+        this.borderPane.setBottom(bot);
 
         this.tableView.getColumns().addAll(name, genre, artistType, filePathProfilePic, countryOfOrigin, extraInfo);
 
