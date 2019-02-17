@@ -10,6 +10,9 @@ import javax.swing.text.TableView;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Contains the code to generate the text displayed in the horizontal agenda in the viewer and editor
+ */
 public class AgendaViewerItem {
 	public final SimpleStringProperty tableDisplay = new SimpleStringProperty();
     private Performance performance;

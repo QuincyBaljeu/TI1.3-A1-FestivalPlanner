@@ -7,6 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
+/**
+ * Contains the shared code between all the graphical user interface classes that change the FestivalDay Object's content
+ */
 public abstract class DataManager {
 	private GUI parent;
 	private FestivalDay festivalDay;
