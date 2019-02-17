@@ -67,10 +67,9 @@ public class PerformanceManager {
         TableColumn<Performance, String> artist = new TableColumn<>("artists");
 
 
-// Begin Time
+        // Begin Time
         beginTime.setCellValueFactory(param -> {
             Performance performance = param.getValue();
-
             LocalTime newTime = performance.getStartTime();
             return new SimpleObjectProperty<>(newTime);
         });

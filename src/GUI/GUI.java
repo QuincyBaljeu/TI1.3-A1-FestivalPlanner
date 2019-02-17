@@ -26,6 +26,17 @@ import java.util.List;
 
 public class GUI extends Application{
     private AgendaModule agendaModule;
+    private TableView<Performance> viewtable;
+
+    public TableView<Performance> getViewtable() {
+        return viewtable;
+    }
+
+    public TableView<Performance> getEdittable() {
+        return edittable;
+    }
+
+    private TableView<Performance> edittable;
     private FestivalDay getFestivalDay(){
         return this.agendaModule.getFestivalDays().get(0);
     }
@@ -84,7 +95,7 @@ public class GUI extends Application{
 
         MenuItem managePodium = new MenuItem("Manage Podiums");
         managePodium.setOnAction((e)->{
-            new PodiumManager(this.getFestivalDay());
+            new PodiumManager(this.getFestivalDay(), this);
         });
         stagesMenu.getItems().add(managePodium);
 
@@ -104,8 +115,8 @@ public class GUI extends Application{
         menuBar.getMenus().addAll(stagesMenu,performanceMenu,artistsMenu);
 
         //Implements array to tableview
-        TableView<Performance> edittable = new TableView<>();
-        TableView<Performance> viewtable = new TableView<>();
+        this.edittable = new TableView<>();
+        this.viewtable = new TableView<>();
         // Block the user from editing
         edittable.setEditable(false);
 
