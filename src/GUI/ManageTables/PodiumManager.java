@@ -20,6 +20,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * The graphical user interface to manage podium instances in a FestivalDay Object
+ */
 public class PodiumManager extends DataManager {
 
     private Stage stage;

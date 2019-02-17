@@ -12,6 +12,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * A class for testing other code
+ */
 public class FileIOTest extends Application {
     public static void main(String[] args){
         launch(FileIOTest.class);

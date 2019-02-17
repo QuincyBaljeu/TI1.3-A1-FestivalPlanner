@@ -24,6 +24,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains the main window of the graphical interface for the Application
+ */
 public class GUI extends Application{
     public ObservableList<String> Times =
             FXCollections.observableArrayList(

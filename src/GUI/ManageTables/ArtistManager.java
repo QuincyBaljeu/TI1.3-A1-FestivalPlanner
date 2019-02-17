@@ -23,6 +23,9 @@ import javafx.util.Callback;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * The graphical user interface to manage artist instances in a FestivalDay Object
+ */
 public class ArtistManager extends DataManager {
 
     private Stage stage;

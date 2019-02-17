@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * The graphical user interface to manage performance instances in a FestivalDay Object
+ */
 public class PerformanceManager extends DataManager {
 
     private Stage stage;

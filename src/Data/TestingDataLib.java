@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * A class to create template data to test other parts of the application
+ */
 public class TestingDataLib {
     public static AgendaModule getDummyAgendaModule(String filePath){
         FestivalDay festivalDay =
