@@ -42,6 +42,7 @@ public class PodiumManager {
     private void InitializeScene() {
         tableView.setEditable(true);
         TableColumn<Podium, String> name = new TableColumn("name");
+        TableColumn<Podium, Boolean> delete = new TableColumn<>("Delete");
         //TableColumn<Podium, Boolean> performance = new TableColumn("performances");
 
 
@@ -64,6 +65,47 @@ public class PodiumManager {
                 x.printStackTrace();
             }
         });
+        // begin delete
+
+        delete.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+        Callback<TableColumn<Podium, Boolean>, TableCell<Podium, Boolean>> cellFactorydel
+                =
+                new Callback<TableColumn<Podium, Boolean>, TableCell<Podium, Boolean>>() {
+                    @Override
+                    public TableCell call(final TableColumn<Podium, Boolean> param) {
+                        final TableCell<Podium, Boolean> cell = new TableCell<Podium, Boolean>() {
+
+                            final Button button = new Button("Del");
+
+                            @Override
+                            public void updateItem(Boolean item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    button.setOnAction(event -> {
+                                        Podium podium = getTableView().getItems().get(getIndex());
+                                        festivalDay.removePodium(podium);
+                                        tableView.setItems(FXCollections.observableList(festivalDay.getPodia()));
+                                        try {
+                                            festivalDay.getAgendaModule().save();
+                                        } catch (Exception x){
+                                            x.printStackTrace();
+                                        }
+                                    });
+                                    setGraphic(button);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+        delete.setCellFactory(cellFactorydel);
+
 
         //add menu
         HBox bot = new HBox();
@@ -85,6 +127,7 @@ public class PodiumManager {
                 } catch (Exception x){
                     x.printStackTrace();
                 }
+                nameField.clear();
             }
 
         });
@@ -98,7 +141,7 @@ public class PodiumManager {
 
 
 
-        this.tableView.getColumns().addAll(name);
+        this.tableView.getColumns().addAll(name, delete);
 
         this.tableView.setItems(FXCollections.observableList(this.festivalDay.getPodia()));
 
