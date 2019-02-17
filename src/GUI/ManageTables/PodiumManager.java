@@ -2,8 +2,11 @@ package GUI.ManageTables;
 
 import Data.Artist;
 import Data.FestivalDay;
+import Data.Performance;
 import Data.Podium;
+import GUI.GUI;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -24,8 +27,10 @@ public class PodiumManager {
     private BorderPane borderPane;
     private FestivalDay festivalDay;
     private TableView tableView = new TableView<Podium>();
+    private GUI parent;
 
-    public PodiumManager(FestivalDay festivalDay) {
+    public PodiumManager(FestivalDay festivalDay, GUI parent) {
+        this.parent = parent;
         this.festivalDay = festivalDay;
         this.scene = new Scene(this.borderPane = new BorderPane());
         this.stage = new Stage();
@@ -39,12 +44,39 @@ public class PodiumManager {
         InitializeScene();
     }
 
+    private void updateViewTables(TableView<Performance> ... tables){
+        for (TableView<Performance> table : tables){
+            ObservableList<Performance> items = table.getItems();
+            items.clear();
+            for (Performance performance : this.festivalDay.getPerformances()){
+                items.add(
+                    performance
+                );
+            }
+        }
+    }
+
+    private void processChanges(){
+        try {
+            ObservableList<Performance> performances =
+                FXCollections.observableArrayList(
+                    this.festivalDay.getPerformances()
+                );
+            this.updateViewTables(
+                this.parent.getEdittable(),
+                this.parent.getViewtable()
+            );
+            this.festivalDay.getAgendaModule().save();
+        } catch (Exception x) {
+            x.printStackTrace();
+        }
+    }
+
     private void InitializeScene() {
         tableView.setEditable(true);
         TableColumn<Podium, String> name = new TableColumn("name");
         TableColumn<Podium, Boolean> delete = new TableColumn<>("Delete");
         //TableColumn<Podium, Boolean> performance = new TableColumn("performances");
-
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         name.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -59,11 +91,7 @@ public class PodiumManager {
 
             podium.setName(newName);
 
-            try {
-                this.festivalDay.getAgendaModule().save();
-            } catch (Exception x){
-                x.printStackTrace();
-            }
+            processChanges();
         });
         // begin delete
 
@@ -89,11 +117,7 @@ public class PodiumManager {
                                         Podium podium = getTableView().getItems().get(getIndex());
                                         festivalDay.removePodium(podium);
                                         tableView.setItems(FXCollections.observableList(festivalDay.getPodia()));
-                                        try {
-                                            festivalDay.getAgendaModule().save();
-                                        } catch (Exception x){
-                                            x.printStackTrace();
-                                        }
+                                        processChanges();
                                     });
                                     setGraphic(button);
                                     setText(null);
@@ -122,12 +146,10 @@ public class PodiumManager {
                 Podium newPodium = new Podium(nameField.getCharacters().toString(), this.festivalDay);
                 this.festivalDay.addPodium(newPodium);
                 this.tableView.setItems(FXCollections.observableList(this.festivalDay.getPodia()));
-                try {
-                    festivalDay.getAgendaModule().save();
-                } catch (Exception x){
-                    x.printStackTrace();
-                }
+
                 nameField.clear();
+
+                processChanges();
             }
 
         });

@@ -6,6 +6,8 @@ import GUI.ManageTables.ArtistManager;
 import GUI.ManageTables.PerformanceManager;
 import GUI.ManageTables.PodiumManager;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -24,6 +26,17 @@ import java.util.List;
 
 public class GUI extends Application{
     private AgendaModule agendaModule;
+    private TableView<Performance> viewtable;
+
+    public TableView<Performance> getViewtable() {
+        return viewtable;
+    }
+
+    public TableView<Performance> getEdittable() {
+        return edittable;
+    }
+
+    private TableView<Performance> edittable;
     private FestivalDay getFestivalDay(){
         return this.agendaModule.getFestivalDays().get(0);
     }
@@ -75,40 +88,14 @@ public class GUI extends Application{
         tabPane.getTabs().addAll(View,Simulation,Edit);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        //
-
+        // Use the menu as a set of buttons
         Menu stagesMenu = new Menu("Manage Stages");
         Menu performanceMenu = new Menu("Manage Performances");
         Menu artistsMenu = new Menu("Manage Artists");
 
-
-/*
-        MenuItem AddPerformance = new MenuItem("Add Performance");
-        performanceMenu.getItems().add(AddPerformance);
-        MenuItem RemovePerformance = new MenuItem("Remove Performance");
-        performanceMenu.getItems().add(RemovePerformance);
-        MenuItem EditPerformance = new MenuItem("Edit Performance");
-        performanceMenu.getItems().add(EditPerformance);
-/*
-        MenuItem AddStage = new MenuItem("Add Stage");
-        stagesMenu.getItems().add(AddStage);
-        MenuItem RemoveStage = new MenuItem("Remove Stage");
-        stagesMenu.getItems().add(RemoveStage);
-        MenuItem EditStage = new MenuItem("Edit Stage");
-        stagesMenu.getItems().add(EditStage);
-/*
-
-        MenuItem AddArtist = new MenuItem("Add Artist");
-        artistsMenu.getItems().add(AddArtist);
-        MenuItem RemoveArtist = new MenuItem("Remove Artist");
-        artistsMenu.getItems().add(RemoveArtist);
-        MenuItem EditArtist = new MenuItem("Edit Artist");
-        artistsMenu.getItems().add(EditArtist);
-        /**/
-
         MenuItem managePodium = new MenuItem("Manage Podiums");
         managePodium.setOnAction((e)->{
-            new PodiumManager(this.getFestivalDay());
+            new PodiumManager(this.getFestivalDay(), this);
         });
         stagesMenu.getItems().add(managePodium);
 
@@ -128,32 +115,14 @@ public class GUI extends Application{
         menuBar.getMenus().addAll(stagesMenu,performanceMenu,artistsMenu);
 
         //Implements array to tableview
-        TableView<AgendaTable> edittable = new TableView<>();
-        TableView<AgendaTable> viewtable = new TableView<>();
-        //edittable.setEditable(true);
+        this.edittable = new TableView<>();
+        this.viewtable = new TableView<>();
+        // Block the user from editing
+        edittable.setEditable(false);
 
-        TableColumn<AgendaTable, String> Time = new TableColumn<>("Time");
-        TableColumn<AgendaTable, String> Mainstage = new TableColumn<>("Main Stage");
-        Time.setCellValueFactory(new PropertyValueFactory<>("time"));
-        Mainstage.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        //Edit mode table content
-        edittable.setItems(getAgendaTable());
-        edittable.getColumns().add(Time);
-        for (Podium podium : this.getFestivalDay().getPodia()){
-            TableColumn stageColumn = new TableColumn(podium.getName());
-            edittable.getColumns().add(stageColumn);
-            for (Performance performance : podium.getPerformances()) {
-               // stageColumn.setCellFactory();
-            }
-        }
-
-        //View mode table content
-        viewtable.setItems(getAgendaTable());
-        viewtable.getColumns().add(Time);
-        for(Podium podium : this.getFestivalDay().getPodia()){
-            viewtable.getColumns().add(new TableColumn(podium.getName()));
-        }
+        // Add a column for every hour
+        this.addTableColumns(viewtable);
+        this.addTableColumns(edittable);
 
         //Adds table to borderpane
         editBorderPane.setCenter(edittable);
@@ -171,15 +140,30 @@ public class GUI extends Application{
         Scene scene = new Scene(menuBorderPane);
         stage.setScene(scene);
         stage.show();
-
     }
 
-    private ObservableList<AgendaTable> getAgendaTable() {
-        ObservableList<AgendaTable> list = FXCollections.observableArrayList();
-        for(int i = 0; i < Times.size(); i++) {
-            AgendaTable agendaTable = new AgendaTable(Times.get(i), Mainstage.get(i));
-            list.add(agendaTable);
+    private void addTableColumns(TableView table){
+        for (int i = 12; i <= 24; i++){
+            TableColumn<Performance, String> column = new TableColumn<Performance, String>( i + ":00");
+            // prevent the column from beeing resized by it's content
+            column.setMaxWidth(100);
+            column.setMinWidth(100);
+
+            table.getColumns().add(
+                column
+            );
+
+            column.setCellValueFactory(
+                (cell) -> new AgendaViewerItem(cell.getValue(), this.getFestivalDay()).getTableDisplay(
+                    cell.getTableColumn().getText()
+                )
+            );
         }
-        return list;
+
+        table.setItems(
+            FXCollections.observableArrayList(
+                this.getFestivalDay().getPerformances()
+            )
+        );
     }
 }

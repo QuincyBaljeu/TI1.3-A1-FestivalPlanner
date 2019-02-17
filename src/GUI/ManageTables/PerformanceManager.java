@@ -72,10 +72,9 @@ public class PerformanceManager {
         TableColumn<Performance, Boolean> delete = new TableColumn<>("Delete");
 
 
-// Begin Time
+        // Begin Time
         beginTime.setCellValueFactory(param -> {
             Performance performance = param.getValue();
-
             LocalTime newTime = performance.getStartTime();
             return new SimpleObjectProperty<>(newTime);
         });
