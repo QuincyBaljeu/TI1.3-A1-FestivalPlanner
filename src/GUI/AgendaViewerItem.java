@@ -11,9 +11,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class AgendaViewerItem {
+	public final SimpleStringProperty tableDisplay = new SimpleStringProperty();
     private Performance performance;
     private FestivalDay festivalDay;
-	public final SimpleStringProperty tableDisplay = new SimpleStringProperty();
 
     public AgendaViewerItem(Performance performance, FestivalDay festivalDay) {
 		this.performance = performance;

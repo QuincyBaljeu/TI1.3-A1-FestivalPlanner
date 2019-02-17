@@ -25,8 +25,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GUI extends Application{
+    public ObservableList<String> Times =
+            FXCollections.observableArrayList(
+                    "12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00", "23:00", "24:00"
+            );
+    public ObservableList<String> Mainstage =
+            FXCollections.observableArrayList(
+                    "","","Brennan Heart","","Hardwell","Hardwell","Hardwell","Hardwell","","Da Tweekaz","Da Tweekaz","",""
+            );
     private AgendaModule agendaModule;
     private TableView<Performance> viewtable;
+    private TableView<Performance> edittable;
 
     public TableView<Performance> getViewtable() {
         return viewtable;
@@ -36,20 +45,9 @@ public class GUI extends Application{
         return edittable;
     }
 
-    private TableView<Performance> edittable;
     private FestivalDay getFestivalDay(){
         return this.agendaModule.getFestivalDays().get(0);
     }
-
-    public ObservableList<String> Times =
-            FXCollections.observableArrayList(
-                    "12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00", "23:00", "24:00"
-            );
-
-    public ObservableList<String> Mainstage =
-            FXCollections.observableArrayList(
-                    "","","Brennan Heart","","Hardwell","Hardwell","Hardwell","Hardwell","","Da Tweekaz","Da Tweekaz","",""
-            );
 
     private void loadAgendaModule(Stage stage){
         FileChooser fileChooser = new FileChooser();

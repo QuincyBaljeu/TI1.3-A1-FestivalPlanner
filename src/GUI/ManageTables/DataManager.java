@@ -11,6 +11,11 @@ public abstract class DataManager {
 	private GUI parent;
 	private FestivalDay festivalDay;
 
+	public DataManager(FestivalDay festivalDay, GUI parent){
+		this.festivalDay = festivalDay;
+		this.parent = parent;
+	}
+
 	public GUI getParent() {
 		return parent;
 	}
@@ -21,11 +26,6 @@ public abstract class DataManager {
 
 	public DataManager getThis(){
 		return this;
-	}
-
-	public DataManager(FestivalDay festivalDay, GUI parent){
-		this.festivalDay = festivalDay;
-		this.parent = parent;
 	}
 
 	public void updateViewTables(TableView<Performance>... tables){

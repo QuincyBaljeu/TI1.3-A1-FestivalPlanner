@@ -40,16 +40,16 @@ public class Podium implements Serializable {
         return performances;
     }
 
+    public void setPerformances(List<Performance> performances) {
+        this.performances = performances;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setPerformances(List<Performance> performances) {
-        this.performances = performances;
     }
 
     public FestivalDay getFestivalDay() {
