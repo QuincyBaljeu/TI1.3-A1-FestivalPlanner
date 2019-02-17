@@ -53,6 +53,7 @@ public class ArtistManager {
         TableColumn<Artist, String> filePathProfilePic = new TableColumn("ProfilePicture");
         TableColumn<Artist, String> countryOfOrigin = new TableColumn("country");
         TableColumn<Artist, String> extraInfo = new TableColumn<>("extraInformation");
+        TableColumn<Artist, Boolean> delete = new TableColumn<>("delete");
 
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -214,6 +215,49 @@ if (param.getValue() != null) {
 
         filePathProfilePic.setCellFactory(cellFactory);
         //end button
+        // begin delete
+
+        delete.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+        Callback<TableColumn<Artist, Boolean>, TableCell<Artist, Boolean>> cellFactorydel
+                =
+                new Callback<TableColumn<Artist, Boolean>, TableCell<Artist, Boolean>>() {
+                    @Override
+                    public TableCell call(final TableColumn<Artist, Boolean> param) {
+                        final TableCell<Artist, Boolean> cell = new TableCell<Artist, Boolean>() {
+
+                            final Button button = new Button("Del");
+
+                            @Override
+                            public void updateItem(Boolean item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    button.setOnAction(event -> {
+                                        Artist artist = getTableView().getItems().get(getIndex());
+                                        festivalDay.removeArtist(artist);
+                                        tableView.setItems(FXCollections.observableList(festivalDay.getArtists()));
+                                        try {
+                                            festivalDay.getAgendaModule().save();
+                                        } catch (Exception x){
+                                            x.printStackTrace();
+                                        }
+                                    });
+                                    setGraphic(button);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+        delete.setCellFactory(cellFactorydel);
+
+        //end Delete
+
 
 
         HBox bot = new HBox();
@@ -253,22 +297,28 @@ if (param.getValue() != null) {
                 Artist newArtist = new Artist(nameField.getCharacters().toString(), genreField.getSelectionModel().getSelectedItem(), this.festivalDay, artistTypeField.getCharacters().toString(), tempFilePath.toString(), countryField.getCharacters().toString());
                 this.festivalDay.addArtist(newArtist);
                 this.tableView.setItems(FXCollections.observableList(this.festivalDay.getArtists()));
+                nameField.clear();
+                genreField.getSelectionModel().clearSelection();
+                artistTypeField.clear();
+                countryField.clear();
                 try {
                     festivalDay.getAgendaModule().save();
                 } catch (Exception x){
                     x.printStackTrace();
                 }
+
             } else {
                 System.out.println("Not all Fields have been filled");
             }
         });
 
 
+
 bot.setSpacing(10);
         bot.getChildren().addAll(nameSet, genreSet, artistTypeSet, filePathSet, countrySet, addSet);
         this.borderPane.setBottom(bot);
 
-        this.tableView.getColumns().addAll(name, genre, artistType, filePathProfilePic, countryOfOrigin, extraInfo);
+        this.tableView.getColumns().addAll(name, genre, artistType, filePathProfilePic, countryOfOrigin, extraInfo, delete);
 
         this.tableView.setItems(FXCollections.observableList(this.festivalDay.getArtists()));
 
