@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -29,7 +30,6 @@ public class ArtistList {
     private Stage stage;
     private BorderPane borderPane;
     private List<Artist> selectedArtists = new ArrayList<>();
-    private boolean bussy;
 
 
     public ArtistList(Performance performance, FestivalDay festivalDay) {
@@ -53,11 +53,8 @@ public class ArtistList {
 
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         name.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        selected.setCellValueFactory(param -> {
-            this.selectedArtists = performance.getArtists();
-            return new SimpleBooleanProperty();
-        });
+        this.selectedArtists = performance.getArtists();
+        selected.setCellValueFactory(param -> new SimpleBooleanProperty());
 
         Callback<TableColumn<Artist, Boolean>, TableCell<Artist, Boolean>> cellFactory
                 =
@@ -102,15 +99,14 @@ public class ArtistList {
         selected.setCellFactory(cellFactory);
 
         Button save = new Button("Save Selected Artists");
-        this.bussy = true;
         save.setOnAction(e -> {
             this.performance.setArtists(this.selectedArtists);
-            bussy = false;
             stage.close();
         });
 
-        save.setAlignment(Pos.BOTTOM_RIGHT);
-        this.borderPane.setBottom(save);
+        HBox bot = new HBox(save);
+        bot.setAlignment(Pos.CENTER);
+        this.borderPane.setBottom(bot);
 
         this.tableView.setItems(FXCollections.observableList(this.festivalDay.getArtists()));
         this.tableView.getColumns().addAll(name, selected);

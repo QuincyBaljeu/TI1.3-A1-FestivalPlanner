@@ -242,10 +242,7 @@ public class PerformanceManager {
                                 } else {
                                     button.setOnAction(event -> {
                                         Performance performance = getTableView().getItems().get(getIndex());
-                                        ArtistList artistList = new ArtistList(performance, festivalDay);
-
-
-
+                                        new ArtistList(performance, festivalDay);
                                         System.out.println("Saved List: " + performance.getArtists().toString());
                                         tableView.setItems(FXCollections.observableList(festivalDay.getPerformances()));
                                         try {
