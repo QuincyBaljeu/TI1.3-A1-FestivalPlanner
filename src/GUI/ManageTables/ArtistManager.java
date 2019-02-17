@@ -252,8 +252,6 @@ if (param.getValue() != null) {
             if (!nameField.getCharacters().toString().isEmpty() && !genreField.getSelectionModel().isEmpty() && !artistTypeField.getCharacters().toString().isEmpty() && !tempFilePath.toString().isEmpty() && !countryField.getCharacters().toString().isEmpty()) {
                 Artist newArtist = new Artist(nameField.getCharacters().toString(), genreField.getSelectionModel().getSelectedItem(), this.festivalDay, artistTypeField.getCharacters().toString(), tempFilePath.toString(), countryField.getCharacters().toString());
                 this.festivalDay.addArtist(newArtist);
-                //todo add a reload method;
-                System.out.println("added a Artist: " + newArtist.getGenre());
                 this.tableView.setItems(FXCollections.observableList(this.festivalDay.getArtists()));
                 try {
                     festivalDay.getAgendaModule().save();

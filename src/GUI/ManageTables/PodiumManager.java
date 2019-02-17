@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -63,6 +64,36 @@ public class PodiumManager {
                 x.printStackTrace();
             }
         });
+
+        //add menu
+        HBox bot = new HBox();
+        TextField nameField = new TextField();
+        Label nameLabel = new Label("Name");
+        VBox nameSet = new VBox(nameLabel, nameField);
+
+        Button add = new Button("Add");
+        Label addLabel = new Label("Add Podium");
+        VBox addSet = new VBox(addLabel, add);
+
+        add.setOnAction(e -> {
+            if (!nameField.getCharacters().toString().isEmpty()) {
+                Podium newPodium = new Podium(nameField.getCharacters().toString(), this.festivalDay);
+                this.festivalDay.addPodium(newPodium);
+                this.tableView.setItems(FXCollections.observableList(this.festivalDay.getPodia()));
+                try {
+                    festivalDay.getAgendaModule().save();
+                } catch (Exception x){
+                    x.printStackTrace();
+                }
+            }
+
+        });
+
+        bot.setSpacing(10);
+
+        bot.getChildren().addAll(nameSet, addSet);
+
+        this.borderPane.setBottom(bot);
 
 
 
