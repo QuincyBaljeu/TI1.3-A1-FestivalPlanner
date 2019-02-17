@@ -79,13 +79,13 @@ public class ArtistManager {
         ObservableList<Genre> genreList = FXCollections.observableArrayList(Genre.values());
 
         genre.setCellValueFactory(param -> {
-if (param.getValue() != null) {
-    Artist artist = param.getValue();
-    if (artist.getGenre() != null) {
-        Genre gernre = Genre.getByCode(artist.getGenre().toString());
-        return new SimpleObjectProperty<>(gernre);
-    }
-}
+            if (param.getValue() != null) {
+                Artist artist = param.getValue();
+                if (artist.getGenre() != null) {
+                    Genre gernre = Genre.getByCode(artist.getGenre().toString());
+                    return new SimpleObjectProperty<>(gernre);
+                }
+            }
             return new SimpleObjectProperty<>(null);
         });
 
