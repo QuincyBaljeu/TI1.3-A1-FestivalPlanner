@@ -156,4 +156,13 @@ public class FestivalDay implements Serializable {
         return null;
     }
 
+    public Artist getArtistViaName(String artistName) {
+        for (Artist artist : this.artists) {
+            if (artist.getName().equals(artistName)) {
+                return artist;
+            }
+        }
+        return null;
+    }
+
 }

@@ -11,14 +11,19 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import sun.misc.Perf;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PerformanceManager {
 
@@ -44,13 +49,13 @@ public class PerformanceManager {
         this.borderPane.setTop(top);
         this.borderPane.setCenter(this.tableView);
         Times = FXCollections.observableArrayList(
-                LocalTime.of(12, 0), LocalTime.of(13,0), LocalTime.of(14,0), LocalTime.of(15,0),
-                LocalTime.of(16,0), LocalTime.of(17,0), LocalTime.of(18,0),
-                LocalTime.of(19,0), LocalTime.of(20,0), LocalTime.of(21,0),
-                LocalTime.of(22,0), LocalTime.of(23,0), LocalTime.of(0, 0)
+                LocalTime.of(12, 0), LocalTime.of(13, 0), LocalTime.of(14, 0), LocalTime.of(15, 0),
+                LocalTime.of(16, 0), LocalTime.of(17, 0), LocalTime.of(18, 0),
+                LocalTime.of(19, 0), LocalTime.of(20, 0), LocalTime.of(21, 0),
+                LocalTime.of(22, 0), LocalTime.of(23, 0), LocalTime.of(0, 0)
         );
         popularity = FXCollections.observableArrayList(
-                0,1,2,3,4,5,6,7,8,9,10
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
         );
 
         InitializeScene();
@@ -89,7 +94,7 @@ public class PerformanceManager {
 
             try {
                 this.festivalDay.getAgendaModule().save();
-            } catch (Exception x){
+            } catch (Exception x) {
                 x.printStackTrace();
             }
         });
@@ -115,7 +120,7 @@ public class PerformanceManager {
 
             try {
                 this.festivalDay.getAgendaModule().save();
-            } catch (Exception x){
+            } catch (Exception x) {
                 x.printStackTrace();
             }
         });
@@ -144,7 +149,7 @@ public class PerformanceManager {
 
             try {
                 this.festivalDay.getAgendaModule().save();
-            } catch (Exception x){
+            } catch (Exception x) {
                 x.printStackTrace();
             }
         });
@@ -174,7 +179,7 @@ public class PerformanceManager {
 
             try {
                 this.festivalDay.getAgendaModule().save();
-            } catch (Exception x){
+            } catch (Exception x) {
                 x.printStackTrace();
             }
         });
@@ -207,7 +212,7 @@ public class PerformanceManager {
                                         tableView.setItems(FXCollections.observableList(festivalDay.getPerformances()));
                                         try {
                                             festivalDay.getAgendaModule().save();
-                                        } catch (Exception x){
+                                        } catch (Exception x) {
                                             x.printStackTrace();
                                         }
                                     });
@@ -247,7 +252,7 @@ public class PerformanceManager {
                                         tableView.setItems(FXCollections.observableList(festivalDay.getPerformances()));
                                         try {
                                             festivalDay.getAgendaModule().save();
-                                        } catch (Exception x){
+                                        } catch (Exception x) {
                                             x.printStackTrace();
                                         }
                                     });
@@ -263,13 +268,71 @@ public class PerformanceManager {
         artist.setCellFactory(cellFactory);
         //
 
+        // begin adding bar
+        HBox bot = new HBox();
+
+        ComboBox<LocalTime> startTimeField = new ComboBox<>();
+        startTimeField.setItems(Times);
+        Label startTimeLabel = new Label("Start Time");
+        VBox startTimeSet = new VBox(startTimeLabel, startTimeField);
+
+        ComboBox<LocalTime> endTimeField = new ComboBox<>();
+        endTimeField.setItems(Times);
+        Label endTimeLabel = new Label("End Time");
+        VBox endTimeSet = new VBox(endTimeLabel, endTimeField);
+
+        ComboBox<Integer> popularityField = new ComboBox<>();
+        popularityField.setItems(popularity);
+        Label popularityLabel = new Label("Popularity");
+        VBox popularitySet = new VBox(popularityLabel, popularityField);
+
+        ComboBox<String> podiumField = new ComboBox<>();
+        List<String> podiaNames = new ArrayList<>();
+        for (Podium podium1 : this.festivalDay.getPodia()) {
+            podiaNames.add(podium1.getName());
+        }
+        podiumField.setItems(FXCollections.observableArrayList(podiaNames));
+        Label podiumLabel = new Label("Podium");
+        VBox podiumSet = new VBox(podiumLabel, podiumField);
+
+        Button add = new Button("Add");
+        Label addLabel = new Label("Add Performance");
+        VBox addSet = new VBox(addLabel, add);
+
+        ComboBox<String> artistField = new ComboBox<>();
+        List<String> artistNames = new ArrayList<>();
+        for (Artist artist1 : this.festivalDay.getArtists()) {
+            artistNames.add(artist1.getName());
+        }
+        artistField.setItems(FXCollections.observableList(artistNames));
+        Label artistLabel = new Label("First Artist");
+        VBox artistSet = new VBox(artistLabel, artistField);
+
+        add.setOnAction(e -> {
+
+            Performance newPerformance = new Performance(startTimeField.getSelectionModel().getSelectedItem(),
+                    endTimeField.getSelectionModel().getSelectedItem(), popularityField.getSelectionModel().getSelectedIndex(),
+                    this.festivalDay, this.festivalDay.getPodiumViaName(podiumField.getSelectionModel().getSelectedItem()),
+                    this.festivalDay.getArtistViaName(artistField.getSelectionModel().getSelectedItem()));
+            this.festivalDay.addPerformance(newPerformance);
+            this.tableView.setItems(FXCollections.observableList(this.festivalDay.getPerformances()));
+            try {
+                festivalDay.getAgendaModule().save();
+            } catch (Exception x) {
+                x.printStackTrace();
+            }
+        });
+
+        bot.setSpacing(10);
+        bot.setAlignment(Pos.CENTER);
+        bot.getChildren().addAll(startTimeSet, endTimeSet, popularitySet, podiumSet, artistSet, addSet);
 
 
-
-
-        this.tableView.getColumns().addAll(beginTime, endTime, populatiry, podium, artist);
+        this.tableView.getColumns().addAll(beginTime, endTime, populatiry, podium, artist, delete);
 
         this.tableView.setItems(FXCollections.observableList(this.festivalDay.getPerformances()));
+
+        this.borderPane.setBottom(bot);
 
         this.stage.setResizable(true);
         this.stage.setTitle("Performance List");

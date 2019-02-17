@@ -3,7 +3,6 @@ package GUI.ManageTables;
 import Data.Artist;
 import Data.FestivalDay;
 import Data.Performance;
-import Data.Podium;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
@@ -13,7 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -29,7 +27,7 @@ public class ArtistList {
     private Scene scene;
     private Stage stage;
     private BorderPane borderPane;
-    private List<Artist> selectedArtists = new ArrayList<>();
+    private List<Artist> selectedArtists;
 
 
     public ArtistList(Performance performance, FestivalDay festivalDay) {
@@ -44,10 +42,7 @@ public class ArtistList {
         title.setFont(new Font("Arial", 40));
         this.borderPane.setTop(top);
         this.borderPane.setCenter(this.tableView);
-        InitializeScene();
-    }
 
-    private void InitializeScene() {
         TableColumn<Artist, String> name = new TableColumn<>("Name Artist");
         TableColumn<Artist, Boolean> selected = new TableColumn<>("Select");
 
@@ -103,10 +98,10 @@ public class ArtistList {
             this.performance.setArtists(this.selectedArtists);
             stage.close();
         });
-
         HBox bot = new HBox(save);
         bot.setAlignment(Pos.CENTER);
         this.borderPane.setBottom(bot);
+
 
         this.tableView.setItems(FXCollections.observableList(this.festivalDay.getArtists()));
         this.tableView.getColumns().addAll(name, selected);
