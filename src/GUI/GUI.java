@@ -75,36 +75,10 @@ public class GUI extends Application{
         tabPane.getTabs().addAll(View,Simulation,Edit);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        //
-
+        // Use the menu as a set of buttons
         Menu stagesMenu = new Menu("Manage Stages");
         Menu performanceMenu = new Menu("Manage Performances");
         Menu artistsMenu = new Menu("Manage Artists");
-
-
-/*
-        MenuItem AddPerformance = new MenuItem("Add Performance");
-        performanceMenu.getItems().add(AddPerformance);
-        MenuItem RemovePerformance = new MenuItem("Remove Performance");
-        performanceMenu.getItems().add(RemovePerformance);
-        MenuItem EditPerformance = new MenuItem("Edit Performance");
-        performanceMenu.getItems().add(EditPerformance);
-/*
-        MenuItem AddStage = new MenuItem("Add Stage");
-        stagesMenu.getItems().add(AddStage);
-        MenuItem RemoveStage = new MenuItem("Remove Stage");
-        stagesMenu.getItems().add(RemoveStage);
-        MenuItem EditStage = new MenuItem("Edit Stage");
-        stagesMenu.getItems().add(EditStage);
-/*
-
-        MenuItem AddArtist = new MenuItem("Add Artist");
-        artistsMenu.getItems().add(AddArtist);
-        MenuItem RemoveArtist = new MenuItem("Remove Artist");
-        artistsMenu.getItems().add(RemoveArtist);
-        MenuItem EditArtist = new MenuItem("Edit Artist");
-        artistsMenu.getItems().add(EditArtist);
-        /**/
 
         MenuItem managePodium = new MenuItem("Manage Podiums");
         managePodium.setOnAction((e)->{
