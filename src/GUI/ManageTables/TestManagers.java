@@ -11,8 +11,6 @@ import java.time.LocalTime;
 public class TestManagers extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
         FestivalDay festivalDay =
                 new FestivalDay(
                         LocalDate.now()
@@ -35,6 +33,6 @@ public class TestManagers extends Application {
                         )
                 )
         );
-        new ArtistManager(festivalDay);
+        //new ArtistManager(festivalDay);
     }
 }

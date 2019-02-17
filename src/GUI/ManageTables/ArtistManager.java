@@ -3,6 +3,7 @@ package GUI.ManageTables;
 import Data.Artist;
 import Data.FestivalDay;
 import Data.Genre;
+import GUI.GUI;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,16 +23,15 @@ import javafx.util.Callback;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ArtistManager {
+public class ArtistManager extends DataManager {
 
     private Stage stage;
     private Scene scene;
     private BorderPane borderPane;
-    private FestivalDay festivalDay;
     private TableView tableView = new TableView<Artist>();
 
-    public ArtistManager(FestivalDay festivalDay) {
-        this.festivalDay = festivalDay;
+    public ArtistManager(FestivalDay festivalDay, GUI parent) {
+        super(festivalDay, parent);
         this.scene = new Scene(this.borderPane = new BorderPane());
         this.stage = new Stage();
         HBox top = new HBox();
@@ -42,6 +42,16 @@ public class ArtistManager {
         this.borderPane.setTop(top);
         this.borderPane.setCenter(this.tableView);
         InitializeScene();
+    }
+
+    @Override
+    public FestivalDay getFestivalDay(){
+        return super.getFestivalDay();
+    }
+
+    @Override
+    public GUI getParent(){
+        return super.getParent();
     }
 
     private void InitializeScene() {
@@ -70,7 +80,7 @@ public class ArtistManager {
             artist.setName(newName);
 
             try {
-                this.festivalDay.getAgendaModule().save();
+                this.getFestivalDay().getAgendaModule().save();
             } catch (Exception x){
                 x.printStackTrace();
             }
@@ -102,7 +112,7 @@ public class ArtistManager {
             artist.setGenre(newGenre);
 
             try {
-                this.festivalDay.getAgendaModule().save();
+                this.getFestivalDay().getAgendaModule().save();
             } catch (Exception x){
                 x.printStackTrace();
             }
@@ -128,7 +138,7 @@ public class ArtistManager {
             artist.setArtistType(newArtistType);
 
             try {
-                this.festivalDay.getAgendaModule().save();
+                this.getFestivalDay().getAgendaModule().save();
             } catch (Exception x){
                 x.printStackTrace();
             }
@@ -148,7 +158,7 @@ public class ArtistManager {
             artist.setCountry(newCountry);
 
             try {
-                this.festivalDay.getAgendaModule().save();
+                this.getFestivalDay().getAgendaModule().save();
             } catch (Exception x){
                 x.printStackTrace();
             }
@@ -168,7 +178,7 @@ public class ArtistManager {
             artist.setExtraInformation(newInfo);
 
             try {
-                this.festivalDay.getAgendaModule().save();
+                this.getFestivalDay().getAgendaModule().save();
             } catch (Exception x){
                 x.printStackTrace();
             }
@@ -199,7 +209,7 @@ public class ArtistManager {
                                         FileChooser fileChooser = new FileChooser();
                                         artist.setFilePathProfilePicture(fileChooser.showOpenDialog(new Stage()).getPath());
                                         try {
-                                            festivalDay.getAgendaModule().save();
+                                            getFestivalDay().getAgendaModule().save();
                                         } catch (Exception x){
                                             x.printStackTrace();
                                         }
@@ -237,10 +247,10 @@ public class ArtistManager {
                                 } else {
                                     button.setOnAction(event -> {
                                         Artist artist = getTableView().getItems().get(getIndex());
-                                        festivalDay.removeArtist(artist);
-                                        tableView.setItems(FXCollections.observableList(festivalDay.getArtists()));
+                                        getFestivalDay().removeArtist(artist);
+                                        tableView.setItems(FXCollections.observableList(getFestivalDay().getArtists()));
                                         try {
-                                            festivalDay.getAgendaModule().save();
+                                            getFestivalDay().getAgendaModule().save();
                                         } catch (Exception x){
                                             x.printStackTrace();
                                         }
@@ -294,15 +304,15 @@ public class ArtistManager {
 
         add.setOnAction(e -> {
             if (!nameField.getCharacters().toString().isEmpty() && !genreField.getSelectionModel().isEmpty() && !artistTypeField.getCharacters().toString().isEmpty() && !tempFilePath.toString().isEmpty() && !countryField.getCharacters().toString().isEmpty()) {
-                Artist newArtist = new Artist(nameField.getCharacters().toString(), genreField.getSelectionModel().getSelectedItem(), this.festivalDay, artistTypeField.getCharacters().toString(), tempFilePath.toString(), countryField.getCharacters().toString());
-                this.festivalDay.addArtist(newArtist);
-                this.tableView.setItems(FXCollections.observableList(this.festivalDay.getArtists()));
+                Artist newArtist = new Artist(nameField.getCharacters().toString(), genreField.getSelectionModel().getSelectedItem(), this.getFestivalDay(), artistTypeField.getCharacters().toString(), tempFilePath.toString(), countryField.getCharacters().toString());
+                this.getFestivalDay().addArtist(newArtist);
+                this.tableView.setItems(FXCollections.observableList(this.getFestivalDay().getArtists()));
                 nameField.clear();
                 genreField.getSelectionModel().clearSelection();
                 artistTypeField.clear();
                 countryField.clear();
                 try {
-                    festivalDay.getAgendaModule().save();
+                    getFestivalDay().getAgendaModule().save();
                 } catch (Exception x){
                     x.printStackTrace();
                 }
@@ -320,7 +330,7 @@ bot.setSpacing(10);
 
         this.tableView.getColumns().addAll(name, genre, artistType, filePathProfilePic, countryOfOrigin, extraInfo, delete);
 
-        this.tableView.setItems(FXCollections.observableList(this.festivalDay.getArtists()));
+        this.tableView.setItems(FXCollections.observableList(this.getFestivalDay().getArtists()));
 
         this.stage.setResizable(true);
         this.stage.setTitle("Artist List");

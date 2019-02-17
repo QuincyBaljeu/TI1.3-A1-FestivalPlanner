@@ -20,18 +20,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class PodiumManager {
+public class PodiumManager extends DataManager {
 
     private Stage stage;
     private Scene scene;
     private BorderPane borderPane;
-    private FestivalDay festivalDay;
     private TableView tableView = new TableView<Podium>();
-    private GUI parent;
 
     public PodiumManager(FestivalDay festivalDay, GUI parent) {
-        this.parent = parent;
-        this.festivalDay = festivalDay;
+        super(festivalDay, parent);
         this.scene = new Scene(this.borderPane = new BorderPane());
         this.stage = new Stage();
         HBox top = new HBox();
@@ -44,32 +41,8 @@ public class PodiumManager {
         InitializeScene();
     }
 
-    private void updateViewTables(TableView<Performance> ... tables){
-        for (TableView<Performance> table : tables){
-            ObservableList<Performance> items = table.getItems();
-            items.clear();
-            for (Performance performance : this.festivalDay.getPerformances()){
-                items.add(
-                    performance
-                );
-            }
-        }
-    }
-
-    private void processChanges(){
-        try {
-            ObservableList<Performance> performances =
-                FXCollections.observableArrayList(
-                    this.festivalDay.getPerformances()
-                );
-            this.updateViewTables(
-                this.parent.getEdittable(),
-                this.parent.getViewtable()
-            );
-            this.festivalDay.getAgendaModule().save();
-        } catch (Exception x) {
-            x.printStackTrace();
-        }
+    private DataManager getSuperClassInstance(){
+        return super.getThis();
     }
 
     private void InitializeScene() {
@@ -115,6 +88,7 @@ public class PodiumManager {
                                 } else {
                                     button.setOnAction(event -> {
                                         Podium podium = getTableView().getItems().get(getIndex());
+                                        FestivalDay festivalDay = getSuperClassInstance().getFestivalDay();
                                         festivalDay.removePodium(podium);
                                         tableView.setItems(FXCollections.observableList(festivalDay.getPodia()));
                                         processChanges();
@@ -143,9 +117,9 @@ public class PodiumManager {
 
         add.setOnAction(e -> {
             if (!nameField.getCharacters().toString().isEmpty()) {
-                Podium newPodium = new Podium(nameField.getCharacters().toString(), this.festivalDay);
-                this.festivalDay.addPodium(newPodium);
-                this.tableView.setItems(FXCollections.observableList(this.festivalDay.getPodia()));
+                Podium newPodium = new Podium(nameField.getCharacters().toString(), super.getFestivalDay());
+                super.getFestivalDay().addPodium(newPodium);
+                this.tableView.setItems(FXCollections.observableList(super.getFestivalDay().getPodia()));
 
                 nameField.clear();
 
@@ -165,7 +139,7 @@ public class PodiumManager {
 
         this.tableView.getColumns().addAll(name, delete);
 
-        this.tableView.setItems(FXCollections.observableList(this.festivalDay.getPodia()));
+        this.tableView.setItems(FXCollections.observableList(super.getFestivalDay().getPodia()));
 
         this.stage.setResizable(true);
         this.stage.setTitle("Podium List");

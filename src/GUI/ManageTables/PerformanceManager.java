@@ -1,6 +1,7 @@
 package GUI.ManageTables;
 
 import Data.*;
+import GUI.GUI;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,20 +26,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class PerformanceManager {
+public class PerformanceManager extends DataManager {
 
     private Stage stage;
     private Scene scene;
     private BorderPane borderPane;
-    private FestivalDay festivalDay;
     private TableView tableView = new TableView<Podium>();
 
     private ObservableList<LocalTime> Times;
     private ObservableList<Integer> popularity;
 
-    public PerformanceManager(FestivalDay festivalDay) {
-
-        this.festivalDay = festivalDay;
+    public PerformanceManager(FestivalDay festivalDay, GUI parent) {
+        super(festivalDay, parent);
         this.scene = new Scene(this.borderPane = new BorderPane());
         this.stage = new Stage();
         HBox top = new HBox();
@@ -59,6 +58,16 @@ public class PerformanceManager {
         );
 
         InitializeScene();
+    }
+
+    @Override
+    public FestivalDay getFestivalDay(){
+        return super.getFestivalDay();
+    }
+
+    @Override
+    public GUI getParent(){
+        return super.getParent();
     }
 
     private void InitializeScene() {
@@ -92,7 +101,7 @@ public class PerformanceManager {
             performance.setStartTime(newTime);
 
             try {
-                this.festivalDay.getAgendaModule().save();
+                this.getFestivalDay().getAgendaModule().save();
             } catch (Exception x) {
                 x.printStackTrace();
             }
@@ -118,7 +127,7 @@ public class PerformanceManager {
             performance.setEndTime(endtime);
 
             try {
-                this.festivalDay.getAgendaModule().save();
+                this.getFestivalDay().getAgendaModule().save();
             } catch (Exception x) {
                 x.printStackTrace();
             }
@@ -147,7 +156,7 @@ public class PerformanceManager {
             performance.setPopularity(newPopularity);
 
             try {
-                this.festivalDay.getAgendaModule().save();
+                this.getFestivalDay().getAgendaModule().save();
             } catch (Exception x) {
                 x.printStackTrace();
             }
@@ -161,7 +170,7 @@ public class PerformanceManager {
             return new SimpleObjectProperty<String>(newPodium);
         });
         ArrayList<String> podiumNameList = new ArrayList<>();
-        for (Podium podium1 : this.festivalDay.getPodia()) {
+        for (Podium podium1 : this.getFestivalDay().getPodia()) {
             podiumNameList.add(podium1.getName());
         }
         podium.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(podiumNameList)));
@@ -174,10 +183,10 @@ public class PerformanceManager {
             int row = pos.getRow();
             Performance performance = event.getTableView().getItems().get(row);
 
-            performance.setPodium(this.festivalDay.getPodiumViaName(podium1));
+            performance.setPodium(this.getFestivalDay().getPodiumViaName(podium1));
 
             try {
-                this.festivalDay.getAgendaModule().save();
+                this.getFestivalDay().getAgendaModule().save();
             } catch (Exception x) {
                 x.printStackTrace();
             }
@@ -207,10 +216,10 @@ public class PerformanceManager {
                                 } else {
                                     button.setOnAction(event -> {
                                         Performance performance = getTableView().getItems().get(getIndex());
-                                        festivalDay.removePerformance(performance);
-                                        tableView.setItems(FXCollections.observableList(festivalDay.getPerformances()));
+                                        getFestivalDay().removePerformance(performance);
+                                        tableView.setItems(FXCollections.observableList(getFestivalDay().getPerformances()));
                                         try {
-                                            festivalDay.getAgendaModule().save();
+                                            getFestivalDay().getAgendaModule().save();
                                         } catch (Exception x) {
                                             x.printStackTrace();
                                         }
@@ -246,11 +255,11 @@ public class PerformanceManager {
                                 } else {
                                     button.setOnAction(event -> {
                                         Performance performance = getTableView().getItems().get(getIndex());
-                                        new ArtistList(performance, festivalDay);
+                                        new ArtistList(performance, getFestivalDay());
                                         System.out.println("Saved List: " + performance.getArtists().toString());
-                                        tableView.setItems(FXCollections.observableList(festivalDay.getPerformances()));
+                                        tableView.setItems(FXCollections.observableList(getFestivalDay().getPerformances()));
                                         try {
-                                            festivalDay.getAgendaModule().save();
+                                            getFestivalDay().getAgendaModule().save();
                                         } catch (Exception x) {
                                             x.printStackTrace();
                                         }
@@ -287,7 +296,7 @@ public class PerformanceManager {
 
         ComboBox<String> podiumField = new ComboBox<>();
         List<String> podiaNames = new ArrayList<>();
-        for (Podium podium1 : this.festivalDay.getPodia()) {
+        for (Podium podium1 : this.getFestivalDay().getPodia()) {
             podiaNames.add(podium1.getName());
         }
         podiumField.setItems(FXCollections.observableArrayList(podiaNames));
@@ -300,7 +309,7 @@ public class PerformanceManager {
 
         ComboBox<String> artistField = new ComboBox<>();
         List<String> artistNames = new ArrayList<>();
-        for (Artist artist1 : this.festivalDay.getArtists()) {
+        for (Artist artist1 : this.getFestivalDay().getArtists()) {
             artistNames.add(artist1.getName());
         }
         artistField.setItems(FXCollections.observableList(artistNames));
@@ -311,12 +320,12 @@ public class PerformanceManager {
 
             Performance newPerformance = new Performance(startTimeField.getSelectionModel().getSelectedItem(),
                     endTimeField.getSelectionModel().getSelectedItem(), popularityField.getSelectionModel().getSelectedIndex(),
-                    this.festivalDay, this.festivalDay.getPodiumViaName(podiumField.getSelectionModel().getSelectedItem()),
-                    this.festivalDay.getArtistViaName(artistField.getSelectionModel().getSelectedItem()));
-            this.festivalDay.addPerformance(newPerformance);
-            this.tableView.setItems(FXCollections.observableList(this.festivalDay.getPerformances()));
+                    this.getFestivalDay(), this.getFestivalDay().getPodiumViaName(podiumField.getSelectionModel().getSelectedItem()),
+                    this.getFestivalDay().getArtistViaName(artistField.getSelectionModel().getSelectedItem()));
+            this.getFestivalDay().addPerformance(newPerformance);
+            this.tableView.setItems(FXCollections.observableList(this.getFestivalDay().getPerformances()));
             try {
-                festivalDay.getAgendaModule().save();
+                getFestivalDay().getAgendaModule().save();
             } catch (Exception x) {
                 x.printStackTrace();
             }
@@ -329,7 +338,7 @@ public class PerformanceManager {
 
         this.tableView.getColumns().addAll(beginTime, endTime, populatiry, podium, artist, delete);
 
-        this.tableView.setItems(FXCollections.observableList(this.festivalDay.getPerformances()));
+        this.tableView.setItems(FXCollections.observableList(this.getFestivalDay().getPerformances()));
 
         this.borderPane.setBottom(bot);
 

@@ -101,13 +101,13 @@ public class GUI extends Application{
 
         MenuItem managePerformance = new MenuItem("Manage Performances");
         managePerformance.setOnAction((e)->{
-            new PerformanceManager(this.getFestivalDay());
+            new PerformanceManager(this.getFestivalDay(), this);
         });
         performanceMenu.getItems().add(managePerformance);
 
         MenuItem manageArtist = new MenuItem("Manage Artists");
         manageArtist.setOnAction((e)->{
-            new ArtistManager(this.getFestivalDay());
+            new ArtistManager(this.getFestivalDay(), this);
         });
         artistsMenu.getItems().add(manageArtist);
 
