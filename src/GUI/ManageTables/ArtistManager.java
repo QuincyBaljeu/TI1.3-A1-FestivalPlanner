@@ -79,11 +79,7 @@ public class ArtistManager extends DataManager {
 
             artist.setName(newName);
 
-            try {
-                this.getFestivalDay().getAgendaModule().save();
-            } catch (Exception x){
-                x.printStackTrace();
-            }
+			super.processChanges();
         });
         // genre
         ObservableList<Genre> genreList = FXCollections.observableArrayList(Genre.values());
@@ -111,11 +107,7 @@ public class ArtistManager extends DataManager {
 
             artist.setGenre(newGenre);
 
-            try {
-                this.getFestivalDay().getAgendaModule().save();
-            } catch (Exception x){
-                x.printStackTrace();
-            }
+			super.processChanges();
         });
 
 
@@ -137,11 +129,7 @@ public class ArtistManager extends DataManager {
 
             artist.setArtistType(newArtistType);
 
-            try {
-                this.getFestivalDay().getAgendaModule().save();
-            } catch (Exception x){
-                x.printStackTrace();
-            }
+			super.processChanges();
         });
 
         countryOfOrigin.setCellValueFactory(new PropertyValueFactory<>("country"));
@@ -157,11 +145,7 @@ public class ArtistManager extends DataManager {
 
             artist.setCountry(newCountry);
 
-            try {
-                this.getFestivalDay().getAgendaModule().save();
-            } catch (Exception x){
-                x.printStackTrace();
-            }
+			super.processChanges();
         });
 
         extraInfo.setCellValueFactory(new PropertyValueFactory<>("extraInformation"));
@@ -177,11 +161,7 @@ public class ArtistManager extends DataManager {
 
             artist.setExtraInformation(newInfo);
 
-            try {
-                this.getFestivalDay().getAgendaModule().save();
-            } catch (Exception x){
-                x.printStackTrace();
-            }
+			super.processChanges();
         });
 
 
@@ -208,11 +188,8 @@ public class ArtistManager extends DataManager {
                                         Artist artist = getTableView().getItems().get(getIndex());
                                         FileChooser fileChooser = new FileChooser();
                                         artist.setFilePathProfilePicture(fileChooser.showOpenDialog(new Stage()).getPath());
-                                        try {
-                                            getFestivalDay().getAgendaModule().save();
-                                        } catch (Exception x){
-                                            x.printStackTrace();
-                                        }
+
+										processChanges();
                                     });
                                     setGraphic(button);
                                     setText(null);
@@ -249,11 +226,8 @@ public class ArtistManager extends DataManager {
                                         Artist artist = getTableView().getItems().get(getIndex());
                                         getFestivalDay().removeArtist(artist);
                                         tableView.setItems(FXCollections.observableList(getFestivalDay().getArtists()));
-                                        try {
-                                            getFestivalDay().getAgendaModule().save();
-                                        } catch (Exception x){
-                                            x.printStackTrace();
-                                        }
+
+										processChanges();
                                     });
                                     setGraphic(button);
                                     setText(null);
@@ -311,12 +285,8 @@ public class ArtistManager extends DataManager {
                 genreField.getSelectionModel().clearSelection();
                 artistTypeField.clear();
                 countryField.clear();
-                try {
-                    getFestivalDay().getAgendaModule().save();
-                } catch (Exception x){
-                    x.printStackTrace();
-                }
 
+				super.processChanges();
             } else {
                 System.out.println("Not all Fields have been filled");
             }

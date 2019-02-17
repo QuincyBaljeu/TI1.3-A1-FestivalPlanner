@@ -100,11 +100,7 @@ public class PerformanceManager extends DataManager {
 
             performance.setStartTime(newTime);
 
-            try {
-                this.getFestivalDay().getAgendaModule().save();
-            } catch (Exception x) {
-                x.printStackTrace();
-            }
+            super.processChanges();
         });
 
         endTime.setCellValueFactory(param -> {
@@ -126,11 +122,7 @@ public class PerformanceManager extends DataManager {
 
             performance.setEndTime(endtime);
 
-            try {
-                this.getFestivalDay().getAgendaModule().save();
-            } catch (Exception x) {
-                x.printStackTrace();
-            }
+			super.processChanges();
         });
 
         // End Time
@@ -155,11 +147,7 @@ public class PerformanceManager extends DataManager {
 
             performance.setPopularity(newPopularity);
 
-            try {
-                this.getFestivalDay().getAgendaModule().save();
-            } catch (Exception x) {
-                x.printStackTrace();
-            }
+			super.processChanges();
         });
         //end Popularity
         //start Podium
@@ -185,11 +173,7 @@ public class PerformanceManager extends DataManager {
 
             performance.setPodium(this.getFestivalDay().getPodiumViaName(podium1));
 
-            try {
-                this.getFestivalDay().getAgendaModule().save();
-            } catch (Exception x) {
-                x.printStackTrace();
-            }
+			super.processChanges();
         });
 
         //end Podium
@@ -218,11 +202,8 @@ public class PerformanceManager extends DataManager {
                                         Performance performance = getTableView().getItems().get(getIndex());
                                         getFestivalDay().removePerformance(performance);
                                         tableView.setItems(FXCollections.observableList(getFestivalDay().getPerformances()));
-                                        try {
-                                            getFestivalDay().getAgendaModule().save();
-                                        } catch (Exception x) {
-                                            x.printStackTrace();
-                                        }
+
+										processChanges();
                                     });
                                     setGraphic(button);
                                     setText(null);
@@ -258,11 +239,8 @@ public class PerformanceManager extends DataManager {
                                         new ArtistList(performance, getFestivalDay());
                                         System.out.println("Saved List: " + performance.getArtists().toString());
                                         tableView.setItems(FXCollections.observableList(getFestivalDay().getPerformances()));
-                                        try {
-                                            getFestivalDay().getAgendaModule().save();
-                                        } catch (Exception x) {
-                                            x.printStackTrace();
-                                        }
+
+										processChanges();
                                     });
                                     setGraphic(button);
                                     setText(null);
@@ -324,11 +302,8 @@ public class PerformanceManager extends DataManager {
                     this.getFestivalDay().getArtistViaName(artistField.getSelectionModel().getSelectedItem()));
             this.getFestivalDay().addPerformance(newPerformance);
             this.tableView.setItems(FXCollections.observableList(this.getFestivalDay().getPerformances()));
-            try {
-                getFestivalDay().getAgendaModule().save();
-            } catch (Exception x) {
-                x.printStackTrace();
-            }
+
+			super.processChanges();
         });
 
         bot.setSpacing(10);
