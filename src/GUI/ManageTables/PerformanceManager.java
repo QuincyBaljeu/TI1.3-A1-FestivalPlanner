@@ -6,15 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -65,6 +64,7 @@ public class PerformanceManager {
         TableColumn<Performance, Integer> populatiry = new TableColumn("popularity");
         TableColumn<Performance, String> podium = new TableColumn("podium");
         TableColumn<Performance, String> artist = new TableColumn<>("artists");
+        TableColumn<Performance, Boolean> delete = new TableColumn<>("Delete");
 
 
 // Begin Time
@@ -180,9 +180,90 @@ public class PerformanceManager {
         });
 
         //end Podium
+
+        // begin delete
+
+        delete.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+        Callback<TableColumn<Performance, Boolean>, TableCell<Performance, Boolean>> cellFactorydel
+                =
+                new Callback<TableColumn<Performance, Boolean>, TableCell<Performance, Boolean>>() {
+                    @Override
+                    public TableCell call(final TableColumn<Performance, Boolean> param) {
+                        final TableCell<Performance, Boolean> cell = new TableCell<Performance, Boolean>() {
+
+                            final Button button = new Button("Del");
+
+                            @Override
+                            public void updateItem(Boolean item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    button.setOnAction(event -> {
+                                        Performance performance = getTableView().getItems().get(getIndex());
+                                        festivalDay.removePerformance(performance);
+                                        tableView.setItems(FXCollections.observableList(festivalDay.getPerformances()));
+                                        try {
+                                            festivalDay.getAgendaModule().save();
+                                        } catch (Exception x){
+                                            x.printStackTrace();
+                                        }
+                                    });
+                                    setGraphic(button);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+        delete.setCellFactory(cellFactorydel);
         //begin Artists
+        artist.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+        Callback<TableColumn<Performance, String>, TableCell<Performance, String>> cellFactory
+                =
+                new Callback<TableColumn<Performance, String>, TableCell<Performance, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<Performance, String> param) {
+                        final TableCell<Performance, String> cell = new TableCell<Performance, String>() {
+
+                            final Button button = new Button("Select");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    button.setOnAction(event -> {
+                                        Performance performance = getTableView().getItems().get(getIndex());
+                                        ArtistList artistList = new ArtistList(performance, festivalDay);
 
 
+
+                                        System.out.println("Saved List: " + performance.getArtists().toString());
+                                        tableView.setItems(FXCollections.observableList(festivalDay.getPerformances()));
+                                        try {
+                                            festivalDay.getAgendaModule().save();
+                                        } catch (Exception x){
+                                            x.printStackTrace();
+                                        }
+                                    });
+                                    setGraphic(button);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+        artist.setCellFactory(cellFactory);
         //
 
 
