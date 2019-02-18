@@ -83,7 +83,7 @@ public class GUI extends Application{
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         // Use the menu as a set of buttons
-        Menu stagesMenu = new Menu("Manage Stages");
+        Menu stagesMenu = new Menu("Manage Podia");
         Menu performanceMenu = new Menu("Manage Performances");
         Menu artistsMenu = new Menu("Manage Artists");
 
