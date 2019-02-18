@@ -3,7 +3,9 @@ package Data;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FestivalDay implements Serializable {
 
@@ -90,6 +92,41 @@ public class FestivalDay implements Serializable {
         } else {
             System.out.println("Podium does not exist in FestivalDay's list!");
         }
+    }
+
+    public String performancePerStage(List<Performance> performances){
+        HashMap<Integer, Performance> hMap = new HashMap<>();
+        int hMapI = -2;
+        int lastKey = -2;
+        String latestStage = "";
+        String toPrint = "";
+        for (int i = 0; i < performances.size() ; i++) {
+            if(performances.get(i).getPodium().getName().equals(latestStage)){
+                hMapI++;
+                hMap.put(hMapI, performances.get(i));
+            } else {
+                latestStage = performances.get(i).getPodium().getName();
+                hMapI += 2;
+                hMap.put(hMapI, performances.get(i));
+            }
+        }
+        for (Map.Entry<Integer, Performance> entry : hMap.entrySet()) {
+            if (entry.getKey() - lastKey > 1){
+                toPrint += entry.getValue().getPodium().getName();
+                toPrint += "\n";
+            }
+            toPrint += entry.getValue().getStartTime();
+            toPrint += "\n";
+            toPrint += entry.getValue().getEndTime();
+            toPrint += "\n";
+            toPrint += entry.getValue().getPopularity();
+            toPrint += "\n";
+            toPrint += entry.getValue().getFestivalDay();
+            toPrint += "\n";
+            toPrint += "\n";
+            lastKey = entry.getKey();
+        }
+        return toPrint;
     }
 
     public LocalDate getDate() {

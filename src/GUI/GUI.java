@@ -1,6 +1,7 @@
 package GUI;
 
 import Data.FestivalDay;
+import Data.Performance;
 import Data.Podium;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -11,8 +12,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.beans.EventHandler;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class GUI extends Application{
 
@@ -30,19 +33,32 @@ public class GUI extends Application{
     public void start(Stage Stage) throws Exception {
 
         FestivalDay festivalDay = new FestivalDay(LocalDate.of(12,12,12));
+        Podium mainStage = new Podium("Mainstage", festivalDay);
+        Podium jupilerStage = new Podium("Jupilerstage", festivalDay);
+        Performance performance = new Performance(LocalDateTime.now(), LocalDateTime.now(), 5, festivalDay, mainStage);
+        Performance performance1 = new Performance(LocalDateTime.now(), LocalDateTime.now(), 7, festivalDay, mainStage);
+        Performance performance2 = new Performance(LocalDateTime.now(), LocalDateTime.now(), 7, festivalDay, jupilerStage);
+        ArrayList<Performance> performances = new ArrayList<>();
+        performances.add(performance);
+        performances.add(performance1);
+        performances.add(performance2);
+        festivalDay.addPodium(mainStage);
+        festivalDay.addPerformance(performance);
 
         //Panes
         BorderPane menuBorderPane = new BorderPane();
         BorderPane editBorderPane = new BorderPane();
         BorderPane viewBorderPane = new BorderPane();
+        BorderPane testBorderpane = new BorderPane();
         TabPane tabPane = new TabPane();
 
         //Menu tabs
         Tab Simulation = new Tab("Simulation");
         Tab View = new Tab("View mode");
         Tab Edit = new Tab("Edit mode");
+        Tab Test = new Tab("Test");
 
-        tabPane.getTabs().addAll(View,Simulation,Edit);
+        tabPane.getTabs().addAll(View,Simulation,Edit,Test);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         //
@@ -74,6 +90,10 @@ public class GUI extends Application{
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(performanceMenu,stagesMenu,artistsMenu);
 
+        TextArea textArea = new TextArea();
+        Button test = new Button("Test");
+        test.setOnAction(event -> textArea.setText(festivalDay.performancePerStage(performances)));
+
         //Implements array to tableview
         TableView<AgendaTable> edittable = new TableView<>();
         TableView<AgendaTable> viewtable = new TableView<>();
@@ -102,11 +122,16 @@ public class GUI extends Application{
         editBorderPane.setCenter(edittable);
         editBorderPane.setTop(menuBar);
         viewBorderPane.setTop(viewtable);
+        testBorderpane.setTop(test);
+        testBorderpane.setCenter(textArea);
         //Adds borderpane to tabpane
         Edit.setContent(editBorderPane);
         View.setContent(viewtable);
+        Test.setContent(testBorderpane);
         //Adds tabpane to final borderpane
         menuBorderPane.setCenter(tabPane);
+
+
 
         Stage.setTitle("Festival Planner");
         Stage.setWidth(500);
