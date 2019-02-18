@@ -18,6 +18,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import sun.misc.Perf;
+import sun.security.util.PermissionFactory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -303,7 +304,14 @@ public class PerformanceManager extends DataManager {
                     endTimeField.getSelectionModel().getSelectedItem(), popularityField.getSelectionModel().getSelectedIndex(),
                     this.getFestivalDay(), this.getFestivalDay().getPodiumViaName(podiumField.getSelectionModel().getSelectedItem()),
                     this.getFestivalDay().getArtistViaName(artistField.getSelectionModel().getSelectedItem()));
-            this.getFestivalDay().addPerformance(newPerformance);
+
+            if (checkAvailability(newPerformance) && chechArtistAvailible(newPerformance)) {
+                System.out.println("Added the thing");
+                this.getFestivalDay().addPerformance(newPerformance);
+            } else {
+                System.out.println("ur mum a gay");
+            }
+
             this.tableView.setItems(FXCollections.observableList(this.getFestivalDay().getPerformances()));
 
 			super.processChanges();
@@ -324,5 +332,35 @@ public class PerformanceManager extends DataManager {
         this.stage.setTitle("Performance List");
         this.stage.setScene(this.scene);
         this.stage.show();
+    }
+
+    private boolean checkAvailability(Performance performance){
+        for (Performance performanceOld : super.getFestivalDay().getPerformances()) {
+            if (performanceOld.getPodium().equals(performance.getPodium())) {
+                if (performanceOld.getStartTime() == performance.getStartTime()
+                        || (performance.getStartTime().isBefore(performanceOld.getEndTime()) && performance.getStartTime().isAfter(performanceOld.getStartTime()))
+                        || (performance.getEndTime().isBefore(performanceOld.getEndTime()) && performance.getEndTime().isAfter(performanceOld.getStartTime()))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean chechArtistAvailible(Performance performance) {
+        for (Performance performanceOld : super.getFestivalDay().getPerformances()) {
+            if (!performance.getPodium().equals(performanceOld.getPodium())) {
+                for (int i = 0; i < performanceOld.getArtists().size() ; i++) {
+                    if (performance.getArtists().contains(performanceOld.getArtists().get(i))){
+                        if (performanceOld.getStartTime() == performance.getStartTime()
+                                || (performance.getStartTime().isBefore(performanceOld.getEndTime()) && performance.getStartTime().isAfter(performanceOld.getStartTime()))
+                                || (performance.getEndTime().isBefore(performanceOld.getEndTime()) && performance.getEndTime().isAfter(performanceOld.getStartTime()))) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

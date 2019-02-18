@@ -13,11 +13,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -282,7 +284,13 @@ public class ArtistManager extends DataManager {
         add.setOnAction(e -> {
             if (!nameField.getCharacters().toString().isEmpty() && !genreField.getSelectionModel().isEmpty() && !artistTypeField.getCharacters().toString().isEmpty() && !tempFilePath.toString().isEmpty() && !countryField.getCharacters().toString().isEmpty()) {
                 Artist newArtist = new Artist(nameField.getCharacters().toString(), genreField.getSelectionModel().getSelectedItem(), this.getFestivalDay(), artistTypeField.getCharacters().toString(), tempFilePath.toString(), countryField.getCharacters().toString());
-                this.getFestivalDay().addArtist(newArtist);
+                if (!checkExistence(newArtist)) {
+                    super.getFestivalDay().addArtist(newArtist);
+                } else {
+                    System.out.println("Oh no's it already existst ;v;");
+                    launchPopup();
+                }
+
                 this.tableView.setItems(FXCollections.observableList(this.getFestivalDay().getArtists()));
                 nameField.clear();
                 genreField.getSelectionModel().clearSelection();
@@ -309,6 +317,34 @@ bot.setSpacing(10);
         this.stage.setTitle("Artist List");
         this.stage.setScene(this.scene);
         this.stage.show();
+    }
+
+    private boolean checkExistence(Artist newArtist) {
+        for (int i = 0; i < super.getFestivalDay().getArtists().size() ; i++) {
+            if (super.getFestivalDay().getArtists().get(i).getName().equals(newArtist.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void launchPopup() {
+        Stage popup = new Stage();
+        VBox vBox = new VBox();
+        Label label = new Label("An artist by this name already exists.");
+        Button button = new Button("OK");
+
+        button.setMinWidth(40);
+        button.setMinHeight(40);
+        button.setOnAction(event -> popup.close());
+        label.setFont(new Font("Arial", 40));
+        vBox.getChildren().addAll(label, button);
+        popup.setScene(new Scene(vBox));
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setSpacing(10);
+        popup.setTitle("ERROR Double name found");
+        popup.showAndWait();
+
     }
 
 

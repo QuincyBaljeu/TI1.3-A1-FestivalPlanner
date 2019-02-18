@@ -121,7 +121,11 @@ public class PodiumManager extends DataManager {
         add.setOnAction(e -> {
             if (!nameField.getCharacters().toString().isEmpty()) {
                 Podium newPodium = new Podium(nameField.getCharacters().toString(), super.getFestivalDay());
-                super.getFestivalDay().addPodium(newPodium);
+                if(!checkExistence(newPodium)){
+                    super.getFestivalDay().addPodium(newPodium);
+                } else {
+                    launchPopup();
+                }
                 this.tableView.setItems(FXCollections.observableList(super.getFestivalDay().getPodia()));
 
                 nameField.clear();
@@ -148,5 +152,31 @@ public class PodiumManager extends DataManager {
         this.stage.setTitle("Podium List");
         this.stage.setScene(this.scene);
         this.stage.show();
+    }
+    private boolean checkExistence(Podium podium) {
+        for (int i = 0; i < super.getFestivalDay().getArtists().size() ; i++) {
+            if (super.getFestivalDay().getPodia().get(i).getName().equals(podium.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+    private void launchPopup() {
+        Stage popup = new Stage();
+        VBox vBox = new VBox();
+        Label label = new Label("A podium by this name already exists.");
+        Button button = new Button("OK");
+
+        button.setMinWidth(40);
+        button.setMinHeight(40);
+        button.setOnAction(event -> popup.close());
+        label.setFont(new Font("Arial", 40));
+        vBox.getChildren().addAll(label, button);
+        popup.setScene(new Scene(vBox));
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setSpacing(10);
+        popup.setTitle("ERROR Double name found");
+        popup.showAndWait();
+
     }
 }

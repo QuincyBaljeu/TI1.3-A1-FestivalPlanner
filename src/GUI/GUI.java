@@ -28,14 +28,7 @@ import java.util.List;
  * Contains the main window of the graphical interface for the Application
  */
 public class GUI extends Application{
-    public ObservableList<String> Times =
-            FXCollections.observableArrayList(
-                    "12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00", "23:00", "24:00"
-            );
-    public ObservableList<String> Mainstage =
-            FXCollections.observableArrayList(
-                    "","","Brennan Heart","","Hardwell","Hardwell","Hardwell","Hardwell","","Da Tweekaz","Da Tweekaz","",""
-            );
+
     private AgendaModule agendaModule;
     private TableView<Performance> viewtable;
     private TableView<Performance> edittable;
@@ -139,6 +132,7 @@ public class GUI extends Application{
         stage.setWidth(500);
         stage.setHeight(500);
         Scene scene = new Scene(menuBorderPane);
+        stage.setMinWidth(1400);
         stage.setScene(scene);
         stage.show();
     }

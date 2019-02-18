@@ -3,6 +3,7 @@ package Data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Lucas, Jasper
@@ -49,6 +50,12 @@ public class Artist implements Serializable {
             }
         } else {
             System.out.println("Artist's performance list does not contain the given performance");
+        }
+    }
+
+    public void checkArtist(Artist artist){
+        if (festivalDay.getArtists().contains(artist.name)){
+            festivalDay.removeArtist(artist);
         }
     }
 
