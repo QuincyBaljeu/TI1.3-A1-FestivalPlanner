@@ -14,18 +14,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import sun.misc.Perf;
-import sun.security.util.PermissionFactory;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * The graphical user interface to manage performance instances in a FestivalDay Object
@@ -305,11 +299,14 @@ public class PerformanceManager extends DataManager {
                     this.getFestivalDay(), this.getFestivalDay().getPodiumViaName(podiumField.getSelectionModel().getSelectedItem()),
                     this.getFestivalDay().getArtistViaName(artistField.getSelectionModel().getSelectedItem()));
 
-            if (checkAvailability(newPerformance) && chechArtistAvailible(newPerformance)) {
+            if (checkStageAvailability(newPerformance) && checkArtistAvailability(newPerformance)) {
                 System.out.println("Added the thing");
                 this.getFestivalDay().addPerformance(newPerformance);
             } else {
                 System.out.println("ur mum a gay");
+                this.getFestivalDay().addPerformance(newPerformance);
+                this.getFestivalDay().removePerformance(newPerformance);
+                launchPopup();
             }
 
             this.tableView.setItems(FXCollections.observableList(this.getFestivalDay().getPerformances()));
@@ -334,20 +331,22 @@ public class PerformanceManager extends DataManager {
         this.stage.show();
     }
 
-    private boolean checkAvailability(Performance performance){
+    private boolean checkStageAvailability(Performance performance){
         for (Performance performanceOld : super.getFestivalDay().getPerformances()) {
-            if (performanceOld.getPodium().equals(performance.getPodium())) {
-                if (performanceOld.getStartTime() == performance.getStartTime()
-                        || (performance.getStartTime().isBefore(performanceOld.getEndTime()) && performance.getStartTime().isAfter(performanceOld.getStartTime()))
-                        || (performance.getEndTime().isBefore(performanceOld.getEndTime()) && performance.getEndTime().isAfter(performanceOld.getStartTime()))) {
-                    return false;
+            if (!performanceOld.equals(performance)){
+                if (performanceOld.getPodium().equals(performance.getPodium())) {
+                    if (performanceOld.getStartTime() == performance.getStartTime()
+                            || (performance.getStartTime().isBefore(performanceOld.getEndTime()) && performance.getStartTime().isAfter(performanceOld.getStartTime()))
+                            || (performance.getEndTime().isBefore(performanceOld.getEndTime()) && performance.getEndTime().isAfter(performanceOld.getStartTime()))) {
+                        return false;
+                    }
                 }
             }
         }
         return true;
     }
 
-    private boolean chechArtistAvailible(Performance performance) {
+    private boolean checkArtistAvailability(Performance performance) {
         for (Performance performanceOld : super.getFestivalDay().getPerformances()) {
             if (!performance.getPodium().equals(performanceOld.getPodium())) {
                 for (int i = 0; i < performanceOld.getArtists().size() ; i++) {
@@ -362,5 +361,23 @@ public class PerformanceManager extends DataManager {
             }
         }
         return true;
+    }
+    private void launchPopup() {
+        Stage popup = new Stage();
+        VBox vBox = new VBox();
+        Label label = new Label("The artist or the start time are conflicting");
+        Button button = new Button("OK");
+
+        button.setMinWidth(40);
+        button.setMinHeight(40);
+        button.setOnAction(event -> popup.close());
+        label.setFont(new Font("Arial", 40));
+        vBox.getChildren().addAll(label, button);
+        popup.setScene(new Scene(vBox));
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setSpacing(10);
+        popup.setTitle("ERROR Double name found");
+        popup.showAndWait();
+
     }
 }
