@@ -145,7 +145,7 @@ public class TileMap {
         this.width = width;
     }
 
-    class Layer {
+    public class Layer {
         private int[] data;
         private int height;
         private int id;
@@ -238,7 +238,7 @@ public class TileMap {
         }
     }
 
-    class TileSet {
+    public class TileSet {
         private int firstgid;
         private String source;
 
