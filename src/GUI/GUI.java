@@ -46,6 +46,8 @@ public class GUI extends Application{
     }
 
     private void loadAgendaModule(Stage stage){
+    	// ToDo: refactor into it's own class
+		// See: Data.Tiled.Test.FileDialogHelper
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Festival utility files (*.fu)", "*.fu");
         fileChooser.getExtensionFilters().add(extensionFilter);
