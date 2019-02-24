@@ -33,60 +33,116 @@ public class TileMap {
         );
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public void setInfinite(boolean infinite) {
-        this.infinite = infinite;
-    }
-
-    public void setNextlayerid(int nextlayerid) {
-        this.nextlayerid = nextlayerid;
-    }
-
-    public void setNextobjectid(int nextobjectid) {
-        this.nextobjectid = nextobjectid;
-    }
-
-    public void setOrientation(String orientation) {
-        this.orientation = orientation;
-    }
-
-    public void setRenderorder(String renderorder) {
-        this.renderorder = renderorder;
-    }
-
-    public void setTiledversion(String tiledversion) {
-        this.tiledversion = tiledversion;
-    }
-
-    public void setTileheight(int tileheight) {
-        this.tileheight = tileheight;
-    }
-
-    public void setTilewidth(int tilewidth) {
-        this.tilewidth = tilewidth;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setVersion(float verion) {
-        this.version = verion;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
+	public TileSet[] getTilesets() {
+		return tilesets;
+	}
 
     public void setTilesets(TileSet[] tilesets) {
         this.tilesets = tilesets;
     }
 
+	public Layer[] getLayers() {
+		return layers;
+	}
+
     public void setLayers(Layer[] layers) {
         this.layers = layers;
+    }
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+        this.height = height;
+    }
+
+	public boolean isInfinite() {
+		return infinite;
+	}
+
+    public void setInfinite(boolean infinite) {
+        this.infinite = infinite;
+    }
+
+	public int getNextlayerid() {
+		return nextlayerid;
+	}
+
+    public void setNextlayerid(int nextlayerid) {
+        this.nextlayerid = nextlayerid;
+    }
+
+	public int getNextobjectid() {
+		return nextobjectid;
+	}
+
+    public void setNextobjectid(int nextobjectid) {
+        this.nextobjectid = nextobjectid;
+    }
+
+	public String getOrientation() {
+		return orientation;
+	}
+
+    public void setOrientation(String orientation) {
+        this.orientation = orientation;
+    }
+
+	public String getRenderorder() {
+		return renderorder;
+	}
+
+    public void setRenderorder(String renderorder) {
+        this.renderorder = renderorder;
+    }
+
+	public String getTiledversion() {
+		return tiledversion;
+	}
+
+    public void setTiledversion(String tiledversion) {
+        this.tiledversion = tiledversion;
+    }
+
+	public int getTileheight() {
+		return tileheight;
+	}
+
+    public void setTileheight(int tileheight) {
+        this.tileheight = tileheight;
+    }
+
+	public int getTilewidth() {
+		return tilewidth;
+	}
+
+    public void setTilewidth(int tilewidth) {
+        this.tilewidth = tilewidth;
+    }
+
+	public String getType() {
+		return type;
+	}
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+	public float getVersion() {
+		return version;
+	}
+
+    public void setVersion(float verion) {
+        this.version = verion;
+    }
+
+	public int getWidth() {
+		return width;
+	}
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     class Layer {
