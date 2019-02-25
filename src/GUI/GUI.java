@@ -49,13 +49,13 @@ public class GUI extends Application{
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Festival utility files (*.fu)", "*.fu");
         fileChooser.getExtensionFilters().add(extensionFilter);
-        File storFile = fileChooser.showOpenDialog(stage);
-        if (storFile == null){
+        File storeFile = fileChooser.showOpenDialog(stage);
+        if (storeFile == null){
             this.agendaModule = TestingDataLib.getDummyAgendaModule(fileChooser.showSaveDialog(stage).getPath());
         }
         else {
             try {
-                this.agendaModule = (AgendaModule)AgendaModule.loadFromFile(storFile.getPath());
+                this.agendaModule = (AgendaModule)AgendaModule.loadFromFile(storeFile.getPath());
             }
             catch (Exception x){
                 x.printStackTrace();
@@ -140,7 +140,7 @@ public class GUI extends Application{
     private void addTableColumns(TableView table){
         for (int i = 12; i <= 24; i++){
             TableColumn<Performance, String> column = new TableColumn<Performance, String>( i + ":00");
-            // prevent the column from beeing resized by it's content
+            // prevent the column from being resized by it's content
             column.setMaxWidth(100);
             column.setMinWidth(100);
 
