@@ -5,7 +5,7 @@ import javax.json.JsonObject;
 import java.io.File;
 import java.io.FileInputStream;
 
-public class TileMap {
+public class TilemapInfo {
     private TileSet[] tilesets;
     private Layer[] layers;
     private int height;
@@ -20,7 +20,9 @@ public class TileMap {
     private String type;
     private float version;
     private int width;
-    public TileMap(String jsonFilePath) throws Exception {
+    private File tilemapFile;
+    public TilemapInfo(String jsonFilePath) throws Exception {
+        this.tilemapFile = new File(jsonFilePath);
         new JsonMapper().MapJson(
             Json.createReader(
                 new FileInputStream(
@@ -33,7 +35,11 @@ public class TileMap {
         );
     }
 
-	public TileSet[] getTilesets() {
+    public File getTilemapFile() {
+        return tilemapFile;
+    }
+
+    public TileSet[] getTilesets() {
 		return tilesets;
 	}
 

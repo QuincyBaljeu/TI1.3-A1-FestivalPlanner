@@ -1,9 +1,6 @@
 package Data.Tiled;
 
-import Data.Tiled.TileMap;
-
 import javax.json.*;
-import java.io.FileInputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -73,13 +70,13 @@ public class JsonMapper {
                 else {
                     // CreateInstance Werkt niet?
                     // Dan kan 't niet universeel :/
-                    if (arrayType.equals(TileMap.TileSet.class)){
+                    if (arrayType.equals(TilemapInfo.TileSet.class)){
                         JsonArray tileArray = root.getJsonArray(
                             field.getName()
                         );
-                        TileMap.TileSet[] tileSets = new TileMap.TileSet[tileArray.size()];
+                        TilemapInfo.TileSet[] tileSets = new TilemapInfo.TileSet[tileArray.size()];
                         for (int i = 0; i < tileArray.size(); i++){
-                            TileMap.TileSet tileSet = ((TileMap)target).new TileSet();
+                            TilemapInfo.TileSet tileSet = ((TilemapInfo)target).new TileSet();
                             this.MapJson(
                                 tileArray.getJsonObject(i),
                                 tileSet
@@ -92,14 +89,14 @@ public class JsonMapper {
                             tileSets
                         );
                     }
-                    else if (arrayType.equals(TileMap.Layer.class)){
-                        if (arrayType.equals(TileMap.Layer.class)){
+                    else if (arrayType.equals(TilemapInfo.Layer.class)){
+                        if (arrayType.equals(TilemapInfo.Layer.class)){
                             JsonArray layerArray = root.getJsonArray(
                                 field.getName()
                             );
-                            TileMap.Layer[] layers = new TileMap.Layer[layerArray.size()];
+                            TilemapInfo.Layer[] layers = new TilemapInfo.Layer[layerArray.size()];
                             for (int i = 0; i < layerArray.size(); i++){
-                                TileMap.Layer layer = ((TileMap)target).new Layer();
+                                TilemapInfo.Layer layer = ((TilemapInfo)target).new Layer();
                                 this.MapJson(
                                     layerArray.getJsonObject(i),
                                     layer

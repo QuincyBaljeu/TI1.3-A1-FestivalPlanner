@@ -23,7 +23,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"mountains.json"
+         "source":"mountain_landscape_info.json"
         }],
  "tilewidth":32,
  "type":"map",
