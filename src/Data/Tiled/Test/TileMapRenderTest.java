@@ -24,7 +24,7 @@ public class TileMapRenderTest extends Application {
 
 	private int[] data;
 	private Tilemap map;
-	private Layer layer;
+	private Layer[] layers;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -33,9 +33,7 @@ public class TileMapRenderTest extends Application {
 		);
 
 		this.map = new Tilemap(mapInfo);
-		int[] layerdata = this.map.getTilemapInfo().getLayers()[0].getData();
-
-		layer = new Layer(layerdata, this.map, new Point2D(0,0), 100, 100);
+		layers = this.map.getLayers();
 
 		BorderPane mainPane = new BorderPane();
 		ResizableCanvas canvas = new ResizableCanvas(g -> draw(g), mainPane);
@@ -47,6 +45,8 @@ public class TileMapRenderTest extends Application {
 	}
 
 	public void draw(FXGraphics2D g) {
-		layer.draw(g);
+		for(Layer layer : layers){
+			layer.draw(g);
+		}
 	}
 }

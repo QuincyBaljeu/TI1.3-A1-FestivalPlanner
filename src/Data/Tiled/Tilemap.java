@@ -1,5 +1,7 @@
 package Data.Tiled;
 
+import javafx.geometry.Point2D;
+
 import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -51,5 +53,22 @@ public class Tilemap {
 
     public TilemapInfo getTilemapInfo() {
         return tilemapInfo;
+    }
+
+    public Layer[] getLayers(){
+        Layer[] layers = new Layer[this.getTilemapInfo().getLayers().length];
+        TilemapInfo.Layer[] layers1 = this.getTilemapInfo().getLayers();
+        for (int i = 0; i < layers1.length; i++) {
+            TilemapInfo.Layer layerInfo = layers1[i];
+            Layer layer = new Layer(
+                layerInfo.getData(),
+                this,
+                new Point2D(layerInfo.getX(), layerInfo.getY()),
+                layerInfo.getHeight(),
+                layerInfo.getWidth()
+            );
+            layers[i] = layer;
+        }
+        return layers;
     }
 }
