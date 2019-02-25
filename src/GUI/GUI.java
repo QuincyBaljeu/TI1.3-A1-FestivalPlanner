@@ -118,6 +118,20 @@ public class GUI extends Application{
         this.addTableColumns(viewtable);
         this.addTableColumns(edittable);
 
+        //Edit mode table content
+        edittable.setItems(getAgendaTable());
+        edittable.getColumns().add(Time);
+        for (Podium podium : festivalDay.getPodia()){
+            edittable.getColumns().add(new TableColumn(podium.getName()));
+        }
+
+        //View mode table content
+        viewtable.setItems(getAgendaTable());
+        viewtable.getColumns().add(Time);
+        for(Podium podium : festivalDay.getPodia()){
+            viewtable.getColumns().add(new TableColumn(podium.getName()));
+        }
+
         //Adds table to borderpane
         editBorderPane.setCenter(edittable);
         editBorderPane.setTop(menuBar);
