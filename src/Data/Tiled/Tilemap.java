@@ -49,11 +49,7 @@ public class Tilemap {
         return this.tiles[gid];
     }
 
-    public int getVerticalTileCount(){
-        return this.tilemapInfo.getHeight();
-    }
-
-    public int getHorizontalTileCount(){
-        return this.tilemapInfo.getWidth();
+    public TilemapInfo getTilemapInfo() {
+        return tilemapInfo;
     }
 }
