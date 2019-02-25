@@ -154,8 +154,8 @@ public class PodiumManager extends DataManager {
         this.stage.show();
     }
     private boolean checkExistence(Podium podium) {
-        for (int i = 0; i < super.getFestivalDay().getArtists().size() ; i++) {
-            if (super.getFestivalDay().getPodia().get(i).getName().equals(podium.getName())){
+        for (Podium oldPodium : super.getFestivalDay().getPodia()) {
+            if (oldPodium.getName().equals(podium.getName())){
                 return true;
             }
         }
