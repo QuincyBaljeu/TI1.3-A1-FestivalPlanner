@@ -19,9 +19,11 @@ public class Tilemap {
     public Tilemap(TilemapInfo tilemapInfo) throws Exception {
         this.tilemapInfo = tilemapInfo;
         ArrayList<Tileset> tileSets = new ArrayList<>();
+
         for (TilemapInfo.TileSet tileSet : tilemapInfo.getTilesets()){
             tileSets.add(new Tileset(tileSet, tilemapInfo));
         }
+
         int tileCount = 0;
         for (Tileset tileset : tileSets){
             if (tileCount < tileset.getLastGuid()){
