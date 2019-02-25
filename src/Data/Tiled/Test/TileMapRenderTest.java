@@ -1,8 +1,10 @@
 package Data.Tiled.Test;
 
+import Data.Tiled.Layer;
 import Data.Tiled.Tilemap;
 import Data.Tiled.TilemapInfo;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.BorderPane;
@@ -22,6 +24,7 @@ public class TileMapRenderTest extends Application {
 
 	private int[] data;
 	private Tilemap map;
+	private Layer layer;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -30,9 +33,9 @@ public class TileMapRenderTest extends Application {
 		);
 
 		this.map = new Tilemap(mapInfo);
+		int[] layerdata = this.map.getTilemapInfo().getLayers()[0].getData();
 
-		TilemapInfo.Layer[] layers = mapInfo.getLayers();
-		this.data = layers[0].getData();
+		layer = new Layer(layerdata, this.map, new Point2D(0,0), 100, 100);
 
 		BorderPane mainPane = new BorderPane();
 		ResizableCanvas canvas = new ResizableCanvas(g -> draw(g), mainPane);
@@ -44,15 +47,6 @@ public class TileMapRenderTest extends Application {
 	}
 
 	public void draw(FXGraphics2D g) {
-		for (int i = 0; i < this.data.length; i++){
-			BufferedImage tile = this.map.getTile(this.data[i]);
-			AffineTransform af = new AffineTransform();
-			af.translate(i*10, i*10);
-			g.drawImage(
-				tile,
-				af,
-				null
-			);
-		}
+		layer.draw(g);
 	}
 }
