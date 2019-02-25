@@ -3,6 +3,7 @@
     <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="Main" />
+    <module name="TI1.3-A1-FestivalPlanner" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

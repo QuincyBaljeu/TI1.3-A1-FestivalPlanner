@@ -2,6 +2,7 @@ package Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,29 +12,30 @@ import java.util.List;
 public class Performance implements Serializable {
 
     private List<Artist> artists;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private int popularity;
     private Podium podium;
     private FestivalDay festivalDay;
 
-    public Performance(LocalDateTime startTime, LocalDateTime endTime, int popularity, FestivalDay festivalDay, Podium podium, Artist ... artists) {
+    public Performance(LocalTime startTime, LocalTime endTime, int popularity, FestivalDay festivalDay, Podium podium, Artist ... artists) {
+        this.festivalDay = festivalDay;
         this.startTime = startTime;
         this.endTime = endTime;
         this.popularity = popularity;
         this.podium = podium;
         this.artists = new ArrayList<>();
-        this.podium.addPerformance(this);
         for (Artist artist : artists){
-            this.artists.add(artist);
+            this.addArtist(artist);
             artist.addPerformance(this);
         }
-        this.festivalDay = festivalDay;
+        this.podium.addPerformance(this);
     }
 
     public void addArtist(Artist artist) {
         this.artists.add(artist);
         artist.addPerformance(this);
+        this.festivalDay.addArtist(artist);
     }
 
     public void removeArtist(Artist artist) {
@@ -63,19 +65,19 @@ public class Performance implements Serializable {
         this.artists = artists;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 
