@@ -1,0 +1,72 @@
+{ "columns":64,
+ "image":"..\/..\/Downloads\/LPC Submissions\/Terrain and Outside.png",
+ "imageheight":1024,
+ "imagewidth":1024,
+ "margin":0,
+ "name":"Terrain and Outside",
+ "spacing":0,
+ "terrains":[
+        {
+         "name":"New Terrain",
+         "tile":0
+        }],
+ "tilecount":4096,
+ "tiledversion":"1.2.2",
+ "tileheight":16,
+ "tiles":[
+        {
+         "id":73,
+         "terrain":[0, 0, 0, -1]
+        }, 
+        {
+         "id":74,
+         "terrain":[0, 0, -1, 0]
+        }, 
+        {
+         "id":137,
+         "terrain":[0, -1, 0, 0]
+        }, 
+        {
+         "id":138,
+         "terrain":[-1, 0, 0, 0]
+        }, 
+        {
+         "id":262,
+         "terrain":[-1, -1, -1, 0]
+        }, 
+        {
+         "id":264,
+         "terrain":[-1, -1, 0, 0]
+        }, 
+        {
+         "id":267,
+         "terrain":[-1, -1, 0, -1]
+        }, 
+        {
+         "id":398,
+         "terrain":[0, 0, 0, 0]
+        }, 
+        {
+         "id":454,
+         "terrain":[-1, 0, -1, 0]
+        }, 
+        {
+         "id":459,
+         "terrain":[0, -1, 0, -1]
+        }, 
+        {
+         "id":582,
+         "terrain":[-1, 0, -1, -1]
+        }, 
+        {
+         "id":584,
+         "terrain":[0, 0, -1, -1]
+        }, 
+        {
+         "id":587,
+         "terrain":[0, -1, -1, -1]
+        }],
+ "tilewidth":16,
+ "type":"tileset",
+ "version":1.2
+}
