@@ -96,6 +96,7 @@ public class Map {
 
 
     private void drawLayer(Layer layer, Graphics2D graphics) {
+        graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT, layer.getOpacity()));
         JsonArray data = layer.getData();
 
         for (int i = 0; i < data.size(); i++) {

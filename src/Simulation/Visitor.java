@@ -82,6 +82,9 @@ public class Visitor {
     }
 
     private void setNewPosition(ArrayList<Visitor> visitors, Map map) {
+
+
+
         Point2D newPosition = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle),
                 this.position.getY() + this.speed * Math.sin(this.angle));
 
