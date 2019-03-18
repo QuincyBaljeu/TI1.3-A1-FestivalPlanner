@@ -34,7 +34,7 @@ public class Simulation {
 
 //                InputStream jsonMap = new FileInputStream("D:\\Avans TI\\Proftaken\\Festival Planner\\Simulation.Map Laden\\Tiled\\Festival_3_11_2019.json");
 
-                InputStream jsonMap = new FileInputStream( path + "\\rec\\Tiled\\untitled.json");
+                InputStream jsonMap = new FileInputStream( path + "\\res\\Tiled\\untitled.json");
 
                 JsonReader jsonReader = Json.createReader(jsonMap)
         ) {
@@ -61,7 +61,7 @@ public class Simulation {
 
         visitors = new ArrayList<>();
 
-        while(visitors.size() < 40) {
+        while(visitors.size() < 1) {
             double x = Math.random()*1920;
             double y = Math.random()*1080;
             boolean hasCollision = false;

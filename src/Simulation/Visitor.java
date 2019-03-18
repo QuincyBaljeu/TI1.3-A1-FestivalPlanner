@@ -24,9 +24,9 @@ public class Visitor {
     public Visitor(Point2D position) {
         this.position = position;
         this.angle = 0;
-        this.speed = 2;
+        this.speed = 1;
         try {
-            String link = Main.path + "\\rec\\IMG\\Visitor.png";
+            String link = Main.path + "\\res\\IMG\\Visitor.png";
             BufferedImage image = ImageIO.read(new File(link));
             tiles = new BufferedImage[24];
             //knip de afbeelding op in 24 stukjes van 32x32 pixels.
@@ -82,17 +82,17 @@ public class Visitor {
     }
 
     private void setNewPosition(ArrayList<Visitor> visitors, Map map) {
-
-
-
         Point2D newPosition = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle),
                 this.position.getY() + this.speed * Math.sin(this.angle));
 
         boolean hasCollision = false;
         for (Visitor visitor : visitors) {
-            if (visitor != this && visitor.hasCollision(newPosition) || map.hasCollision(visitor)) {
+            if (visitor != this && visitor.hasCollision(newPosition)) {
                 hasCollision = true;
-                break;
+            }
+            if (map.hasCollision(this)) {
+//                this.angle += 0.5;
+                System.out.println("diberdy dab");
             }
         }
 
@@ -120,7 +120,6 @@ public class Visitor {
 
         else if (angleDiff > 0.1)
             this.angle += 0.1;
-
         else
             this.angle = targetAngle;
     }

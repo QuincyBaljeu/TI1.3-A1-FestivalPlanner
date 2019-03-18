@@ -63,41 +63,67 @@ public class Map {
 
     public boolean hasCollision(Visitor visitor) {
         Point2D currentLocation = visitor.getPosition();
-        Layer boundryLayer =  layers.get(layers.size()-1);
+        Layer boundaryLayer = layers.get(layers.size() - 1);
         int tileWidth = tileSets.get(0).getWidth();
         int tileHeight = tileSets.get(0).getHeight();
-        //System.out.println(boundryLayer.getData().size());
-        for (int x = 0; x < width-1; x++) {
-            for (int y = 0; y < height-1; y++) {
-                int currColision = boundryLayer.getData().getJsonNumber(x*width+y).intValue();
-                //if (currColision != 0)
-                //    System.out.println("col: " + currColision);
-                if (currColision == 441) {
-                    //System.out.println("Possible col");
-                    if (
-                        (visitor.getPosition().getX()>= x && visitor.getPosition().getX() <= x + tileWidth)
-                        &&
-                        (visitor.getPosition().getY()>= y && visitor.getPosition().getY() <= y + tileHeight)
-                    ){
-                        return true;
+
+
+        for (int i = 0; i < boundaryLayer.getData().size(); i++) {
+            if (boundaryLayer.getData().getInt(i) != 0) {
+                int currColision = boundaryLayer.getData().getJsonNumber(i).intValue();
+                if (currColision != 0) {
+                    if (currColision == 441) {
+//                        System.out.println("Possible col");
+                        if ((currentLocation.getX() >= (tileWidth * (i % width)) && currentLocation.getX() <= (tileWidth * (i % width)) +tileWidth)
+                                &&
+                                (currentLocation.getY() >= tileHeight * (i / width) && currentLocation.getY() <= tileHeight * (i / width) + tileHeight)
+                        ) {
+                            System.out.println("return true " +
+                                    currColision);
+                            return true;
+                        }
                     }
-                    /*
-                    Area area = new Area(new Rectangle2D.Double(x* tileSets.get(0).getWidth(), y*tileSets.get(0).getHeight(), tileSets.get(0).getWidth(), tileSets.get(0).getHeight()));
-                    if (area.contains(currentLocation)) {
-                        //System.out.println("Simulation.Visitor " + visitor.getPosition() + " has collision with: " + area);
-                        return true;
-                    }
-                    */
                 }
             }
+
+
+//        for (int x = 0; x < width-1; x++) {
+//            for (int y = 0; y < height-1; y++) {
+//                int currColision = boundaryLayer.getData().getJsonNumber(x*width+y).intValue();
+//                if (currColision != 0) {
+//                    if (currColision == 441) {
+////                        System.out.println("Possible col");
+//                        if ((currentLocation.getX()>= x * tileWidth && currentLocation.getX() <= x *  + tileWidth)
+//                                &&
+//                                (currentLocation.getY()>= y && currentLocation.getY() <= y + tileHeight)
+//                        ){
+//                            System.out.println("return true " +
+//                                    currColision);
+//                            return true;
+//                        }
+//                }
+//
+//
+////                    Area area = new Area(new Rectangle2D.Double(x* tileSets.get(0).getWidth(), y*tileSets.get(0).getHeight(), tileSets.get(0).getWidth(), tileSets.get(0).getHeight()));
+////                    if (area.contains(currentLocation)) {
+////                        //System.out.println("Simulation.Visitor " + visitor.getPosition() + " has collision with: " + area);
+////                        return true;
+////                    }
+////
+//                }
+//            }
+//        }
         }
         return false;
     }
 
 
     private void drawLayer(Layer layer, Graphics2D graphics) {
-        graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT, layer.getOpacity()));
+//        graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT, layer.getOpacity()));
         JsonArray data = layer.getData();
+
+
+
 
         for (int i = 0; i < data.size(); i++) {
             BufferedImage tile = null;

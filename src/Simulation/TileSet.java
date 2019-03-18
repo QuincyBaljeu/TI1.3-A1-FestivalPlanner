@@ -36,9 +36,10 @@ public class TileSet {
         this.width = width;
         this.firstGrid = jsonTileSet.getInt("firstgid") -1;
         try {
-            InputStream tileSetFile = new FileInputStream(Main.path + "\\rec\\Tiled\\" + jsonTileSet.getString("source"));
+            InputStream tileSetFile = new FileInputStream(Main.path + "\\res\\Tiled\\" + jsonTileSet.getString("source"));
             JsonReader tileSetReader = Json.createReader(tileSetFile);
             String link = Main.path + tileSetReader.readObject().getString("image");
+            System.out.println(link);
             this.sprite = ImageIO.read(new File(link));
             System.out.println(this.sprite.toString());
 
