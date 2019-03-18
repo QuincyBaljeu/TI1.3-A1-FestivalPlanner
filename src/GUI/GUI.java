@@ -5,6 +5,7 @@ import Data.*;
 import GUI.ManageTables.ArtistManager;
 import GUI.ManageTables.PerformanceManager;
 import GUI.ManageTables.PodiumManager;
+import Simulation.Simulation;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableStringValue;
@@ -77,12 +78,12 @@ public class GUI extends Application{
         TabPane tabPane = new TabPane();
 
         //Menu tabs
-        Tab Simulation = new Tab("Simulation");
+        Tab simulation = new Tab("Simulation");
         Tab View = new Tab("View mode");
         Tab Edit = new Tab("Edit mode");
         Tab Test = new Tab("Test");
 
-        tabPane.getTabs().addAll(View,Simulation,Edit,Test);
+        tabPane.getTabs().addAll(View,simulation,Edit,Test);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         // Use the menu as a set of buttons
@@ -132,6 +133,8 @@ public class GUI extends Application{
         testBorderpane.setTop(test);
         testBorderpane.setCenter(textArea);
         //Adds borderpane to tabpane
+        Simulation simulationClass = new Simulation();
+        simulation.setContent(simulationClass.getMainPane());
         Edit.setContent(editBorderPane);
         View.setContent(viewtable);
         Test.setContent(testBorderpane);

@@ -1,12 +1,12 @@
 package Simulation;
 
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.ResizableCanvas;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -19,10 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import org.jfree.fx.FXGraphics2D;
-import org.jfree.fx.ResizableCanvas;
-
-public class Main extends Application {
+public class Simulation {
 
     private Map map;
     private ResizableCanvas canvas;
@@ -30,15 +27,9 @@ public class Main extends Application {
 
     private BorderPane mainPane;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     public static final String path = System.getProperty("user.dir");
 
-    @Override
-    public void start(Stage stage) throws Exception {
-
+    public Simulation() {
         try (
 
 //                InputStream jsonMap = new FileInputStream("D:\\Avans TI\\Proftaken\\Festival Planner\\Simulation.Map Laden\\Tiled\\Festival_3_11_2019.json");
@@ -64,6 +55,7 @@ public class Main extends Application {
         mainPane.setTop(top);
         this.canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
+
         Scene scene = new Scene(mainPane);
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
 
@@ -100,9 +92,6 @@ public class Main extends Application {
                 visitor.setTarget(new Point2D.Double(e.getX(), e.getY()));
         });
 
-        stage.setScene(scene);
-        stage.setTitle("JsonMap");
-        stage.show();
         draw(g2d);
     }
 
@@ -118,5 +107,9 @@ public class Main extends Application {
 
         for(Visitor visitor : visitors)
             visitor.draw(graphics);
+    }
+
+    public BorderPane getMainPane() {
+        return mainPane;
     }
 }
