@@ -9,6 +9,22 @@ public class ObjectGroup implements Layer {
 	private double opacity;
 	private boolean visible;
 	private TiledObject[] objects;
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public double getOpacity() {
+		return opacity;
+	}
+
+	@Override
+	public boolean isVisible() {
+		return visible;
+	}
+
 	public ObjectGroup(JsonObject jsonSource){
 		this.name = jsonSource.getString("name");
 		this.opacity = jsonSource.getJsonNumber("opacity").doubleValue();
