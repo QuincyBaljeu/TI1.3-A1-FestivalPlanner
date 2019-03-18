@@ -113,7 +113,7 @@ public class GUI extends Application{
 
         TextArea textArea = new TextArea();
         Button test = new Button("Test");
-        test.setOnAction(event -> textArea.setText(festivalDay.performancePerStage(performances)));
+//        test.setOnAction(event -> textArea.setText(festivalDay.performancePerStage(performances)));
 
         //Implements array to tableview
         this.edittable = new TableView<>();
