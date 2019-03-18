@@ -7,6 +7,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.ResizableCanvas;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -19,36 +21,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import org.jfree.fx.FXGraphics2D;
-import org.jfree.fx.ResizableCanvas;
-
 public class Main extends Application {
 
+    public static final String path = System.getProperty("user.dir");
     private Map map;
     private ResizableCanvas canvas;
     private ArrayList<Visitor> visitors;
-
     private BorderPane mainPane;
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public static final String path = System.getProperty("user.dir");
-
     @Override
     public void start(Stage stage) throws Exception {
 
         try (
-
-//                InputStream jsonMap = new FileInputStream("D:\\Avans TI\\Proftaken\\Festival Planner\\Simulation.Map Laden\\Tiled\\Festival_3_11_2019.json");
-
-                InputStream jsonMap = new FileInputStream( path + "\\rec\\Tiled\\untitled.json");
-
-                JsonReader jsonReader = Json.createReader(jsonMap)
+        	InputStream jsonMap = new FileInputStream( path + "\\rec\\Tiled\\untitled.json");
+        	JsonReader jsonReader = Json.createReader(jsonMap)
         ) {
             JsonObject jsonArrayOfBands = jsonReader.readObject();
-            this.map = new Map(jsonArrayOfBands);
+            this.map = new Map(path + "\\rec\\Tiled\\untitled.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -68,7 +61,6 @@ public class Main extends Application {
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
 
         visitors = new ArrayList<>();
-
         while(visitors.size() < 40) {
             double x = Math.random()*1920;
             double y = Math.random()*1080;
@@ -79,7 +71,6 @@ public class Main extends Application {
             if(!hasCollision)
                 visitors.add(new Visitor(new Point2D.Double(x, y)));
         }
-
 
         new AnimationTimer() {
             long last = -1;
@@ -107,16 +98,17 @@ public class Main extends Application {
     }
 
     public void update(double deltaTime) {
-        for(Visitor visitor : visitors)
-            visitor.update(visitors, map);
+        for(Visitor visitor : visitors){
+			visitor.update(visitors, map);
+		}
     }
 
     public void draw(FXGraphics2D graphics) {
         graphics.setBackground(Color.WHITE);
         graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
         this.map.draw(graphics);
-
-        for(Visitor visitor : visitors)
-            visitor.draw(graphics);
+        for(Visitor visitor : visitors){
+			visitor.draw(graphics);
+		}
     }
 }

@@ -1,61 +1,30 @@
 package Simulation;
 
-import javax.json.*;
-import javax.xml.bind.SchemaOutputResolver;
+import Data.Tiled.Layer.Layer;
+import Data.Tiled.Layer.TileLayer;
+
 import java.awt.*;
-import java.awt.geom.Area;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Map {
 
-    private ArrayList<TileSet> tileSets;
-    private ArrayList<Layer> layers;
-    private ObjectLayer objectLayer;
-
+	private Data.Tiled.Map map;
     private BufferedImage cacheImage;
 
-    private int height;
-    private int width;
-
-
-    public Map(JsonObject jsonMap) {
-
-        //johan optimalize
-                this.cacheImage = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
-//                Graphics2D imageGraphics = cacheImage.createGraphics();
-        //
-        this.height = jsonMap.getInt("height");
-        this.width = jsonMap.getInt("width");
-
-        this.layers = new ArrayList<>();
-        JsonArray layers = jsonMap.getJsonArray("layers");
-        for (int i = 0; i < layers.size() - 1; i++) {
-            this.layers.add(new Layer(layers.getJsonObject(i)));
-        }
-        this.objectLayer = new ObjectLayer(layers.getJsonObject(layers.size() - 1));
-
-
-        this.tileSets = new ArrayList<>();
-        JsonArray tileSets = jsonMap.getJsonArray("tilesets");
-        for (int i = 0; i < tileSets.size(); i++) {
-            int height = jsonMap.getInt("tileheight");
-            int width = jsonMap.getInt("tilewidth");
-            this.tileSets.add(new TileSet(tileSets.getJsonObject(i), height, width));
-        }
-    }
+    public Map(String jsonFile) throws Exception {
+    	this.map = new Data.Tiled.Map(jsonFile);
+		this.cacheImage = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
+	}
 
     public void draw(Graphics2D graphics) {
         graphics.drawImage(this.cacheImage, 0, 0, null);
-//        drawCache(graphics);
     }
 
     public void drawCache() {
         Graphics2D graphics2D = this.cacheImage.createGraphics();
-        for (Layer layer : this.layers) {
-            if (layer.getVisible()){
+        for (Layer layer : this.map.getLayers()) {
+            if (layer.isVisible()){
                 drawLayer(layer, graphics2D);
             }
         }
@@ -117,23 +86,16 @@ public class Map {
         return false;
     }
 
-
     private void drawLayer(Layer layer, Graphics2D graphics) {
-//        graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OUT, layer.getOpacity()));
-        JsonArray data = layer.getData();
+    	if (!(layer instanceof TileLayer)){
+    		return;
+		}
+        int[] data = ((TileLayer)layer).getData();
 
-
-
-
-        for (int i = 0; i < data.size(); i++) {
-            BufferedImage tile = null;
-            if (data.getInt(i) != 0) {
-                for (TileSet tileSet : this.tileSets) {
-                    if (tileSet.getTile(data.getInt(i) - 1) != null) {
-                        tile = tileSet.getTile(data.getInt(i) - 1);
-                    }
-                }
-                graphics.drawImage(tile, (tile.getWidth() * (i % width)), tile.getHeight() * (int) (i / width), null);
+        for (int i = 0; i < data.length; i++) {
+            BufferedImage tile = this.map.getTiles()[data[i]];
+            if (data[i] != 0 && tile != null) {
+                graphics.drawImage(tile, (tile.getWidth() * (i % this.map.getHeight())), tile.getHeight() * (int) (i / this.map.getWidth()), null);
             }
         }
     }

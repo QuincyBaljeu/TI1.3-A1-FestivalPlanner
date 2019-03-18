@@ -29,7 +29,7 @@ public class Simulation {
 
     public static final String path = System.getProperty("user.dir");
 
-    public Simulation() {
+    public Simulation() throws Exception {
         try (
 
 //                InputStream jsonMap = new FileInputStream("D:\\Avans TI\\Proftaken\\Festival Planner\\Simulation.Map Laden\\Tiled\\Festival_3_11_2019.json");
@@ -39,7 +39,7 @@ public class Simulation {
                 JsonReader jsonReader = Json.createReader(jsonMap)
         ) {
             JsonObject jsonArrayOfBands = jsonReader.readObject();
-            this.map = new Map(jsonArrayOfBands);
+            this.map = new Map(path + "\\rec\\Tiled\\untitled.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -71,8 +71,7 @@ public class Simulation {
             if(!hasCollision)
                 visitors.add(new Visitor(new Point2D.Double(x, y)));
         }
-
-
+        
         new AnimationTimer() {
             long last = -1;
             @Override
@@ -86,12 +85,10 @@ public class Simulation {
         }.start();
 
         this.map.drawCache();
-
         canvas.setOnMouseMoved(e -> {
             for(Visitor visitor : visitors)
                 visitor.setTarget(new Point2D.Double(e.getX(), e.getY()));
         });
-
         draw(g2d);
     }
 

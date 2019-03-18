@@ -1,5 +1,9 @@
 { "columns":16,
+<<<<<<< HEAD:res/Tiled/mountain_landscape.json
  "image":"\\res\\IMG\\mountain_landscape.png",
+=======
+ "image":"..\\..\\rec\\IMG\\mountain_landscape.png",
+>>>>>>> JsonRewriteSimulationLink:rec/Tiled/mountain_landscape.json
  "imageheight":512,
  "imagewidth":512,
  "margin":0,
