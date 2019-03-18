@@ -61,7 +61,7 @@ public class Simulation {
 
         visitors = new ArrayList<>();
 
-        while(visitors.size() < 150) {
+        while(visitors.size() < 250) {
             double x = Math.random()*1920;
             double y = Math.random()*1080;
             boolean hasCollision = false;
@@ -93,8 +93,16 @@ public class Simulation {
     }
 
     public void update(double deltaTime) {
-        for(Visitor visitor : visitors)
-            visitor.update(visitors, map);
+    	visitors.parallelStream().forEach(
+			(visitor -> {
+				visitor.update(visitors, map);
+			})
+		);
+    	/*
+        for(Visitor visitor : visitors){
+			visitor.update(visitors, map);
+		}
+		*/
     }
 
     public void draw(FXGraphics2D graphics) {
