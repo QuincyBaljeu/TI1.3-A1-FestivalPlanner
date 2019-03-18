@@ -11,6 +11,12 @@ public class TileLayer implements Layer {
 	private double opacity;
 	private String name;
 	private int height;
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
 	private int width;
 
 	public TileLayer(JsonObject JsonSource){
