@@ -1,31 +1,37 @@
 package Simulation;
 
-import javax.json.*;
-import javax.xml.bind.SchemaOutputResolver;
+import Data.Tiled.Layer.Layer;
+import Data.Tiled.Layer.TileLayer;
+
 import java.awt.*;
-import java.awt.geom.Area;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Map {
 
+	private Data.Tiled.Map map;
+
+	/*
     private ArrayList<TileSet> tileSets;
     private ArrayList<Layer> layers;
     private ObjectLayer objectLayer;
+    */
 
     private BufferedImage cacheImage;
 
     private int height;
     private int width;
 
+    public Map(String jsonFile) throws Exception {
+    	this.map = new Data.Tiled.Map(jsonFile);
+		this.cacheImage = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
+	}
 
+    /*
     public Map(JsonObject jsonMap) {
 
         //johan optimalize
-                this.cacheImage = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
-//                Graphics2D imageGraphics = cacheImage.createGraphics();
+
         //
         this.height = jsonMap.getInt("height");
         this.width = jsonMap.getInt("width");
@@ -46,6 +52,7 @@ public class Map {
             this.tileSets.add(new TileSet(tileSets.getJsonObject(i), height, width));
         }
     }
+    */
 
     public void draw(Graphics2D graphics) {
         graphics.drawImage(this.cacheImage, 0, 0, null);
@@ -54,8 +61,8 @@ public class Map {
 
     public void drawCache() {
         Graphics2D graphics2D = this.cacheImage.createGraphics();
-        for (Layer layer : this.layers) {
-            if (layer.getVisible()){
+        for (Layer layer : this.map.getLayers()) {
+            if (layer.isVisible()){
                 drawLayer(layer, graphics2D);
             }
         }
@@ -63,13 +70,13 @@ public class Map {
 
     public boolean hasCollision(Visitor visitor) {
         Point2D currentLocation = visitor.getPosition();
-        Layer boundryLayer =  layers.get(layers.size()-1);
-        int tileWidth = tileSets.get(0).getWidth();
-        int tileHeight = tileSets.get(0).getHeight();
+        Layer boundryLayer = this.map.getLayers().get(this.map.getLayers().size()-1);
+        int tileWidth = this.map.getTileWidth();
+        int tileHeight = this.map.getTileHeight();
         //System.out.println(boundryLayer.getData().size());
         for (int x = 0; x < width-1; x++) {
             for (int y = 0; y < height-1; y++) {
-                int currColision = boundryLayer.getData().getJsonNumber(x*width+y).intValue();
+                int currColision = ((TileLayer)boundryLayer).getData()[x*width+y];
                 //if (currColision != 0)
                 //    System.out.println("col: " + currColision);
                 if (currColision == 441) {
@@ -96,17 +103,22 @@ public class Map {
 
 
     private void drawLayer(Layer layer, Graphics2D graphics) {
-        JsonArray data = layer.getData();
+    	if (!(layer instanceof TileLayer)){
+    		return;
+		}
+        int[] data = ((TileLayer)layer).getData();
 
-        for (int i = 0; i < data.size(); i++) {
-            BufferedImage tile = null;
-            if (data.getInt(i) != 0) {
+        for (int i = 0; i < data.length; i++) {
+            BufferedImage tile = this.map.getTiles()[data[i]];
+            if (data[i] != 0 && tile != null) {
+            	/*
                 for (TileSet tileSet : this.tileSets) {
                     if (tileSet.getTile(data.getInt(i) - 1) != null) {
                         tile = tileSet.getTile(data.getInt(i) - 1);
                     }
                 }
-                graphics.drawImage(tile, (tile.getWidth() * (i % width)), tile.getHeight() * (int) (i / width), null);
+                */
+                graphics.drawImage(tile, (tile.getWidth() * (i % this.map.getHeight())), tile.getHeight() * (int) (i / this.map.getWidth()), null);
             }
         }
     }

@@ -29,7 +29,7 @@ public class Simulation {
 
     public static final String path = System.getProperty("user.dir");
 
-    public Simulation() {
+    public Simulation() throws Exception {
         try (
 
 //                InputStream jsonMap = new FileInputStream("D:\\Avans TI\\Proftaken\\Festival Planner\\Simulation.Map Laden\\Tiled\\Festival_3_11_2019.json");
@@ -39,7 +39,7 @@ public class Simulation {
                 JsonReader jsonReader = Json.createReader(jsonMap)
         ) {
             JsonObject jsonArrayOfBands = jsonReader.readObject();
-            this.map = new Map(jsonArrayOfBands);
+            this.map = new Map(path + "\\rec\\Tiled\\untitled.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

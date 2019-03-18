@@ -7,6 +7,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.ResizableCanvas;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -18,9 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
-import org.jfree.fx.FXGraphics2D;
-import org.jfree.fx.ResizableCanvas;
 
 public class Main extends Application {
 
@@ -48,7 +47,7 @@ public class Main extends Application {
                 JsonReader jsonReader = Json.createReader(jsonMap)
         ) {
             JsonObject jsonArrayOfBands = jsonReader.readObject();
-            this.map = new Map(jsonArrayOfBands);
+            this.map = new Map(path + "\\rec\\Tiled\\untitled.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
