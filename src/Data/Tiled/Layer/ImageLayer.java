@@ -6,4 +6,23 @@ public class ImageLayer implements Layer{
 	public ImageLayer(JsonObject JsonSource){
 
 	}
+
+	public int[] getData() {
+		return new int[0];
+	}
+
+	@Override
+	public boolean isVisible() {
+		return false;
+	}
+
+	@Override
+	public double getOpacity() {
+		return 0;
+	}
+
+	@Override
+	public String getName() {
+		return null;
+	}
 }
