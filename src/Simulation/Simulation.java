@@ -39,7 +39,7 @@ public class Simulation {
                 JsonReader jsonReader = Json.createReader(jsonMap)
         ) {
             JsonObject jsonArrayOfBands = jsonReader.readObject();
-            this.map = new Map(path + "\\rec\\Tiled\\untitled.json");
+            this.map = new Map(path + "\\res\\Tiled\\untitled.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -61,7 +61,7 @@ public class Simulation {
 
         visitors = new ArrayList<>();
 
-        while(visitors.size() < 1) {
+        while(visitors.size() < 150) {
             double x = Math.random()*1920;
             double y = Math.random()*1080;
             boolean hasCollision = false;

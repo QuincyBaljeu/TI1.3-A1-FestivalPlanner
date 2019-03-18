@@ -37,11 +37,11 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
 
         try (
-        	InputStream jsonMap = new FileInputStream( path + "\\rec\\Tiled\\untitled.json");
+        	InputStream jsonMap = new FileInputStream( path + "\\res\\Tiled\\untitled.json");
         	JsonReader jsonReader = Json.createReader(jsonMap)
         ) {
             JsonObject jsonArrayOfBands = jsonReader.readObject();
-            this.map = new Map(path + "\\rec\\Tiled\\untitled.json");
+            this.map = new Map(path + "\\res\\Tiled\\untitled.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

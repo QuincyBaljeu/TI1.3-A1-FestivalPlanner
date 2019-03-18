@@ -24,7 +24,7 @@ public class Visitor {
     public Visitor(Point2D position) {
         this.position = position;
         this.angle = 0;
-        this.speed = 1;
+        this.speed = 10;
         try {
             String link = Main.path + "\\res\\IMG\\Visitor.png";
             BufferedImage image = ImageIO.read(new File(link));
@@ -92,7 +92,7 @@ public class Visitor {
             }
             if (map.hasCollision(this)) {
 //                this.angle += 0.5;
-                System.out.println("diberdy dab");
+                //System.out.println("diberdy dab");
             }
         }
 
