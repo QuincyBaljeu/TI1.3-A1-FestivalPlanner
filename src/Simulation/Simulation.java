@@ -1,5 +1,7 @@
 package Simulation;
 
+import Data.AgendaModule;
+import Data.Performance;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
@@ -18,18 +20,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Simulation {
 
     private Map map;
     private ResizableCanvas canvas;
     private ArrayList<Visitor> visitors;
-
+    private AgendaModule agendaModule;
     private BorderPane mainPane;
 
     public static final String path = System.getProperty("user.dir");
 
-    public Simulation() {
+    public Simulation(AgendaModule agendaModule) {
+        this.agendaModule = agendaModule;
+
         try (
 
 //                InputStream jsonMap = new FileInputStream("D:\\Avans TI\\Proftaken\\Festival Planner\\Simulation.Map Laden\\Tiled\\Festival_3_11_2019.json");
@@ -96,6 +101,8 @@ public class Simulation {
     }
 
     public void update(double deltaTime) {
+        updateVisitorPosition();
+
         for(Visitor visitor : visitors)
             visitor.update(visitors, map);
     }
@@ -111,5 +118,26 @@ public class Simulation {
 
     public BorderPane getMainPane() {
         return mainPane;
+    }
+
+    public void updateVisitorPosition(){
+        int amountOfVisitors = visitors.size();
+        int totalPopularity = 0;
+        List<Performance> performances = agendaModule.getFestivalDays().get(0).getPerformances();
+
+        for(Performance performance : performances){
+            totalPopularity += performance.getPopularity();
+        }
+
+        int positionedVisitors = 0;
+
+        for(Performance performance : performances){
+            double popularity = (double) performance.getPopularity() / totalPopularity * amountOfVisitors;
+
+            for(int i = 0; i < popularity; i++){
+                visitors.get(i + positionedVisitors).setTarget(performance.getPosition());
+            }
+            positionedVisitors = (int) popularity - 1;
+        }
     }
 }

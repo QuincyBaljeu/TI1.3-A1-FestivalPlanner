@@ -1,5 +1,8 @@
 package Data;
 
+import javafx.stage.Screen;
+
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,6 +20,7 @@ public class Performance implements Serializable {
     private int popularity;
     private Podium podium;
     private FestivalDay festivalDay;
+    private Point2D position = new Point2D.Double(500,500);
 
     public Performance(LocalTime startTime, LocalTime endTime, int popularity, FestivalDay festivalDay, Podium podium, Artist ... artists) {
         this.festivalDay = festivalDay;
@@ -97,5 +101,11 @@ public class Performance implements Serializable {
         this.festivalDay = festivalDay;
     }
 
+    public Point2D getPosition() {
+        return position;
+    }
 
+    public void setPosition(Point2D position) {
+        this.position = position;
+    }
 }
