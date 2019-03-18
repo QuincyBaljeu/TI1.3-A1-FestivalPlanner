@@ -10,7 +10,11 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
+/**
+ * A class for testing other code
+ */
 public class FileIOTest extends Application {
     public static void main(String[] args){
         launch(FileIOTest.class);
@@ -32,6 +36,11 @@ public class FileIOTest extends Application {
         );
         File saveFile = fileChooser.showSaveDialog(primaryStage);
         AgendaModule dummyData = this.getDummyData(saveFile.getPath());
+        /**/
+        dummyData.getFestivalDays().get(0).removeArtist(
+            dummyData.getFestivalDays().get(0).getArtists().get(0)
+        );
+        /**/
         dummyData.save();
     }
 
@@ -40,8 +49,8 @@ public class FileIOTest extends Application {
 
         festivalDay.addPerformance(
             new Performance(
-                LocalDateTime.now(),
-                LocalDateTime.now(),
+                LocalTime.now(),
+                LocalTime.now(),
                 5,
                 festivalDay,
                 new Podium(
@@ -55,6 +64,15 @@ public class FileIOTest extends Application {
                     "",
                     "Likes his mom",
                     "South west new maryland"
+                ),
+                new Artist(
+                    "Peter",
+                    Genre.BLUES,
+                    festivalDay,
+                    "Undead",
+                    "",
+                    "Should probably not drink as much",
+                    "Africa"
                 )
             )
         );

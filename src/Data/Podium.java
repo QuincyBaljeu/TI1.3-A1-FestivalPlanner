@@ -13,22 +13,24 @@ public class Podium implements Serializable {
     private FestivalDay festivalDay;
 
     public Podium(String name, FestivalDay festivalDay) {
+        this.festivalDay = festivalDay;
         this.name = name;
         this.performances = new ArrayList<>();
-        this.festivalDay = festivalDay;
     }
 
     public void addPerformance(Performance performance) {
         if (!this.performances.contains(performance)) {
             this.performances.add(performance);
+            this.festivalDay.addPerformance(performance);
         } else {
-            System.out.println("Performance allready in Podium's list");
+            System.out.println("Performance already in Podium's list");
         }
     }
 
-    public void removePerfomance(Performance performance) {
+    public void removePerformance(Performance performance) {
         if (this.performances.contains(performance)) {
             this.performances.remove(performance);
+            this.festivalDay.removePerformance(performance);
         } else {
             System.out.println("Performance not found Podium's list in list!");
         }
@@ -38,16 +40,16 @@ public class Podium implements Serializable {
         return performances;
     }
 
+    public void setPerformances(List<Performance> performances) {
+        this.performances = performances;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setPerformances(List<Performance> performances) {
-        this.performances = performances;
     }
 
     public FestivalDay getFestivalDay() {
