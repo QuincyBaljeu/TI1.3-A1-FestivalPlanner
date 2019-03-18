@@ -109,7 +109,8 @@ public class FestivalDay implements Serializable {
     public void removePodium(Podium podium){
         if(this.podia.contains(podium)){
             this.podia.remove(podium);
-            for(Performance performance : podium.getPerformances()){
+            List<Performance> toDelete = new ArrayList<>(podium.getPerformances());
+            for (Performance performance : toDelete){
                 removePerformance(performance);
             }
         } else {
