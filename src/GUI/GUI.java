@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,14 +73,16 @@ public class GUI extends Application{
         BorderPane menuBorderPane = new BorderPane();
         BorderPane editBorderPane = new BorderPane();
         BorderPane viewBorderPane = new BorderPane();
+        BorderPane testBorderpane = new BorderPane();
         TabPane tabPane = new TabPane();
 
         //Menu tabs
         Tab Simulation = new Tab("Simulation");
         Tab View = new Tab("View mode");
         Tab Edit = new Tab("Edit mode");
+        Tab Test = new Tab("Test");
 
-        tabPane.getTabs().addAll(View,Simulation,Edit);
+        tabPane.getTabs().addAll(View,Simulation,Edit,Test);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         // Use the menu as a set of buttons
@@ -107,6 +110,10 @@ public class GUI extends Application{
 
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(stagesMenu,performanceMenu,artistsMenu);
+
+        TextArea textArea = new TextArea();
+        Button test = new Button("Test");
+        test.setOnAction(event -> textArea.setText(festivalDay.performancePerStage(performances)));
 
         //Implements array to tableview
         this.edittable = new TableView<>();
@@ -136,9 +143,12 @@ public class GUI extends Application{
         editBorderPane.setCenter(edittable);
         editBorderPane.setTop(menuBar);
         viewBorderPane.setTop(viewtable);
+        testBorderpane.setTop(test);
+        testBorderpane.setCenter(textArea);
         //Adds borderpane to tabpane
         Edit.setContent(editBorderPane);
         View.setContent(viewtable);
+        Test.setContent(testBorderpane);
         //Adds tabpane to final borderpane
         menuBorderPane.setCenter(tabPane);
 
