@@ -29,6 +29,10 @@ public class Map {
 	public Map(String jsonFile) throws IOException {
 		String workingDirectory = new File(jsonFile).getParent();
 		JsonObject inputObject = this.readJsonFile(jsonFile);
+		this.height = inputObject.getInt("height");
+		this.width = inputObject.getInt("width");
+		this.tileHeight = inputObject.getInt("tileheight");
+		this.tileWidth = inputObject.getInt("tilewidth");
 
 		this.tiles = this.readTiles(inputObject, workingDirectory);
 		this.layers = readLayers(inputObject);
@@ -64,6 +68,7 @@ public class Map {
 	}
 
 	private JsonObject readJsonFile(File file) throws FileNotFoundException{
+		System.out.println(file.getPath());
 		return Json.createReader(
 			new FileInputStream(
 				file
@@ -137,7 +142,7 @@ public class Map {
 			try {
 				 image = ImageIO.read(imageFile);
 			}
-			catch (FileNotFoundException ex){
+			catch (Exception ex){
 				// Check the filepath in the json file
 				throw ex;
 			}
