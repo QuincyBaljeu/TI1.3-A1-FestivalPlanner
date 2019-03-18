@@ -59,7 +59,7 @@ public class Main extends Application {
         mainPane.setCenter(canvas);
         Scene scene = new Scene(mainPane);
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
-        
+
         visitors = new ArrayList<>();
         while(visitors.size() < 40) {
             double x = Math.random()*1920;
