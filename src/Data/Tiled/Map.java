@@ -25,6 +25,7 @@ public class Map {
 	private int tileWidth;
 	private List<Layer> layers;
 	private BufferedImage[] tiles;
+
 	public Map(String jsonFile) throws IOException {
 		String workingDirectory = new File(jsonFile).getParent();
 		JsonObject inputObject = this.readJsonFile(jsonFile);
@@ -32,6 +33,30 @@ public class Map {
 		this.tiles = this.readTiles(inputObject, workingDirectory);
 		this.layers = readLayers(inputObject);
 		int x = 69;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getTileHeight() {
+		return tileHeight;
+	}
+
+	public int getTileWidth() {
+		return tileWidth;
+	}
+
+	public List<Layer> getLayers() {
+		return layers;
+	}
+
+	public BufferedImage[] getTiles() {
+		return tiles;
 	}
 
 	private JsonObject readJsonFile(String filePath) throws FileNotFoundException{
@@ -92,19 +117,19 @@ public class Map {
 		private File source;
 		private JsonObject JsonSource;
 
+		public Tileset(JsonObject tileset, String workingDirectory) throws FileNotFoundException{
+			this.source = new File(workingDirectory, tileset.getString("source"));
+			this.JsonSource = readJsonFile(this.source);
+			this.firstGid = tileset.getInt("firstgid");
+			this.lastGid = this.firstGid + this.JsonSource.getInt("tilecount");
+		}
+
 		public BufferedImage[] getTiles() throws IOException{
 			return this.cutImage(
 				new File(this.source.getParent(), this.JsonSource.getString("image")),
 				this.JsonSource.getInt("imageheight")/this.JsonSource.getInt("tileheight"),
 				this.JsonSource.getInt("columns")
 			);
-		}
-
-		public Tileset(JsonObject tileset, String workingDirectory) throws FileNotFoundException{
-			this.source = new File(workingDirectory, tileset.getString("source"));
-			this.JsonSource = readJsonFile(this.source);
-			this.firstGid = tileset.getInt("firstgid");
-			this.lastGid = this.firstGid + this.JsonSource.getInt("tilecount");
 		}
 
 		private BufferedImage[] cutImage(File imageFile, int tilesHorizontal, int tilesVertical) throws IOException {
