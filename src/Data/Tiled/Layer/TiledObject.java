@@ -14,6 +14,7 @@ public class TiledObject {
 	private double rotation;
 	private boolean visible;
 	private Point2D[] polygon;
+
 	public TiledObject(JsonObject jsonSource){
 		this.height = jsonSource.getInt("height");
 		this.width = jsonSource.getInt("width");
@@ -34,5 +35,37 @@ public class TiledObject {
 			}
 		}
 		catch (Exception ex){}
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public double getRotation() {
+		return rotation;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public Point2D[] getPolygon() {
+		return polygon;
 	}
 }

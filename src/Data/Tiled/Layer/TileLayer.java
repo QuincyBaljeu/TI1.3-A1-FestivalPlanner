@@ -27,6 +27,18 @@ public class TileLayer implements Layer {
 		this.width = JsonSource.getInt("width");
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
 	public int[] getData() {
 		return data;
 	}
