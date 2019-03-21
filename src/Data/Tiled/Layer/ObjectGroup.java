@@ -9,6 +9,7 @@ public class ObjectGroup implements Layer {
 	private double opacity;
 	private boolean visible;
 	private TiledObject[] objects;
+
 	public ObjectGroup(JsonObject jsonSource){
 		this.name = jsonSource.getString("name");
 		this.opacity = jsonSource.getJsonNumber("opacity").doubleValue();
@@ -23,5 +24,21 @@ public class ObjectGroup implements Layer {
 		} catch (Exception ex) {
 			new Exception("Failed to read objectgroup object array", ex);
 		}
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public double getOpacity() {
+		return opacity;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public TiledObject[] getObjects() {
+		return objects;
 	}
 }

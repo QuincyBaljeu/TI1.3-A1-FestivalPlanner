@@ -86,11 +86,42 @@ public class Map {
 		return tilesets;
 	}
 
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getTileHeight() {
+		return tileHeight;
+	}
+
+	public int getTileWidth() {
+		return tileWidth;
+	}
+
+	public List<Layer> getLayers() {
+		return layers;
+	}
+
+	public BufferedImage[] getTiles() {
+		return tiles;
+	}
+
 	private class Tileset {
 		private int firstGid;
 		private int lastGid;
 		private File source;
 		private JsonObject JsonSource;
+
+		public Tileset(JsonObject tileset, String workingDirectory) throws FileNotFoundException{
+			this.source = new File(workingDirectory, tileset.getString("source"));
+			this.JsonSource = readJsonFile(this.source);
+			this.firstGid = tileset.getInt("firstgid");
+			this.lastGid = this.firstGid + this.JsonSource.getInt("tilecount");
+		}
 
 		public BufferedImage[] getTiles() throws IOException{
 			return this.cutImage(
@@ -98,13 +129,6 @@ public class Map {
 				this.JsonSource.getInt("imageheight")/this.JsonSource.getInt("tileheight"),
 				this.JsonSource.getInt("columns")
 			);
-		}
-
-		public Tileset(JsonObject tileset, String workingDirectory) throws FileNotFoundException{
-			this.source = new File(workingDirectory, tileset.getString("source"));
-			this.JsonSource = readJsonFile(this.source);
-			this.firstGid = tileset.getInt("firstgid");
-			this.lastGid = this.firstGid + this.JsonSource.getInt("tilecount");
 		}
 
 		private BufferedImage[] cutImage(File imageFile, int tilesHorizontal, int tilesVertical) throws IOException {
