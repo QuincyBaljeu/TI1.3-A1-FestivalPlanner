@@ -49,11 +49,11 @@ public class Map {
 	private List<Layer> readLayers(JsonObject inputObject){
 		List<Layer> layers = new ArrayList<Layer>();
 		JsonArray JsonLayers = inputObject.getJsonArray("layers");
-		for (JsonValue JsonLayer : JsonLayers){
-			switch (((JsonObject)JsonLayer).getString("type")){
-				case "tilelayer": layers.add(new TileLayer((JsonObject)JsonLayer)); break;
-				case "objectgroup": layers.add(new ObjectGroup((JsonObject)JsonLayer)); break;
-				case "imagelayer": layers.add(new ImageLayer((JsonObject)JsonLayer)); break;
+		for (JsonValue jsonLayer : JsonLayers){
+			switch (((JsonObject)jsonLayer).getString("type")){
+				case "tilelayer": layers.add(new TileLayer((JsonObject)jsonLayer)); break;
+				case "objectgroup": layers.add(new ObjectGroup((JsonObject)jsonLayer)); break;
+				case "imagelayer": layers.add(new ImageLayer((JsonObject)jsonLayer)); break;
 			}
 		}
 		return layers;

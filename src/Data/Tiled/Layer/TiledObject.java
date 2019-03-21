@@ -14,6 +14,7 @@ public class TiledObject {
 	private double rotation;
 	private boolean visible;
 	private Point2D[] polygon;
+
 	public TiledObject(JsonObject jsonSource){
 		this.height = jsonSource.getInt("height");
 		this.width = jsonSource.getInt("width");
