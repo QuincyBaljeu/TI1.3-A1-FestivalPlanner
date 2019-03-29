@@ -56,12 +56,11 @@ public class Simulation {
         this.canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
 
-        Scene scene = new Scene(mainPane);
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
 
         visitors = new ArrayList<>();
 
-        while(visitors.size() < 250) {
+        while(visitors.size() < 15) {
             double x = Math.random()*1920;
             double y = Math.random()*1080;
             boolean hasCollision = false;
