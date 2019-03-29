@@ -40,6 +40,6 @@ public class TiledObject {
 	}
 
 	public void generateFlowMap() {
-
+		this.flowLayer = new Flow_Layer();
 	}
 }
