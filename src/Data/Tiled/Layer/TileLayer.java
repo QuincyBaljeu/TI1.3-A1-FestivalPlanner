@@ -11,12 +11,6 @@ public class TileLayer implements Layer {
 	private double opacity;
 	private String name;
 	private int height;
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
 	private int width;
 
 	public TileLayer(JsonObject JsonSource){
@@ -33,6 +27,11 @@ public class TileLayer implements Layer {
 		this.width = JsonSource.getInt("width");
 	}
 
+	@Override
+	public String getName() {
+		return name;
+	}
+
 	public int[] getData() {
 		return data;
 	}
@@ -43,5 +42,13 @@ public class TileLayer implements Layer {
 
 	public double getOpacity() {
 		return opacity;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
 	}
 }

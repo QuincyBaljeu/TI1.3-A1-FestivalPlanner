@@ -26,7 +26,7 @@ public class Map {
 	private List<Layer> layers;
 	private BufferedImage[] tiles;
 
-	public Map(String jsonFile) throws IOException {
+	public Map(String jsonFile) throws Exception {
 		String workingDirectory = new File(jsonFile).getParent();
 		JsonObject inputObject = this.readJsonFile(jsonFile);
 		this.height = inputObject.getInt("height");
@@ -108,7 +108,7 @@ public class Map {
 		).readObject();
 	}
 
-	private List<Layer> readLayers(JsonObject inputObject){
+	private List<Layer> readLayers(JsonObject inputObject) throws Exception {
 		List<Layer> layers = new ArrayList<>();
 		JsonArray JsonLayers = inputObject.getJsonArray("layers");
 		for (JsonValue JsonLayer : JsonLayers){

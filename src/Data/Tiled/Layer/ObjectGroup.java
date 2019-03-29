@@ -25,7 +25,7 @@ public class ObjectGroup implements Layer {
 		return visible;
 	}
 
-	public ObjectGroup(JsonObject jsonSource){
+	public ObjectGroup(JsonObject jsonSource) throws Exception {
 		this.name = jsonSource.getString("name");
 		this.opacity = jsonSource.getJsonNumber("opacity").doubleValue();
 		this.visible = jsonSource.getBoolean("visible");
@@ -37,13 +37,20 @@ public class ObjectGroup implements Layer {
 				this.objects[i] = new TiledObject((JsonObject)jsonObject);
 			}
 		} catch (Exception ex) {
-			new Exception("Failed to read objectgroup object array", ex);
+			throw new Exception("Failed to read objectgroup object array", ex);
 		}
 	}
 
 	public void generateFlowMap(TileLayer collisionLayer) {
+		int[][] data2D = new int[collisionLayer.getWidth()][collisionLayer.getHeight()] ;
+
+		for (int i = 0; i < collisionLayer.getData().length; i++) {
+			int tile = collisionLayer.getData()[i];
+			data2D[i % collisionLayer.getWidth()][ i / collisionLayer.getHeight()] = tile;
+		}
+
 		for (TiledObject location : this.objects) {
-			location.generateFlowMap(collisionLayer);
+			location.generateFlowMap(collisionLayer, data2D);
 		}
 	}
 }
