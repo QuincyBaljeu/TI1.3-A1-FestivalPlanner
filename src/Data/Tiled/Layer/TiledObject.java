@@ -14,6 +14,8 @@ public class TiledObject {
 	private double rotation;
 	private boolean visible;
 	private Point2D[] polygon;
+	private Flow_Layer flowLayer;
+
 	public TiledObject(JsonObject jsonSource){
 		this.height = jsonSource.getInt("height");
 		this.width = jsonSource.getInt("width");
@@ -22,6 +24,7 @@ public class TiledObject {
 		this.rotation = jsonSource.getInt("rotation");
 		this.name = jsonSource.getString("name");
 		this.visible = jsonSource.getBoolean("visible");
+		this.flowLayer = null;
 		try {
 			JsonArray jsonPolygon = jsonSource.getJsonArray("polygon");
 			this.polygon = new Point2D[jsonPolygon.size()];
@@ -34,5 +37,9 @@ public class TiledObject {
 			}
 		}
 		catch (Exception ex){}
+	}
+
+	public void generateFlowMap() {
+
 	}
 }

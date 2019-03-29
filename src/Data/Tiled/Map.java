@@ -36,7 +36,17 @@ public class Map {
 
 		this.tiles = this.readTiles(inputObject, workingDirectory);
 		this.layers = readLayers(inputObject);
+		generateFlowPaths();
 		int x = 69;
+	}
+
+	private void generateFlowPaths() {
+		for (Layer layer : this.layers) {
+			if (layer.getClass() == ObjectGroup.class) {
+				ObjectGroup objectGroup = (ObjectGroup) layer;
+				objectGroup.generateFlowMap();
+			}
+		}
 	}
 
 	public int getHeight() {
@@ -63,6 +73,14 @@ public class Map {
 		return tiles;
 	}
 
+	public Layer getCollisionLayer() {
+		for (Layer layer : this.layers) {
+			if (layer.getName().equals("Collision Layer"))
+				return layer;
+		}
+		return null;
+	}
+
 	private JsonObject readJsonFile(String filePath) throws FileNotFoundException{
 		return readJsonFile(new File(filePath));
 	}
@@ -77,7 +95,7 @@ public class Map {
 	}
 
 	private List<Layer> readLayers(JsonObject inputObject){
-		List<Layer> layers = new ArrayList<Layer>();
+		List<Layer> layers = new ArrayList<>();
 		JsonArray JsonLayers = inputObject.getJsonArray("layers");
 		for (JsonValue JsonLayer : JsonLayers){
 			switch (((JsonObject)JsonLayer).getString("type")){

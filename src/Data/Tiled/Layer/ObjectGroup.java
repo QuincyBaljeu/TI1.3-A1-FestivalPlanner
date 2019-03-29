@@ -40,4 +40,10 @@ public class ObjectGroup implements Layer {
 			new Exception("Failed to read objectgroup object array", ex);
 		}
 	}
+
+	public void generateFlowMap() {
+		for (TiledObject location : this.objects) {
+			location.generateFlowMap();
+		}
+	}
 }
