@@ -39,7 +39,7 @@ public class TiledObject {
 		catch (Exception ex){}
 	}
 
-	public void generateFlowMap() {
-		this.flowLayer = new Flow_Layer();
+	public void generateFlowMap(TileLayer collisionLayer) {
+		this.flowLayer = new Flow_Layer(collisionLayer);
 	}
 }

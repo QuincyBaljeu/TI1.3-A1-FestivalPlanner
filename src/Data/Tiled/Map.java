@@ -41,12 +41,26 @@ public class Map {
 	}
 
 	private void generateFlowPaths() {
+		TileLayer collisionLayer = null;
 		for (Layer layer : this.layers) {
-			if (layer.getClass() == ObjectGroup.class) {
-				ObjectGroup objectGroup = (ObjectGroup) layer;
-				objectGroup.generateFlowMap();
-			}
+			if (layer.getName().equals("Collision Layer"))
+				if (layer.getClass() == TileLayer.class)
+					collisionLayer = (TileLayer) layer;
+				else
+					throw new ClassCastException("the Collision Layer is not of the type TileLayer");
+
 		}
+		if (collisionLayer != null) {
+			for (Layer layer : this.layers) {
+				if (layer.getClass() == ObjectGroup.class) {
+					ObjectGroup objectGroup = (ObjectGroup) layer;
+					objectGroup.generateFlowMap(collisionLayer);
+				}
+			}
+		} else {
+			throw new NullPointerException("no layer by the name: 'Collision Layer'\t found");
+		}
+
 	}
 
 	public int getHeight() {

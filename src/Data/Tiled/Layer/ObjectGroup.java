@@ -41,9 +41,9 @@ public class ObjectGroup implements Layer {
 		}
 	}
 
-	public void generateFlowMap() {
+	public void generateFlowMap(TileLayer collisionLayer) {
 		for (TiledObject location : this.objects) {
-			location.generateFlowMap();
+			location.generateFlowMap(collisionLayer);
 		}
 	}
 }
