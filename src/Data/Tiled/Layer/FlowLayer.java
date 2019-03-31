@@ -42,14 +42,14 @@ public class FlowLayer {
                 this.distMap[(int) neighbor.getX()][(int) neighbor.getY()] = this.distMap[(int) current.getX()][(int) current.getY()] + 1;
             }
         }
-/*-------------------printing map
-//        for (int[] ints : this.distMap) {
-//            for (int anInt : ints) {
-//                System.out.print(anInt);
-//            }
-//            System.out.println("");
-//        }
-*/
+        /*
+        for (int[] ints : this.distMap) {
+            for (int anInt : ints) {
+                System.out.print(anInt);
+            }
+            System.out.println("");
+        }
+        */
     }
 
     private void generateFlowMap(TileLayer collisionLayer) {
