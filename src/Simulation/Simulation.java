@@ -3,7 +3,9 @@ package Simulation;
 import Data.AgendaModule;
 import Data.Performance;
 import javafx.animation.AnimationTimer;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import org.jfree.fx.FXGraphics2D;
@@ -11,6 +13,7 @@ import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,10 @@ public class Simulation {
     private ArrayList<Visitor> visitors;
     private AgendaModule agendaModule;
     private BorderPane mainPane;
+    private LocalTime simTime = LocalTime.of(00,00,00);
+    private int lastSeconds = LocalTime.now().getSecond();
+    private Label time = new Label();
+    private Boolean counting = false;
 
     public static final String path = System.getProperty("user.dir");
 
@@ -30,8 +37,36 @@ public class Simulation {
         this.mainPane = new BorderPane();
 
         CheckBox collisionL = new CheckBox("show Collision");
+        Button setTimeBack = new Button("-1 hour");
+        setTimeBack.setOnAction(event -> {
+                    if(simTime.getHour() < 1){
+                        simTime = simTime.minusMinutes(simTime.getMinute());
+                    } else {
+                        simTime = simTime.minusHours(1);
+                    }
+                    lastSeconds = LocalTime.now().getSecond();
+                }
+        );
+        Button setTimeForward = new Button("+1 hour");
+        setTimeForward.setOnAction(event -> {
+                    if(simTime.getHour() != 23){
+                        simTime = simTime.plusHours(1);
+                    } else {
+                        simTime = simTime.plusMinutes(50 - simTime.getMinute());
+                    }
+                    lastSeconds = LocalTime.now().getSecond();
+                }
+        );
+        Button start = new Button("Start");
+        start.setOnAction(event ->{
+            counting = true;
+            lastSeconds = LocalTime.now().getSecond();
+        });
+        Button stop = new Button("Stop");
+        stop.setOnAction(event -> counting = false);
         HBox top = new HBox();
-        top.getChildren().addAll(collisionL);
+        top.setSpacing(40);
+        top.getChildren().addAll(collisionL, time, setTimeBack, setTimeForward, start, stop);
 
         mainPane.setTop(top);
         this.canvas = new ResizableCanvas(g -> draw(g), mainPane);
@@ -80,7 +115,9 @@ public class Simulation {
     }
 
     public void update(double deltaTime) {
-    	visitors.parallelStream().forEach(
+    	LocalTime simTime = simTimer();
+        time.setText(simTime.toString());
+        visitors.parallelStream().forEach(
 			(visitor -> {
 				visitor.update(visitors, map);
 			})
@@ -119,5 +156,29 @@ public class Simulation {
             }
             positionedVisitors = (int) popularity - 1;
         }
+    }
+
+    public LocalTime simTimer(){
+        if (counting){
+            if (!simTime.equals(LocalTime.of(23, 50))){
+                if ((lastSeconds + 5) >= 60){
+                    lastSeconds = 60 - (lastSeconds + 5);
+                    if (lastSeconds == LocalTime.now().getSecond());{
+                        System.out.println("5 seconden / is equal");
+                        simTime = simTime.plusMinutes(10);
+                        System.out.println(simTime);
+
+                    }
+                } else if ((lastSeconds + 5) == LocalTime.now().getSecond()){
+                    lastSeconds = LocalTime.now().getSecond();
+                    System.out.println("5 seconden");
+                    simTime = simTime.plusMinutes(10);
+                    System.out.println(simTime);
+
+                }
+            }
+        }
+
+        return simTime;
     }
 }
