@@ -41,9 +41,6 @@ public class Simulation {
 		this.map = new Map(this.dataMap, this.canvas);
 
         visitors = new ArrayList<>();
-
-        this.setEvents();
-
         while(visitors.size() < 50) {
             double x = Math.random()*canvas.getWidth();
             double y = Math.random()*canvas.getHeight();
@@ -74,10 +71,6 @@ public class Simulation {
         this.map.drawCache();
         draw(g2d);
     }
-
-    private void setEvents(){
-
-	}
 
     public void update(double deltaTime) {
     	visitors.parallelStream().forEach(
