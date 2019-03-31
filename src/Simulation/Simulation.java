@@ -3,6 +3,7 @@ package Simulation;
 import Data.AgendaModule;
 import Data.Configuration.Settings;
 import Data.Tiled.Layer.ObjectGroup;
+import Data.Tiled.Layer.TiledObject;
 import Simulation.Rendering.Camera;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.CheckBox;
@@ -78,23 +79,29 @@ public class Simulation {
     }
 
     private void spawnVisitor(){
-		double x = Math.random() * canvas.getWidth();
-		double y = Math.random() * canvas.getHeight();
-		Visitor newVisitor = new Visitor(new Point2D.Double(x, y));
-		((ObjectGroup)dataMap.getLayer("places")).getObject("dead end 1");
-		if (map.hasCollision(newVisitor)){
-			return;
-		}
-		for (Visitor visitor : visitors) {
-			if (visitor.hasCollision(newVisitor.getPosition())) {
+    	System.out.println("spawning little hooman " + visitors.size());
+		TiledObject[] spawnPoints = ((ObjectGroup)dataMap.getLayer("SpawnPoints")).getObjects();
+		for (TiledObject spawnPoint : spawnPoints){
+			double x = (Math.random() * 100) + spawnPoint.getX();
+			double y = (Math.random() * 100) + spawnPoint.getY();
+			Visitor newVisitor = new Visitor(new Point2D.Double(x, y));
+			if (map.hasCollision(newVisitor)){
 				return;
 			}
+			if (x < 0 || y < 0 || x > (dataMap.getWidth() * dataMap.getTileWidth()) || y > (dataMap.getHeight() * dataMap.getTileHeight())){
+				return;
+			}
+			for (Visitor visitor : visitors) {
+				if (visitor.hasCollision(newVisitor.getPosition())) {
+					return;
+				}
+			}
+			visitors.add(new Visitor(new Point2D.Double(x, y)));
 		}
-		visitors.add(new Visitor(new Point2D.Double(x, y)));
 	}
 
     public void update(double deltaTime) {
-    	if (visitors.size() < 50){
+    	if (visitors.size() < 250){
 			spawnVisitor();
 		}
         visitors.forEach(
