@@ -80,6 +80,7 @@ public class Simulation {
 								(e.getX() <= place.getX() && e.getY() <= place.getY())
 							&&	(place.getX() + place.getWidth() >= e.getX() && place.getY() + place.getHeight() >= e.getY())
 							){
+							System.out.println("Sending visitors to " + place.getName());
 							visitors.parallelStream().forEach(
 								(visitor -> {
 									visitor.setTarget(place);
@@ -104,12 +105,13 @@ public class Simulation {
     }
 
     public void draw(FXGraphics2D graphics) {
-        graphics.setBackground(Color.WHITE);
+        graphics.setBackground(Color.BLACK);
         graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
         this.map.draw(graphics);
 
-        for(Visitor visitor : visitors)
-            visitor.draw(graphics);
+        for(Visitor visitor : visitors){
+			visitor.draw(graphics);
+		}
     }
 
     public BorderPane getMainPane() {
