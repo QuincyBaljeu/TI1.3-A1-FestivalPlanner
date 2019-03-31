@@ -137,4 +137,12 @@ public class FlowLayer {
         }
         return topBot;
     }
+
+    public int[][] getDistMap() {
+        return distMap;
+    }
+
+    public Point2D[][] getFlowMap() {
+        return flowMap;
+    }
 }
