@@ -17,6 +17,7 @@ import java.util.List;
 public class Simulation {
 
     private Map map;
+    private Data.Tiled.Map dataMap;
     private ResizableCanvas canvas;
     private ArrayList<Visitor> visitors;
     private AgendaModule agendaModule;
@@ -25,10 +26,10 @@ public class Simulation {
     public static final String path = System.getProperty("user.dir");
 
     public Simulation() throws Exception {
-		this.map = new Map(path + "\\res\\Tiled\\untitled.json");
+    	this.dataMap = new Data.Tiled.Map(path + "\\res\\Tiled\\untitled.json");
+		this.map = new Map(this.dataMap);
 
         this.mainPane = new BorderPane();
-
         CheckBox collisionL = new CheckBox("show Collision");
         HBox top = new HBox();
         top.getChildren().addAll(collisionL);
@@ -42,8 +43,8 @@ public class Simulation {
         visitors = new ArrayList<>();
 
         while(visitors.size() < 50) {
-            double x = Math.random()*1920;
-            double y = Math.random()*1080;
+            double x = Math.random()*canvas.getWidth();
+            double y = Math.random()*canvas.getHeight();
             Visitor newVisitor = new Visitor(new Point2D.Double(x,y));
             if (map.hasCollision(newVisitor)){
             	continue;
@@ -69,7 +70,8 @@ public class Simulation {
         }.start();
 
         this.map.drawCache();
-        canvas.setOnMouseMoved(e -> {
+        canvas.setOnMouseClicked(e -> {
+
 			visitors.parallelStream().forEach(
 				(visitor -> {
 					visitor.setTarget(new Point2D.Double(e.getX(), e.getY()));
