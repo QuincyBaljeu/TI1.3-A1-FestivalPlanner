@@ -5,6 +5,7 @@ import GUI.GUI;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.awt.geom.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -30,6 +31,7 @@ public class PerformanceManager extends DataManager {
     private Scene scene;
     private BorderPane borderPane;
     private TableView tableView = new TableView<Podium>();
+    private ArrayList<Point2D> podiumPositions;
 
     private ObservableList<LocalTime> Times;
     private ObservableList<Integer> popularity;
@@ -45,6 +47,12 @@ public class PerformanceManager extends DataManager {
         title.setFont(new Font("Arial", 40));
         this.borderPane.setTop(top);
         this.borderPane.setCenter(this.tableView);
+        podiumPositions = new ArrayList<>();
+        podiumPositions.add(new Point2D.Double(80,128));
+        podiumPositions.add(new Point2D.Double(496,128));
+        podiumPositions.add(new Point2D.Double(112, 480));
+        podiumPositions.add(new Point2D.Double(496,480));
+
         Times = FXCollections.observableArrayList(
                 LocalTime.of(12, 0), LocalTime.of(13, 0), LocalTime.of(14, 0), LocalTime.of(15, 0),
                 LocalTime.of(16, 0), LocalTime.of(17, 0), LocalTime.of(18, 0),
@@ -302,6 +310,9 @@ public class PerformanceManager extends DataManager {
             if (checkStageAvailability(newPerformance) && checkArtistAvailability(newPerformance)) {
                 System.out.println("Added the thing");
                 this.getFestivalDay().addPerformance(newPerformance);
+                int performaces = this.getFestivalDay().getPerformances().size();
+                newPerformance.setPosition(podiumPositions.get(performaces % 4));
+                System.out.println(podiumPositions.get(performaces % 4));
             } else {
                 this.getFestivalDay().addPerformance(newPerformance);
                 this.getFestivalDay().removePerformance(newPerformance);

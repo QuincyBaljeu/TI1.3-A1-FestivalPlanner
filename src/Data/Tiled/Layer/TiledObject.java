@@ -66,4 +66,10 @@ public class TiledObject {
 	public String getName() {
 		return name;
 	}
+	public double getRotation() {
+		return rotation;
+	}
+	public Point2D[] getPolygon() {
+		return polygon;
+	}
 }

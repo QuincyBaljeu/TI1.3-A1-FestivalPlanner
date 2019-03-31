@@ -111,11 +111,11 @@ public class Map {
 	private List<Layer> readLayers(JsonObject inputObject) throws Exception {
 		List<Layer> layers = new ArrayList<>();
 		JsonArray JsonLayers = inputObject.getJsonArray("layers");
-		for (JsonValue JsonLayer : JsonLayers){
-			switch (((JsonObject)JsonLayer).getString("type")){
-				case "tilelayer": layers.add(new TileLayer((JsonObject)JsonLayer)); break;
-				case "objectgroup": layers.add(new ObjectGroup((JsonObject)JsonLayer)); break;
-				case "imagelayer": layers.add(new ImageLayer((JsonObject)JsonLayer)); break;
+		for (JsonValue jsonLayer : JsonLayers){
+			switch (((JsonObject)jsonLayer).getString("type")){
+				case "tilelayer": layers.add(new TileLayer((JsonObject)jsonLayer)); break;
+				case "objectgroup": layers.add(new ObjectGroup((JsonObject)jsonLayer)); break;
+				case "imagelayer": layers.add(new ImageLayer((JsonObject)jsonLayer)); break;
 			}
 		}
 		return layers;
@@ -146,6 +146,30 @@ public class Map {
 			tilesets.add(new Tileset(((JsonObject)JsonTileset), workingDirectory));
 		}
 		return tilesets;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getTileHeight() {
+		return tileHeight;
+	}
+
+	public int getTileWidth() {
+		return tileWidth;
+	}
+
+	public List<Layer> getLayers() {
+		return layers;
+	}
+
+	public BufferedImage[] getTiles() {
+		return tiles;
 	}
 
 	private class Tileset {

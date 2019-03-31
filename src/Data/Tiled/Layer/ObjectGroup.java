@@ -40,6 +40,9 @@ public class ObjectGroup implements Layer {
 			throw new Exception("Failed to read objectgroup object array", ex);
 		}
 	}
+	public TiledObject[] getObjects() {
+		return objects;
+	}
 
 	public void generateFlowMap(TileLayer collisionLayer) {
 		int[][] data2D = new int[collisionLayer.getWidth()][collisionLayer.getHeight()] ;
