@@ -19,7 +19,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Simulation {
 
@@ -161,8 +160,7 @@ public class Simulation {
     public void updateVisitorPosition() {
         int amountOfVisitors = visitors.size();
         int totalPopularity = 0;
-        ArrayList<Performance> performances = new ArrayList();
-        performances.addAll(agendaModule.getFestivalDays().get(0).getPerformances());
+        ArrayList<Performance> performances = new ArrayList<>(agendaModule.getFestivalDays().get(0).getPerformances());
 
         for (Performance performance : performances) {
             totalPopularity += performance.getPopularity();
