@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Visitor {
@@ -27,8 +28,11 @@ public class Visitor {
     private TiledObject target;
     private int personalSpace;
 
+    private int uid;
+
 
     public Visitor(Point2D position) {
+		this.uid = UUID.randomUUID().hashCode();
         this.speed = new Point2D.Double(0,0);
         this.position = position;
         this.angle = 0;
@@ -44,7 +48,6 @@ public class Visitor {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         this.target = null;
     }
@@ -111,19 +114,16 @@ public class Visitor {
     private void updatePos(ArrayList<Visitor> visitors) {
         Point2D newPosition = new Point2D.Double(this.position.getX() + this.speed.getX(),
                 this.position.getY() + this.speed.getY());
-
         if (!collidesWithVisitors(visitors, newPosition)) {
             this.position = newPosition;
         } else {
             checkAlternativePath();
-            this.position = newPosition;
         }
 
     }
 
     private void checkAlternativePath() {
         
-
     }
 
     private boolean collidesWithVisitors(ArrayList<Visitor> visitors, Point2D newPosition) {
@@ -131,6 +131,9 @@ public class Visitor {
         visitors.parallelStream().forEach( visitor -> {
             if (visitor.hasCollision(newPosition)) {
                 hasCollision.set(true);
+                if (this.uid == visitor.uid){
+                	hasCollision.set(false);
+				}
             }
         });
         return hasCollision.get();
