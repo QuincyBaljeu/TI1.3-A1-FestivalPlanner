@@ -26,7 +26,7 @@ public class Visitor {
         this.angle = 0;
         this.speed = 10;
         try {
-            String link = Main.path + "\\res\\IMG\\Visitor.png";
+            String link = Simulation.path + "\\res\\IMG\\Visitor.png";
             BufferedImage image = ImageIO.read(new File(link));
             tiles = new BufferedImage[24];
             //knip de afbeelding op in 24 stukjes van 32x32 pixels.
