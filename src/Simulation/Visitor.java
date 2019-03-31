@@ -1,5 +1,7 @@
 package Simulation;
 
+import Data.Tiled.Layer.TiledObject;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -129,7 +131,7 @@ public class Visitor {
         return otherPosition.distance(this.position) < 28;
     }
 
-    public void setTarget(Point2D target) {
-        this.target = target;
+    public void setTarget(TiledObject target) {
+
     }
 }
