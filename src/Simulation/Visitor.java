@@ -89,28 +89,6 @@ public class Visitor {
         }
     }
 
-//    private void setNewPosition(ArrayList<Visitor> visitors, Map map) {
-//        Point2D newPosition = new Point2D.Double(this.position.getX() + this.speedMult * Math.cos(this.angle),
-//                this.position.getY() + this.speedMult * Math.sin(this.angle));
-//
-//        boolean hasCollision = false;
-//        for (Visitor visitor : visitors) {
-//            if (visitor != this && visitor.hasCollision(newPosition)) {
-//                hasCollision = true;
-//            }
-//            if (map.hasCollision(this)) {
-////                this.angle += 0.5;
-//                //System.out.println("diberdy dab");
-//            }
-//        }
-//
-//        if (!hasCollision) {
-//            this.position = newPosition;
-//        } else {
-//            this.angle += 0.5;
-//        }
-//    }
-
     private void updatePos(ArrayList<Visitor> visitors) {
         Point2D newPosition = new Point2D.Double(this.position.getX() + this.speed.getX(),
                 this.position.getY() + this.speed.getY());
@@ -140,15 +118,17 @@ public class Visitor {
     }
 
     private void updateSpeed() {
-        if (target != null) {
-            int tileX = (int)(position.getX()/32);
-            int tileY = (int)(position.getY()/32);
-            javafx.geometry.Point2D tileFlow = this.target.getFlowLayer().getFlowMap()[tileX][tileY];
-            System.out.println(tileFlow.getX());
+    	try {
+			if (target != null) {
+				int tileX = (int)(position.getX()/32);
+				int tileY = (int)(position.getY()/32);
+				javafx.geometry.Point2D tileFlow = this.target.getFlowLayer().getFlowMap()[tileX][tileY];
 
-            Point2D newSpeed = new Point2D.Double((speed.getX() * speedMult + tileFlow.getX())/2, (speed.getY() * speedMult + tileFlow.getY())/2);
-            this.speed = newSpeed;
-        }
+				Point2D newSpeed = new Point2D.Double((speed.getX() * speedMult + tileFlow.getX())/2, (speed.getY() * speedMult + tileFlow.getY())/2);
+				this.speed = newSpeed;
+			}
+		}
+		catch (Exception x) { }
     }
 
     private void updateAngle() {
