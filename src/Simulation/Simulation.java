@@ -1,7 +1,6 @@
 package Simulation;
 
 import javafx.animation.AnimationTimer;
-import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -60,15 +59,19 @@ public class Simulation {
 
         visitors = new ArrayList<>();
 
-        while(visitors.size() < 15) {
+        while(visitors.size() < 50) {
             double x = Math.random()*1920;
             double y = Math.random()*1080;
-            boolean hasCollision = false;
-            for(Visitor visitor : visitors)
-                if(visitor.hasCollision(new Point2D.Double(x,y)))
-                    hasCollision = true;
-            if(!hasCollision)
-                visitors.add(new Visitor(new Point2D.Double(x, y)));
+            Visitor newVisitor = new Visitor(new Point2D.Double(x,y));
+            if (map.hasCollision(newVisitor)){
+            	continue;
+			}
+            for(Visitor visitor : visitors){
+				if(visitor.hasCollision(newVisitor.getPosition())){
+					continue;
+				}
+			}
+			visitors.add(new Visitor(new Point2D.Double(x, y)));
         }
         
         new AnimationTimer() {
@@ -85,8 +88,11 @@ public class Simulation {
 
         this.map.drawCache();
         canvas.setOnMouseMoved(e -> {
-            for(Visitor visitor : visitors)
-                visitor.setTarget(new Point2D.Double(e.getX(), e.getY()));
+			visitors.parallelStream().forEach(
+				(visitor -> {
+					visitor.setTarget(new Point2D.Double(e.getX(), e.getY()));
+				})
+			);
         });
         draw(g2d);
     }
@@ -97,11 +103,6 @@ public class Simulation {
 				visitor.update(visitors, map);
 			})
 		);
-    	/*
-        for(Visitor visitor : visitors){
-			visitor.update(visitors, map);
-		}
-		*/
     }
 
     public void draw(FXGraphics2D graphics) {
