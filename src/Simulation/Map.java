@@ -83,8 +83,13 @@ public class Map {
     	if (!(layer instanceof TileLayer)){
     		return;
 		}
-        int[] data = layer.getData();
     	int[][] data2D = layer.getData2D();
+
+    	graphics.setComposite(
+    		AlphaComposite.getInstance(
+    			AlphaComposite.SRC_OVER, (float)layer.getOpacity()
+			)
+		);
 
     	BufferedImage[] tiles = this.map.getTiles();
 		for (int y = 0; y < data2D.length; y++) {
