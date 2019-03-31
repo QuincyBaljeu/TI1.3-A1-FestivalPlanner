@@ -72,6 +72,18 @@ public class Simulation {
         draw(g2d);
     }
 
+    private void setEvents(){
+
+
+        this.canvas.setOnMouseClicked(event -> {
+            if (event.isPrimaryButtonDown()) {
+                this.visitors.parallelStream().forEach(event -> {
+                    event.setTarget(this.dataMap);
+                });
+            }
+        });
+	}
+
     public void update(double deltaTime) {
     	visitors.parallelStream().forEach(
 			(visitor -> {
