@@ -37,7 +37,7 @@ public class Map {
 		this.tiles = this.readTiles(inputObject, workingDirectory);
 		this.layers = readLayers(inputObject);
 		generateFlowPaths();
-		int x = 69;
+
 	}
 
 	private void generateFlowPaths() {
@@ -194,5 +194,15 @@ public class Map {
 
 			return cuttedTiles;
 		}
+	}
+
+	public ObjectGroup getObjectLayer() {
+		for (Layer layer : this.layers) {
+			if (layer.getClass() == ObjectGroup.class) {
+				ObjectGroup objectGroup = (ObjectGroup) layer;
+				return objectGroup;
+			}
+		}
+		return null;
 	}
 }
