@@ -53,4 +53,13 @@ public class ObjectGroup implements Layer {
 			location.generateFlowMap(collisionLayer, data2D);
 		}
 	}
+
+	public TiledObject getObject(String objectName) {
+		for (TiledObject tiledObject : this.objects) {
+			if (tiledObject.getName().equals(objectName)) {
+				return tiledObject;
+			}
+		}
+		return null;
+	}
 }

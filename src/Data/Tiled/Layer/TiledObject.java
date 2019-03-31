@@ -14,7 +14,7 @@ public class TiledObject {
 	private double rotation;
 	private boolean visible;
 	private Point2D[] polygon;
-	private Flow_Layer flowLayer;
+	private FlowLayer flowLayer;
 
 	public TiledObject(JsonObject jsonSource){
 		this.height = jsonSource.getInt("height");
@@ -56,6 +56,14 @@ public class TiledObject {
 	}
 
 	public void generateFlowMap(TileLayer collisionLayer, int[][] data2D) {
-		this.flowLayer = new Flow_Layer(collisionLayer, this, data2D);
+		this.flowLayer = new FlowLayer(collisionLayer, this, data2D);
+	}
+
+	public FlowLayer getFlowLayer() {
+		return flowLayer;
+	}
+
+	public String getName() {
+		return name;
 	}
 }
