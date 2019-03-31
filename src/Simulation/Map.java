@@ -17,15 +17,35 @@ public class Map {
     public Map(Data.Tiled.Map map, ResizableCanvas canvas) throws Exception {
     	this.map = map;
     	this.canvas = canvas;
+    	this.drawCache();
 	}
 
     public void draw(Graphics2D graphics) {
-    	this.drawCache();
         graphics.drawImage(this.cacheImage, 0, 0, null);
     }
 
+    private Point2D getRequiredCacheSize(){
+    	int maxX = 0;
+    	int maxY = 0;
+		for (Layer layer : this.map.getLayers()) {
+			if (layer.isVisible() && layer instanceof TileLayer){
+				TileLayer tileLayer = (TileLayer) layer;
+				int tileX = map.getTileWidth() * tileLayer.getWidth();
+				int tileY = map.getTileHeight() * tileLayer.getHeight();
+				if (maxX < tileX){
+					maxX = tileX;
+				}
+				if (maxY < tileY){
+					maxY = tileY;
+				}
+			}
+		}
+		return new Point2D.Double(maxX, maxY);
+	}
+
     public void drawCache() {
-		this.cacheImage = new BufferedImage((int)canvas.getWidth(), (int)canvas.getHeight(), BufferedImage.TYPE_INT_ARGB);
+    	Point2D cacheSize = getRequiredCacheSize();
+		this.cacheImage = new BufferedImage((int)cacheSize.getX(), (int)cacheSize.getY(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = this.cacheImage.createGraphics();
         for (Layer layer : this.map.getLayers()) {
             if (layer.isVisible() && layer instanceof TileLayer){
@@ -78,14 +98,5 @@ public class Map {
 				}
 			}
 		}
-
-    	/*
-        for (int i = 0; i < data.length; i++) {
-            BufferedImage tile = this.map.getTiles()[data[i]];
-            if (data[i] != 0 && tile != null) {
-                graphics.drawImage(tile, (tile.getWidth() * (i % layer.getHeight())), tile.getHeight() * (int) (i / layer.getWidth()), null);
-            }
-        }
-        */
     }
 }
