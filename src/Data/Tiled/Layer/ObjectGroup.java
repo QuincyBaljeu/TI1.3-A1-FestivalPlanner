@@ -65,4 +65,8 @@ public class ObjectGroup implements Layer {
 		}
 		return null;
 	}
+
+	public TiledObject[] getTiledObjects() {
+		return this.objects;
+	}
 }

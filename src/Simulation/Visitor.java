@@ -32,7 +32,7 @@ public class Visitor {
         this.speed = new Point2D.Double(0,0);
         this.position = position;
         this.angle = 0;
-        this.speedMult = Math.random()*3 + 7;
+        this.speedMult = (Math.random()*2 + 9)/10;
         this.personalSpace = 28;
         try {
             String link = Settings.rootPath + "\\res\\IMG\\Visitor.png";
@@ -116,6 +116,7 @@ public class Visitor {
             this.position = newPosition;
         } else {
             checkAlternativePath();
+            this.position = newPosition;
         }
 
     }
@@ -140,7 +141,9 @@ public class Visitor {
             int tileX = (int)(position.getX()/32);
             int tileY = (int)(position.getY()/32);
             javafx.geometry.Point2D tileFlow = this.target.getFlowLayer().getFlowMap()[tileX][tileY];
-            Point2D newSpeed = new Point2D.Double((speed.getX() + tileFlow.getX())/2, (speed.getY() + tileFlow.getY())/2);
+            System.out.println(tileFlow.getX());
+
+            Point2D newSpeed = new Point2D.Double((speed.getX() * speedMult + tileFlow.getX())/2, (speed.getY() * speedMult + tileFlow.getY())/2);
             this.speed = newSpeed;
         }
     }

@@ -19,6 +19,7 @@ public class FlowLayer {
         this.endPoint = goal;
         generateDistMap(collisionLayer);
         generateFlowMap(collisionLayer);
+
     }
 
     private void generateDistMap(TileLayer collisionLayer) {
@@ -54,6 +55,12 @@ public class FlowLayer {
     private void generateFlowMap(TileLayer collisionLayer) {
         this.flowMap = new Point2D[collisionLayer.getWidth()][collisionLayer.getHeight()];
 
+        for (int x = 0; x < this.data2D.length; x++) {
+            for (int y = 0; y < this.data2D[0].length; y++) {
+                this.flowMap[x][y] = new Point2D(0, 0);
+            }
+        }
+
         for (int x = 0; x < this.distMap.length; x++) {
             for (int y = 0; y < this.distMap[0].length; y++) {
                 if (this.data2D[x][y] != -1) {
@@ -88,7 +95,6 @@ public class FlowLayer {
                 for (int y = centerY - 1; y <= centerY + 1; y++)
                     if (y >= 0 && y < data2D[0].length && data2D[x][y] == 0 && !(centerX == x && centerY == y)) {
                         if (this.distMap[x][y] == -1) {
-                            System.out.println(x + "<-x y->" + y + "  |  " + centerX + "<-x y->" + centerY);
                             neighbors.add(new Point2D(x, y));
                         }
 
