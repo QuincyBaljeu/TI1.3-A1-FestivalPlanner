@@ -303,7 +303,6 @@ public class PerformanceManager extends DataManager {
                 System.out.println("Added the thing");
                 this.getFestivalDay().addPerformance(newPerformance);
             } else {
-                System.out.println("ur mum a gay");
                 this.getFestivalDay().addPerformance(newPerformance);
                 this.getFestivalDay().removePerformance(newPerformance);
                 launchPopup();
