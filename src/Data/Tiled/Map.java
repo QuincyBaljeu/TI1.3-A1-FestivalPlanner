@@ -40,7 +40,7 @@ public class Map {
 
 	}
 
-	private void generateFlowPaths() {
+	public void generateFlowPaths() {
 		TileLayer collisionLayer = null;
 		for (Layer layer : this.layers) {
 			if (layer.getName().toLowerCase().contains("collision"))
@@ -203,15 +203,5 @@ public class Map {
 
 			return cuttedTiles;
 		}
-	}
-
-	public ObjectGroup getObjectLayer() {
-		for (Layer layer : this.layers) {
-			if (layer.getClass() == ObjectGroup.class) {
-				ObjectGroup objectGroup = (ObjectGroup) layer;
-				return objectGroup;
-			}
-		}
-		return null;
 	}
 }
