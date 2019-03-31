@@ -66,43 +66,45 @@ public class Simulation {
     private void setEvents() {
         this.canvas.setOnMouseClicked(event -> {
             System.out.println("primmary click");
+            ObjectGroup podia = (ObjectGroup)this.dataMap.getLayer("Places");
             this.visitors.parallelStream().forEach(visitor -> {
-                ObjectGroup objectLayer = this.dataMap.getObjectLayer();
-                int iterator = Math.round((float) (Math.random() * objectLayer.getObjects().length-1));
+                int iterator = Math.round((float) (Math.random() * podia.getObjects().length-1));
                 if (iterator < 0) {
                     iterator = 0;
                 }
-                visitor.setTarget(this.dataMap.getObjectLayer().getObjects()[iterator]);
-                System.out.println(this.dataMap.getObjectLayer().getObjects()[iterator].getName());
+                visitor.setTarget(podia.getObjects()[iterator]);
+                //System.out.println(this.dataMap.getObjectLayer().getObjects()[iterator].getName());
             });
         });
     }
 
-    private void spawnVisitor(){
-    	System.out.println("spawning little hooman " + visitors.size());
-		TiledObject[] spawnPoints = ((ObjectGroup)dataMap.getLayer("SpawnPoints")).getObjects();
-		for (TiledObject spawnPoint : spawnPoints){
-			double x = (Math.random() * 100) + spawnPoint.getX();
-			double y = (Math.random() * 100) + spawnPoint.getY();
-			Visitor newVisitor = new Visitor(new Point2D.Double(x, y));
-			if (map.hasCollision(newVisitor)){
-				return;
-			}
-			if (x < 0 || y < 0 || x > (dataMap.getWidth() * dataMap.getTileWidth()) || y > (dataMap.getHeight() * dataMap.getTileHeight())){
-				return;
-			}
-			for (Visitor visitor : visitors) {
-				if (visitor.hasCollision(newVisitor.getPosition())) {
+    private void spawnVisitors(int count){
+		for (int i = 0; i < count; i++) {
+			TiledObject[] spawnPoints = ((ObjectGroup)dataMap.getLayer("SpawnPoints")).getObjects();
+			for (TiledObject spawnPoint : spawnPoints){
+				double x = (Math.random() * 100) + spawnPoint.getX();
+				double y = (Math.random() * 100) + spawnPoint.getY();
+				Visitor newVisitor = new Visitor(new Point2D.Double(x, y));
+				if (map.hasCollision(newVisitor)){
 					return;
 				}
+				if (x < 0 || y < 0 || x > (dataMap.getWidth() * dataMap.getTileWidth()) || y > (dataMap.getHeight() * dataMap.getTileHeight())){
+					return;
+				}
+				for (Visitor visitor : visitors) {
+					if (visitor.hasCollision(newVisitor.getPosition())) {
+						return;
+					}
+				}
+				visitors.add(new Visitor(new Point2D.Double(x, y)));
+				System.out.println("spawned visitor #" + visitors.size());
 			}
-			visitors.add(new Visitor(new Point2D.Double(x, y)));
 		}
 	}
 
     public void update(double deltaTime) {
-    	if (visitors.size() < 250){
-			spawnVisitor();
+    	if (visitors.size() < 1750){
+			spawnVisitors(10);
 		}
         visitors.forEach(
 			(visitor -> {
