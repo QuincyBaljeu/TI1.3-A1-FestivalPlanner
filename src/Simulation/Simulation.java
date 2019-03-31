@@ -30,12 +30,8 @@ public class Simulation {
 
     public Simulation() throws Exception {
         try (
-
-//                InputStream jsonMap = new FileInputStream("D:\\Avans TI\\Proftaken\\Festival Planner\\Simulation.Map Laden\\Tiled\\Festival_3_11_2019.json");
-
-                InputStream jsonMap = new FileInputStream( path + "\\res\\Tiled\\untitled.json");
-
-                JsonReader jsonReader = Json.createReader(jsonMap)
+			InputStream jsonMap = new FileInputStream( path + "\\res\\Tiled\\untitled.json");
+			JsonReader jsonReader = Json.createReader(jsonMap)
         ) {
             JsonObject jsonArrayOfBands = jsonReader.readObject();
             this.map = new Map(path + "\\res\\Tiled\\untitled.json");
