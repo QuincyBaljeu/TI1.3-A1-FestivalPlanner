@@ -55,12 +55,22 @@ public class Map {
     }
 
     public boolean hasCollision(Visitor visitor) {
-		Layer boundaryLayer = this.map.getLayers().get(this.map.getLayers().size()-2);
+		Layer boundaryLayer = this.map.getLayer("Collision");
 
         Point2D currentLocation = visitor.getPosition();
         int tileWidth = this.map.getTileWidth();
         int tileHeight = this.map.getTileHeight();
 
+        int tileX = (int)currentLocation.getX() / tileWidth;
+        int tileY = (int)currentLocation.getY() / tileHeight;
+
+        System.out.println(((TileLayer)boundaryLayer).getData2D()[tileX][tileY]);
+
+        if (((TileLayer)boundaryLayer).getData2D()[tileY][tileX] > 1){
+			return true;
+		}
+
+        /*
         for (int i = 0; i < ((TileLayer)boundaryLayer).getData().length; i++) {
             if (((TileLayer) boundaryLayer).getData()[i] != 0) {
                 int currColision = ((TileLayer) boundaryLayer).getData()[i];
@@ -76,6 +86,7 @@ public class Map {
                 }
             }
         }
+        */
         return false;
     }
 
