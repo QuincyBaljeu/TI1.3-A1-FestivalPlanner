@@ -1,7 +1,9 @@
 package Simulation;
 
 import Data.AgendaModule;
-import Data.Performance;
+import Data.Tiled.Layer.Layer;
+import Data.Tiled.Layer.ObjectGroup;
+import Data.Tiled.Layer.TiledObject;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
@@ -12,7 +14,6 @@ import org.jfree.fx.ResizableCanvas;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Simulation {
 
@@ -71,12 +72,25 @@ public class Simulation {
 
         this.map.drawCache();
         canvas.setOnMouseClicked(e -> {
-
-			visitors.parallelStream().forEach(
-				(visitor -> {
-					visitor.setTarget(new Point2D.Double(e.getX(), e.getY()));
-				})
-			);
+			for (Layer layer : this.dataMap.getLayers()){
+				if (layer.getName().toLowerCase().equals("places")){
+					TiledObject[] places = ((ObjectGroup)layer).getObjects();
+					for (TiledObject place : places){
+						if (
+								(e.getX() <= place.getX() && e.getY() <= place.getY())
+							&&	(place.getX() + place.getWidth() >= e.getX() && place.getY() + place.getHeight() >= e.getY())
+							){
+							visitors.parallelStream().forEach(
+								(visitor -> {
+									visitor.setTarget(place);
+								})
+							);
+							return;
+						}
+					}
+					return;
+				}
+			}
         });
         draw(g2d);
     }
@@ -100,26 +114,5 @@ public class Simulation {
 
     public BorderPane getMainPane() {
         return mainPane;
-    }
-
-    public void updateVisitorPosition(){
-        int amountOfVisitors = visitors.size();
-        int totalPopularity = 0;
-        List<Performance> performances = agendaModule.getFestivalDays().get(0).getPerformances();
-
-        for(Performance performance : performances){
-            totalPopularity += performance.getPopularity();
-        }
-
-        int positionedVisitors = 0;
-
-        for(Performance performance : performances){
-            double popularity = (double) performance.getPopularity() / totalPopularity * amountOfVisitors;
-
-            for(int i = 0; i < popularity; i++){
-                visitors.get(i + positionedVisitors).setTarget(performance.getPosition());
-            }
-            positionedVisitors = (int) popularity - 1;
-        }
     }
 }
