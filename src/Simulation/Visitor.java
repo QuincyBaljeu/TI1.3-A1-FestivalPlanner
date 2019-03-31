@@ -1,5 +1,7 @@
 package Simulation;
 
+import Data.Tiled.Layer.TiledObject;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -9,22 +11,28 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Visitor {
     private Point2D position;
+    private Point2D speed;
     private double angle;
-    private double speed;
+    private double speedMult;
+
 
     private BufferedImage[] tiles;
     private BufferedImage currentImage;
 
-    private Point2D target;
+    private TiledObject target;
+    private int personalSpace;
 
 
     public Visitor(Point2D position) {
+        this.speed = new Point2D.Double(0,0);
         this.position = position;
         this.angle = 0;
-        this.speed = 10;
+        this.speedMult = Math.random()*3 + 7;
+        this.personalSpace = 28;
         try {
             String link = Simulation.path + "\\res\\IMG\\Visitor.png";
             BufferedImage image = ImageIO.read(new File(link));
@@ -37,18 +45,16 @@ public class Visitor {
         }
 
 
-        this.target = new Point2D.Double(400, 400);
+        this.target = null;
     }
 
 
     public void update(ArrayList<Visitor> visitors, Map map) {
-        setNewPosition(visitors, map);
-        setNewAngle();
+//        setNewPosition(visitors, map);
+        updateSpeed();
+        updateAngle();
         setCorrectSprite();
-    }
-
-    public Point2D getPosition() {
-        return position;
+        updatePos(visitors);
     }
 
     public void draw(Graphics2D g) {
@@ -81,55 +87,85 @@ public class Visitor {
         }
     }
 
-    private void setNewPosition(ArrayList<Visitor> visitors, Map map) {
-        Point2D newPosition = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle),
-                this.position.getY() + this.speed * Math.sin(this.angle));
+//    private void setNewPosition(ArrayList<Visitor> visitors, Map map) {
+//        Point2D newPosition = new Point2D.Double(this.position.getX() + this.speedMult * Math.cos(this.angle),
+//                this.position.getY() + this.speedMult * Math.sin(this.angle));
+//
+//        boolean hasCollision = false;
+//        for (Visitor visitor : visitors) {
+//            if (visitor != this && visitor.hasCollision(newPosition)) {
+//                hasCollision = true;
+//            }
+//            if (map.hasCollision(this)) {
+////                this.angle += 0.5;
+//                //System.out.println("diberdy dab");
+//            }
+//        }
+//
+//        if (!hasCollision) {
+//            this.position = newPosition;
+//        } else {
+//            this.angle += 0.5;
+//        }
+//    }
 
-        boolean hasCollision = false;
-        for (Visitor visitor : visitors) {
-            if (visitor != this && visitor.hasCollision(newPosition)) {
-                hasCollision = true;
+    private void updatePos(ArrayList<Visitor> visitors) {
+        Point2D newPosition = new Point2D.Double(this.position.getX() + this.speed.getX(),
+                this.position.getY() + this.speed.getY());
+        AtomicBoolean hasCollision = new AtomicBoolean(false);
+        visitors.parallelStream().forEach( visitor -> {
+            if (visitor.hasCollision(newPosition)) {
+                hasCollision.set(true);
             }
-            if (map.hasCollision(this)) {
-//                this.angle += 0.5;
-                //System.out.println("diberdy dab");
-            }
-        }
-
-        if (!hasCollision) {
+        });
+        if (!hasCollision.get()) {
             this.position = newPosition;
         } else {
-            this.angle += 0.5;
+            
+        }
+
+    }
+
+    private void updateSpeed() {
+        if (target != null) {
+            int tileX = (int)(position.getX()/32);
+            int tileY = (int)(position.getY()/32);
+            javafx.geometry.Point2D tileFlow = this.target.getFlowLayer().getFlowMap()[tileX][tileY];
+            Point2D newSpeed = new Point2D.Double((speed.getX() + tileFlow.getX())/2, (speed.getY() + tileFlow.getY())/2);
+            this.speed = newSpeed;
         }
     }
 
-    private void setNewAngle() {
-        Point2D diff = new Point2D.Double(this.target.getX() - this.position.getX(), this.target.getY() - this.position.getY());
-        double targetAngle = Math.atan2(diff.getY(), diff.getX());
+    private void updateAngle() {
+        if (this.target != null) {
+            Point2D diff = this.speed;
+            double targetAngle = Math.atan2(diff.getY(), diff.getX());
+            double angleDiff = targetAngle - this.angle;
 
-        double angleDiff = targetAngle - this.angle;
+            while (angleDiff > Math.PI)
+                angleDiff -= 2 * Math.PI;
+            while (angleDiff < -Math.PI)
+                angleDiff += 2 * Math.PI;
 
-        while (angleDiff > Math.PI)
-            angleDiff -= 2 * Math.PI;
-
-        while (angleDiff < -Math.PI)
-            angleDiff += 2 * Math.PI;
-
-        if (angleDiff < -0.1)
-            this.angle -= 0.1;
-
-        else if (angleDiff > 0.1)
-            this.angle += 0.1;
-        else
-            this.angle = targetAngle;
+            if (angleDiff < -0.1)
+                this.angle -= 0.1;
+            else if (angleDiff > 0.1)
+                this.angle += 0.1;
+            else
+                this.angle = targetAngle;
+        }
     }
 
 
     public boolean hasCollision(Point2D otherPosition) {
-        return otherPosition.distance(this.position) < 28;
+        return otherPosition.distance(this.position) < this.personalSpace;
     }
 
-    public void setTarget(Point2D target) {
+    public void setTarget(TiledObject target) {
         this.target = target;
+    }
+
+    public Point2D getPosition() {
+        return position;
     }
 }
