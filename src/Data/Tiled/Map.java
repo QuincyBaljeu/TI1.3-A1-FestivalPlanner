@@ -37,7 +37,6 @@ public class Map {
 		this.tiles = this.readTiles(inputObject, workingDirectory);
 		this.layers = readLayers(inputObject);
 		generateFlowPaths();
-
 	}
 
 	public void generateFlowPaths() {
@@ -65,7 +64,7 @@ public class Map {
 
 	public Layer getCollisionLayer() {
 		for (Layer layer : this.layers) {
-			if (layer.getName().equals("Collision Layer"))
+			if (layer.getName().toLowerCase().contains("collision"))
 				return layer;
 		}
 		return null;
