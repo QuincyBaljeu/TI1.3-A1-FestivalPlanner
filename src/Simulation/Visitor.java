@@ -61,7 +61,6 @@ public class Visitor {
         AffineTransform tx = new AffineTransform();
         tx.translate(this.position.getX() - 16, this.position.getY() - 16);
 
-
         g.drawImage(this.currentImage, tx, null);
         g.draw(new Ellipse2D.Double(this.position.getX() - 16, this.position.getY() - 16, 28, 28));
     }
@@ -112,18 +111,28 @@ public class Visitor {
     private void updatePos(ArrayList<Visitor> visitors) {
         Point2D newPosition = new Point2D.Double(this.position.getX() + this.speed.getX(),
                 this.position.getY() + this.speed.getY());
+
+        if (!collidesWithVisitors(visitors, newPosition)) {
+            this.position = newPosition;
+        } else {
+            checkAlternativePath();
+        }
+
+    }
+
+    private void checkAlternativePath() {
+        
+
+    }
+
+    private boolean collidesWithVisitors(ArrayList<Visitor> visitors, Point2D newPosition) {
         AtomicBoolean hasCollision = new AtomicBoolean(false);
         visitors.parallelStream().forEach( visitor -> {
             if (visitor.hasCollision(newPosition)) {
                 hasCollision.set(true);
             }
         });
-        if (!hasCollision.get()) {
-            this.position = newPosition;
-        } else {
-            
-        }
-
+        return hasCollision.get();
     }
 
     private void updateSpeed() {
