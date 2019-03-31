@@ -7,8 +7,6 @@ public class ImageLayer implements Layer{
 		// No one actually uses this...
 	}
 
-	}
-
 	public int[] getData() {
 		return new int[0];
 	}

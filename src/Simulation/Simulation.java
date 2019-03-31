@@ -9,15 +9,8 @@ import javafx.scene.layout.HBox;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,17 +25,7 @@ public class Simulation {
     public static final String path = System.getProperty("user.dir");
 
     public Simulation() throws Exception {
-        try (
-			InputStream jsonMap = new FileInputStream( path + "\\res\\Tiled\\untitled.json");
-			JsonReader jsonReader = Json.createReader(jsonMap)
-        ) {
-            JsonObject jsonArrayOfBands = jsonReader.readObject();
-            this.map = new Map(path + "\\res\\Tiled\\untitled.json");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		this.map = new Map(path + "\\res\\Tiled\\untitled.json");
 
         this.mainPane = new BorderPane();
 

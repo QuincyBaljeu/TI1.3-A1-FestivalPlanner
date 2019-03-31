@@ -119,7 +119,7 @@ public class GUI extends Application{
         editBorderPane.setTop(menuBar);
         viewBorderPane.setTop(viewtable);
         //Adds borderpane to tabpane
-        Simulation simulationInstance = new Simulation(agendaModule);
+        Simulation simulationInstance = new Simulation();
         simulation.setContent(simulationInstance.getMainPane());
         Edit.setContent(editBorderPane);
         View.setContent(viewtable);

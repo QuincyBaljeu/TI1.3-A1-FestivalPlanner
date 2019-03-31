@@ -63,30 +63,6 @@ public class Map {
 
 	}
 
-	public int getHeight() {
-		return height;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getTileHeight() {
-		return tileHeight;
-	}
-
-	public int getTileWidth() {
-		return tileWidth;
-	}
-
-	public List<Layer> getLayers() {
-		return layers;
-	}
-
-	public BufferedImage[] getTiles() {
-		return tiles;
-	}
-
 	public Layer getCollisionLayer() {
 		for (Layer layer : this.layers) {
 			if (layer.getName().equals("Collision Layer"))
