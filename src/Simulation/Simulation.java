@@ -87,13 +87,6 @@ public class Simulation {
         }.start();
 
         this.map.drawCache();
-        canvas.setOnMouseMoved(e -> {
-			visitors.parallelStream().forEach(
-				(visitor -> {
-					visitor.setTarget(new Point2D.Double(e.getX(), e.getY()));
-				})
-			);
-        });
         draw(g2d);
     }
 
