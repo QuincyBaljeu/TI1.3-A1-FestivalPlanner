@@ -64,9 +64,7 @@ public class Map {
         int tileX = (int)currentLocation.getX() / tileWidth;
         int tileY = (int)currentLocation.getY() / tileHeight;
 
-        System.out.println(((TileLayer)boundaryLayer).getData2D()[tileX][tileY]);
-
-        if (((TileLayer)boundaryLayer).getData2D()[tileY][tileX] > 1){
+        if (((TileLayer)boundaryLayer).getData2D()[tileX][tileY] > 1){
 			return true;
 		}
 
@@ -109,7 +107,7 @@ public class Map {
 				BufferedImage tile = tiles[row[x]];
 				if (tile != null){
 					graphics.drawImage(
-						tile, tile.getWidth()*x, tile.getHeight()*y, tile.getWidth(), tile.getHeight(), null
+						tile, tile.getWidth()*y, tile.getHeight()*x, tile.getWidth(), tile.getHeight(), null
 					);
 				}
 			}

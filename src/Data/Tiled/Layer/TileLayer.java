@@ -27,9 +27,9 @@ public class TileLayer implements Layer {
 		this.height = JsonSource.getInt("height");
 		this.width = JsonSource.getInt("width");
 		this.data2D = new int[this.width][this.height];
-		for (int x = 0; x < this.width; x++) {
-			for (int y = 0; y < this.height; y++) {
-				data2D[x][y] = data[(x * this.width) + y];
+		for (int y = 0; y < this.width; y++) {
+			for (int x = 0; x < this.height; x++) {
+				data2D[x][y] = data[(y * this.width) + x];
 			}
 		}
 	}
