@@ -38,24 +38,10 @@ public class Simulation {
         this.camera = new Camera(canvas, g -> draw(g), g2d);
         mainPane.setCenter(canvas);
 
-        this.dataMap = new Data.Tiled.Map(Settings.rootPath + "\\res\\Tiled\\untitled.json");
+        this.dataMap = new Data.Tiled.Map(Settings.rootPath + "\\res\\Tiled\\FestivalMap.json");
         this.map = new Map(this.dataMap, this.canvas);
 
         visitors = new ArrayList<>();
-        while (visitors.size() < 50) {
-            double x = Math.random() * canvas.getWidth();
-            double y = Math.random() * canvas.getHeight();
-            Visitor newVisitor = new Visitor(new Point2D.Double(x, y));
-            if (map.hasCollision(newVisitor)) {
-                continue;
-            }
-            for (Visitor visitor : visitors) {
-                if (visitor.hasCollision(newVisitor.getPosition())) {
-                    continue;
-                }
-            }
-            visitors.add(new Visitor(new Point2D.Double(x, y)));
-        }
 
         new AnimationTimer() {
             long last = -1;
@@ -91,7 +77,26 @@ public class Simulation {
         });
     }
 
+    private void spawnVisitor(){
+		double x = Math.random() * canvas.getWidth();
+		double y = Math.random() * canvas.getHeight();
+		Visitor newVisitor = new Visitor(new Point2D.Double(x, y));
+		((ObjectGroup)dataMap.getLayer("places")).getObject("dead end 1");
+		if (map.hasCollision(newVisitor)){
+			return;
+		}
+		for (Visitor visitor : visitors) {
+			if (visitor.hasCollision(newVisitor.getPosition())) {
+				return;
+			}
+		}
+		visitors.add(new Visitor(new Point2D.Double(x, y)));
+	}
+
     public void update(double deltaTime) {
+    	if (visitors.size() < 50){
+			spawnVisitor();
+		}
         visitors.forEach(
 			(visitor -> {
 				visitor.update(visitors, map);

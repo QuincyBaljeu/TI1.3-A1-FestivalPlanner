@@ -43,7 +43,7 @@ public class Map {
 	private void generateFlowPaths() {
 		TileLayer collisionLayer = null;
 		for (Layer layer : this.layers) {
-			if (layer.getName().equals("Collision Layer"))
+			if (layer.getName().toLowerCase().contains("collision"))
 				if (layer.getClass() == TileLayer.class)
 					collisionLayer = (TileLayer) layer;
 				else
@@ -67,6 +67,15 @@ public class Map {
 		for (Layer layer : this.layers) {
 			if (layer.getName().equals("Collision Layer"))
 				return layer;
+		}
+		return null;
+	}
+
+	public Layer getLayer(String name){
+		for (Layer layer : layers){
+			if (layer.getName().toLowerCase().equals(name.toLowerCase())){
+				return layer;
+			}
 		}
 		return null;
 	}

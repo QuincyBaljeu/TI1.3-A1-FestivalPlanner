@@ -59,7 +59,7 @@ public class ObjectGroup implements Layer {
 
 	public TiledObject getObject(String objectName) {
 		for (TiledObject tiledObject : this.objects) {
-			if (tiledObject.getName().equals(objectName)) {
+			if (tiledObject.getName().toLowerCase().equals(objectName.toLowerCase())) {
 				return tiledObject;
 			}
 		}
