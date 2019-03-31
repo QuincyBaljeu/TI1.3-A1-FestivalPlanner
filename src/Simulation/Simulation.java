@@ -2,9 +2,6 @@ package Simulation;
 
 import Data.AgendaModule;
 import Data.Configuration.Settings;
-import Data.Tiled.Layer.Layer;
-import Data.Tiled.Layer.ObjectGroup;
-import Data.Tiled.Layer.TiledObject;
 import Simulation.Rendering.Camera;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.CheckBox;
@@ -28,26 +25,24 @@ public class Simulation {
     private BorderPane mainPane;
     private Camera camera;
 
-
     public Simulation() throws Exception {
         this.mainPane = new BorderPane();
         CheckBox collisionL = new CheckBox("show Collision");
         HBox top = new HBox();
         top.getChildren().addAll(collisionL);
-        this.camera = new Camera();
-        camera.setOffSetX(100);
-        camera.setOffSetY(100);
-        camera.setZoom(0.5);
 
         mainPane.setTop(top);
         this.canvas = new ResizableCanvas(g -> draw(g), mainPane);
+		FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
+		this.camera = new Camera(canvas, g -> draw(g), g2d);
         mainPane.setCenter(canvas);
 
 		this.dataMap = new Data.Tiled.Map(Settings.rootPath + "\\res\\Tiled\\untitled.json");
 		this.map = new Map(this.dataMap, this.canvas);
 
-        FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
         visitors = new ArrayList<>();
+
+        this.setEvents();
 
         while(visitors.size() < 50) {
             double x = Math.random()*canvas.getWidth();
@@ -63,7 +58,7 @@ public class Simulation {
 			}
 			visitors.add(new Visitor(new Point2D.Double(x, y)));
         }
-        
+
         new AnimationTimer() {
             long last = -1;
             @Override
@@ -77,30 +72,12 @@ public class Simulation {
         }.start();
 
         this.map.drawCache();
-        canvas.setOnMouseClicked(e -> {
-			for (Layer layer : this.dataMap.getLayers()){
-				if (layer.getName().toLowerCase().equals("places")){
-					TiledObject[] places = ((ObjectGroup)layer).getObjects();
-					for (TiledObject place : places){
-						if (
-								(e.getX() <= place.getX() && e.getY() <= place.getY())
-							&&	(place.getX() + place.getWidth() >= e.getX() && place.getY() + place.getHeight() >= e.getY())
-							){
-							System.out.println("Sending visitors to " + place.getName());
-							visitors.parallelStream().forEach(
-								(visitor -> {
-									visitor.setTarget(place);
-								})
-							);
-							return;
-						}
-					}
-					return;
-				}
-			}
-        });
         draw(g2d);
     }
+
+    private void setEvents(){
+
+	}
 
     public void update(double deltaTime) {
     	visitors.parallelStream().forEach(
@@ -120,6 +97,7 @@ public class Simulation {
         for(Visitor visitor : visitors){
 			visitor.draw(graphics);
 		}
+
 		graphics.setTransform(new AffineTransform());
     }
 
