@@ -1,6 +1,7 @@
 package Simulation;
 
 import Data.AgendaModule;
+import Data.Performance;
 import Data.Tiled.Layer.Layer;
 import Data.Tiled.Layer.ObjectGroup;
 import Data.Tiled.Layer.TiledObject;
@@ -13,10 +14,12 @@ import javafx.scene.layout.HBox;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Simulation {
 
@@ -155,24 +158,27 @@ public class Simulation {
         return mainPane;
     }
 
-    public void updateVisitorPosition(){
+    public void updateVisitorPosition() {
         int amountOfVisitors = visitors.size();
         int totalPopularity = 0;
-        List<Performance> performances = agendaModule.getFestivalDays().get(0).getPerformances();
+        ArrayList<Performance> performances = new ArrayList();
+        performances.addAll(agendaModule.getFestivalDays().get(0).getPerformances());
 
-        for(Performance performance : performances){
+        for (Performance performance : performances) {
             totalPopularity += performance.getPopularity();
         }
 
         int positionedVisitors = 0;
 
-        for(Performance performance : performances){
+        for (Performance performance : performances) {
             double popularity = (double) performance.getPopularity() / totalPopularity * amountOfVisitors;
 
-            for(int i = 0; i < popularity; i++){
-                visitors.get(i + positionedVisitors).setTarget(performance.getPosition());
+            for (int i = 0; i < popularity; i++) {
+                for (ObjectGroup objectLayer : this.dataMap.getObjectLayers()) {
+                    visitors.get(i + positionedVisitors).setTarget(objectLayer.getObject(performance.getPodium().getName()));
+                }
+                positionedVisitors = (int) popularity - 1;
             }
-            positionedVisitors = (int) popularity - 1;
         }
     }
 

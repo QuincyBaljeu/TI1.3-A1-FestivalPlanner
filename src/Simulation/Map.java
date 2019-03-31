@@ -12,7 +12,7 @@ public class Map {
 	private Data.Tiled.Map map;
     private BufferedImage cacheImage;
 
-    public Map(Data.Tiled.Map map) throws Exception {
+    public Map(Data.Tiled.Map map) {
     	this.map = map;
 		this.cacheImage = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
 	}
@@ -69,4 +69,6 @@ public class Map {
             }
         }
     }
+
+
 }

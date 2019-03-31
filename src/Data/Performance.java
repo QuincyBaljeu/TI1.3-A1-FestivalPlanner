@@ -1,10 +1,7 @@
 package Data;
 
-import javafx.stage.Screen;
-
 import java.awt.geom.Point2D;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;

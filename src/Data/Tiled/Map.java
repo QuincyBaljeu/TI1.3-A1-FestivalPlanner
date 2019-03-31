@@ -25,6 +25,7 @@ public class Map {
 	private int tileWidth;
 	private List<Layer> layers;
 	private BufferedImage[] tiles;
+	private List<ObjectGroup> objectLayers;
 
 	public Map(String jsonFile) throws Exception {
 		String workingDirectory = new File(jsonFile).getParent();
@@ -34,10 +35,17 @@ public class Map {
 		this.tileHeight = inputObject.getInt("tileheight");
 		this.tileWidth = inputObject.getInt("tilewidth");
 
+		this.objectLayers = new ArrayList<>();
+
 		this.tiles = this.readTiles(inputObject, workingDirectory);
 		this.layers = readLayers(inputObject);
 		generateFlowPaths();
-		int x = 69;
+
+		this.layers.forEach(layer ->{
+			if (layer.getClass() == ObjectGroup.class) {
+				objectLayers.add((ObjectGroup) layer);
+			}
+		});
 	}
 
 	private void generateFlowPaths() {
@@ -194,5 +202,9 @@ public class Map {
 
 			return cuttedTiles;
 		}
+	}
+
+	public List<ObjectGroup> getObjectLayers() {
+		return objectLayers;
 	}
 }
