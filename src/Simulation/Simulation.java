@@ -1,9 +1,11 @@
 package Simulation;
 
 import Data.AgendaModule;
+import Data.Configuration.Settings;
 import Data.Tiled.Layer.Layer;
 import Data.Tiled.Layer.ObjectGroup;
 import Data.Tiled.Layer.TiledObject;
+import Simulation.Rendering.Camera;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
@@ -12,6 +14,7 @@ import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -23,24 +26,27 @@ public class Simulation {
     private ArrayList<Visitor> visitors;
     private AgendaModule agendaModule;
     private BorderPane mainPane;
+    private Camera camera;
 
-    public static final String path = System.getProperty("user.dir");
 
     public Simulation() throws Exception {
-    	this.dataMap = new Data.Tiled.Map(path + "\\res\\Tiled\\untitled.json");
-		this.map = new Map(this.dataMap);
-
         this.mainPane = new BorderPane();
         CheckBox collisionL = new CheckBox("show Collision");
         HBox top = new HBox();
         top.getChildren().addAll(collisionL);
+        this.camera = new Camera();
+        camera.setOffSetX(100);
+        camera.setOffSetY(100);
+        camera.setZoom(0.5);
 
         mainPane.setTop(top);
         this.canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
 
-        FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
+		this.dataMap = new Data.Tiled.Map(Settings.rootPath + "\\res\\Tiled\\untitled.json");
+		this.map = new Map(this.dataMap, this.canvas);
 
+        FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
         visitors = new ArrayList<>();
 
         while(visitors.size() < 50) {
@@ -106,12 +112,15 @@ public class Simulation {
 
     public void draw(FXGraphics2D graphics) {
         graphics.setBackground(Color.BLACK);
+		graphics.setTransform(new AffineTransform());
         graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
+        graphics.setTransform(camera.getTransform());
         this.map.draw(graphics);
 
         for(Visitor visitor : visitors){
 			visitor.draw(graphics);
 		}
+		graphics.setTransform(new AffineTransform());
     }
 
     public BorderPane getMainPane() {

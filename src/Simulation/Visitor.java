@@ -1,5 +1,6 @@
 package Simulation;
 
+import Data.Configuration.Settings;
 import Data.Tiled.Layer.TiledObject;
 
 import javax.imageio.ImageIO;
@@ -28,7 +29,7 @@ public class Visitor {
         this.angle = 0;
         this.speed = 10;
         try {
-            String link = Simulation.path + "\\res\\IMG\\Visitor.png";
+            String link = Settings.rootPath + "\\res\\IMG\\Visitor.png";
             BufferedImage image = ImageIO.read(new File(link));
             tiles = new BufferedImage[24];
             //knip de afbeelding op in 24 stukjes van 32x32 pixels.
@@ -56,8 +57,6 @@ public class Visitor {
     public void draw(Graphics2D g) {
         AffineTransform tx = new AffineTransform();
         tx.translate(this.position.getX() - 16, this.position.getY() - 16);
-
-
         g.drawImage(this.currentImage, tx, null);
         g.draw(new Ellipse2D.Double(this.position.getX() - 16, this.position.getY() - 16, 28, 28));
     }
