@@ -47,6 +47,10 @@ public class TiledObject {
 		return width;
 	}
 
+	public Point2D getPosition(){
+		return new Point2D.Double(x, y);
+	}
+
 	public int getX() {
 		return x;
 	}
