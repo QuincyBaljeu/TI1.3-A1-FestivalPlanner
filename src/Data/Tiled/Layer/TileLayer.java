@@ -7,6 +7,7 @@ import javax.json.JsonValue;
 
 public class TileLayer implements Layer {
 	private int[] data;
+	private int[][] data2D;
 	private boolean visible;
 	private double opacity;
 	private String name;
@@ -25,6 +26,12 @@ public class TileLayer implements Layer {
 		this.opacity = JsonSource.getJsonNumber("opacity").doubleValue();
 		this.height = JsonSource.getInt("height");
 		this.width = JsonSource.getInt("width");
+		this.data2D = new int[this.width][this.height];
+		for (int x = 0; x < this.width; x++) {
+			for (int y = 0; y < this.height; y++) {
+				data2D[x][y] = data[(x * this.width) + y];
+			}
+		}
 	}
 
 	@Override
@@ -34,6 +41,10 @@ public class TileLayer implements Layer {
 
 	public int[] getData() {
 		return data;
+	}
+
+	public int[][] getData2D(){
+		return data2D;
 	}
 
 	public boolean isVisible() {

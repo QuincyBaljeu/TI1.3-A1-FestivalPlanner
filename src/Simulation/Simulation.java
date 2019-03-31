@@ -1,5 +1,8 @@
 package Simulation;
 
+import Data.AgendaModule;
+import Data.Configuration.Settings;
+import Simulation.Rendering.Camera;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
@@ -7,61 +10,43 @@ import javafx.scene.layout.HBox;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class Simulation {
 
     private Map map;
+    private Data.Tiled.Map dataMap;
     private ResizableCanvas canvas;
     private ArrayList<Visitor> visitors;
-
+    private AgendaModule agendaModule;
     private BorderPane mainPane;
-
-    public static final String path = System.getProperty("user.dir");
+    private Camera camera;
 
     public Simulation() throws Exception {
-        try (
-
-//                InputStream jsonMap = new FileInputStream("D:\\Avans TI\\Proftaken\\Festival Planner\\Simulation.Map Laden\\Tiled\\Festival_3_11_2019.json");
-
-                InputStream jsonMap = new FileInputStream( path + "\\res\\Tiled\\untitled.json");
-
-                JsonReader jsonReader = Json.createReader(jsonMap)
-        ) {
-            JsonObject jsonArrayOfBands = jsonReader.readObject();
-            this.map = new Map(path + "\\res\\Tiled\\untitled.json");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         this.mainPane = new BorderPane();
-
         CheckBox collisionL = new CheckBox("show Collision");
         HBox top = new HBox();
         top.getChildren().addAll(collisionL);
 
         mainPane.setTop(top);
         this.canvas = new ResizableCanvas(g -> draw(g), mainPane);
+		FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
+		this.camera = new Camera(canvas, g -> draw(g), g2d);
         mainPane.setCenter(canvas);
 
-        FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
+		this.dataMap = new Data.Tiled.Map(Settings.rootPath + "\\res\\Tiled\\untitled.json");
+		this.map = new Map(this.dataMap, this.canvas);
 
         visitors = new ArrayList<>();
 
+        this.setEvents();
+
         while(visitors.size() < 50) {
-            double x = Math.random()*1920;
-            double y = Math.random()*1080;
+            double x = Math.random()*canvas.getWidth();
+            double y = Math.random()*canvas.getHeight();
             Visitor newVisitor = new Visitor(new Point2D.Double(x,y));
             if (map.hasCollision(newVisitor)){
             	continue;
@@ -73,7 +58,7 @@ public class Simulation {
 			}
 			visitors.add(new Visitor(new Point2D.Double(x, y)));
         }
-        
+
         new AnimationTimer() {
             long last = -1;
             @Override
@@ -90,6 +75,10 @@ public class Simulation {
         draw(g2d);
     }
 
+    private void setEvents(){
+
+	}
+
     public void update(double deltaTime) {
     	visitors.parallelStream().forEach(
 			(visitor -> {
@@ -99,12 +88,17 @@ public class Simulation {
     }
 
     public void draw(FXGraphics2D graphics) {
-        graphics.setBackground(Color.WHITE);
+        graphics.setBackground(Color.BLACK);
+		graphics.setTransform(new AffineTransform());
         graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
+        graphics.setTransform(camera.getTransform());
         this.map.draw(graphics);
 
-        for(Visitor visitor : visitors)
-            visitor.draw(graphics);
+        for(Visitor visitor : visitors){
+			visitor.draw(graphics);
+		}
+
+		graphics.setTransform(new AffineTransform());
     }
 
     public BorderPane getMainPane() {

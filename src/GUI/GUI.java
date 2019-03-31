@@ -1,7 +1,9 @@
 package GUI;
 
-import Data.*;
-
+import Data.AgendaModule;
+import Data.FestivalDay;
+import Data.Performance;
+import Data.TestingDataLib;
 import GUI.ManageTables.ArtistManager;
 import GUI.ManageTables.PerformanceManager;
 import GUI.ManageTables.PodiumManager;
@@ -10,18 +12,11 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Contains the main window of the graphical interface for the Application
@@ -71,16 +66,14 @@ public class GUI extends Application{
         BorderPane menuBorderPane = new BorderPane();
         BorderPane editBorderPane = new BorderPane();
         BorderPane viewBorderPane = new BorderPane();
-        BorderPane testBorderpane = new BorderPane();
         TabPane tabPane = new TabPane();
 
         //Menu tabs
         Tab simulation = new Tab("Simulation");
         Tab View = new Tab("View mode");
         Tab Edit = new Tab("Edit mode");
-        Tab Test = new Tab("Test");
 
-        tabPane.getTabs().addAll(View,simulation,Edit,Test);
+        tabPane.getTabs().addAll(View,simulation,Edit);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         // Use the menu as a set of buttons
@@ -110,8 +103,6 @@ public class GUI extends Application{
         menuBar.getMenus().addAll(stagesMenu,performanceMenu,artistsMenu);
 
         TextArea textArea = new TextArea();
-        Button test = new Button("Test");
-//        test.setOnAction(event -> textArea.setText(festivalDay.performancePerStage(performances)));
 
         //Implements array to tableview
         this.edittable = new TableView<>();
@@ -127,14 +118,11 @@ public class GUI extends Application{
         editBorderPane.setCenter(edittable);
         editBorderPane.setTop(menuBar);
         viewBorderPane.setTop(viewtable);
-        testBorderpane.setTop(test);
-        testBorderpane.setCenter(textArea);
         //Adds borderpane to tabpane
-        Simulation simulationClass = new Simulation();
-        simulation.setContent(simulationClass.getMainPane());
+        Simulation simulationInstance = new Simulation();
+        simulation.setContent(simulationInstance.getMainPane());
         Edit.setContent(editBorderPane);
         View.setContent(viewtable);
-        Test.setContent(testBorderpane);
         //Adds tabpane to final borderpane
         menuBorderPane.setCenter(tabPane);
 

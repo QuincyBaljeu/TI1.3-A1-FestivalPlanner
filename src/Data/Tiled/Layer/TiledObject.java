@@ -47,6 +47,10 @@ public class TiledObject {
 		return width;
 	}
 
+	public Point2D getPosition(){
+		return new Point2D.Double(x, y);
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -65,5 +69,11 @@ public class TiledObject {
 
 	public String getName() {
 		return name;
+	}
+	public double getRotation() {
+		return rotation;
+	}
+	public Point2D[] getPolygon() {
+		return polygon;
 	}
 }

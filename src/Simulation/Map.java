@@ -2,6 +2,7 @@ package Simulation;
 
 import Data.Tiled.Layer.Layer;
 import Data.Tiled.Layer.TileLayer;
+import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -11,21 +12,44 @@ public class Map {
 
 	private Data.Tiled.Map map;
     private BufferedImage cacheImage;
+    private ResizableCanvas canvas;
 
-    public Map(String jsonFile) throws Exception {
-    	this.map = new Data.Tiled.Map(jsonFile);
-		this.cacheImage = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
+    public Map(Data.Tiled.Map map, ResizableCanvas canvas) throws Exception {
+    	this.map = map;
+    	this.canvas = canvas;
+    	this.drawCache();
 	}
 
     public void draw(Graphics2D graphics) {
         graphics.drawImage(this.cacheImage, 0, 0, null);
     }
 
+    private Point2D getRequiredCacheSize(){
+    	int maxX = 0;
+    	int maxY = 0;
+		for (Layer layer : this.map.getLayers()) {
+			if (layer.isVisible() && layer instanceof TileLayer){
+				TileLayer tileLayer = (TileLayer) layer;
+				int tileX = map.getTileWidth() * tileLayer.getWidth();
+				int tileY = map.getTileHeight() * tileLayer.getHeight();
+				if (maxX < tileX){
+					maxX = tileX;
+				}
+				if (maxY < tileY){
+					maxY = tileY;
+				}
+			}
+		}
+		return new Point2D.Double(maxX, maxY);
+	}
+
     public void drawCache() {
+    	Point2D cacheSize = getRequiredCacheSize();
+		this.cacheImage = new BufferedImage((int)cacheSize.getX(), (int)cacheSize.getY(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = this.cacheImage.createGraphics();
         for (Layer layer : this.map.getLayers()) {
-            if (layer.isVisible()){
-                drawLayer(layer, graphics2D);
+            if (layer.isVisible() && layer instanceof TileLayer){
+                drawLayer((TileLayer) layer, graphics2D);
             }
         }
     }
@@ -46,7 +70,6 @@ public class Map {
                                 &&
 							(currentLocation.getY() >= tileHeight * (i / this.map.getWidth()) && currentLocation.getY() <= tileHeight * (i / this.map.getWidth()) + tileHeight)
                         ) {
-                            //System.out.println("return true " + currColision);
                             return true;
                         }
                     }
@@ -56,17 +79,24 @@ public class Map {
         return false;
     }
 
-    private void drawLayer(Layer layer, Graphics2D graphics) {
+    private void drawLayer(TileLayer layer, Graphics2D graphics) {
     	if (!(layer instanceof TileLayer)){
     		return;
 		}
-        int[] data = ((TileLayer)layer).getData();
+        int[] data = layer.getData();
+    	int[][] data2D = layer.getData2D();
 
-        for (int i = 0; i < data.length; i++) {
-            BufferedImage tile = this.map.getTiles()[data[i]];
-            if (data[i] != 0 && tile != null) {
-                graphics.drawImage(tile, (tile.getWidth() * (i % this.map.getHeight())), tile.getHeight() * (int) (i / this.map.getWidth()), null);
-            }
-        }
+    	BufferedImage[] tiles = this.map.getTiles();
+		for (int y = 0; y < data2D.length; y++) {
+			int[] row = data2D[y];
+			for (int x = 0; x < row.length; x++) {
+				BufferedImage tile = tiles[row[x]];
+				if (tile != null){
+					graphics.drawImage(
+						tile, tile.getWidth()*x, tile.getHeight()*y, tile.getWidth(), tile.getHeight(), null
+					);
+				}
+			}
+		}
     }
 }
