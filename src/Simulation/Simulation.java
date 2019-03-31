@@ -3,7 +3,6 @@ package Simulation;
 import Data.AgendaModule;
 import Data.Configuration.Settings;
 import Data.Tiled.Layer.ObjectGroup;
-import Data.Tiled.Layer.TiledObject;
 import Simulation.Rendering.Camera;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.CheckBox;
@@ -94,9 +93,9 @@ public class Simulation {
 
     public void update(double deltaTime) {
         visitors.forEach(
-                (visitor -> {
-                    visitor.update(visitors, map);
-                })
+			(visitor -> {
+				visitor.update(visitors, map);
+			})
         );
     }
 

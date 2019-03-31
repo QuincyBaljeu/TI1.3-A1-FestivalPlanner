@@ -123,7 +123,7 @@ public class Visitor {
     }
 
     private void checkAlternativePath() {
-        
+
     }
 
     private boolean collidesWithVisitors(ArrayList<Visitor> visitors, Point2D newPosition) {
