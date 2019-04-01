@@ -27,12 +27,15 @@ public class Visitor {
 
     private TiledObject target;
     private int personalSpace;
-
     private int uid;
+
+    private Map map;
 
 
     public Visitor(Point2D position) {
 		this.uid = UUID.randomUUID().hashCode();
+		this.animationindex = 0;
+		this.animationtimer = 0;
         this.speed = new Point2D.Double(0,0);
         this.position = position;
         this.angle = 0;
@@ -55,56 +58,81 @@ public class Visitor {
 
     public void update(ArrayList<Visitor> visitors, Map map) {
 //        setNewPosition(visitors, map);
+		this.map = map;
         updateSpeed();
         updateAngle();
         setCorrectSprite();
         updatePos(visitors);
     }
 
-    public void draw(Graphics2D g) {
+    public void draw(Graphics2D g, boolean debug) {
         AffineTransform tx = new AffineTransform();
         tx.translate(this.position.getX() - 16, this.position.getY() - 16);
         g.drawImage(this.currentImage, tx, null);
-        g.draw(new Ellipse2D.Double(this.position.getX() - 16, this.position.getY() - 16, 28, 28));
+        if (debug){
+			g.draw(new Ellipse2D.Double(this.position.getX() - 16, this.position.getY() - 16, 28, 28));
+		}
     }
+
+	private int animationtimer;
+	private int animationindex;
+    private void updateAnimationIndex(){
+		animationtimer += 1;
+		if (animationtimer > 8){
+			animationtimer = 0;
+
+			this.animationindex += 1;
+			if (this.animationindex > 2){
+				this.animationindex = 0;
+			}
+		}
+	}
 
     //updates the info of this visitor
     private void setCorrectSprite() {
+    	this.updateAnimationIndex();
         if ((this.angle <= (1 / 8f) * Math.PI && this.angle >= 0) || (this.angle >= (-1 / 8f) * Math.PI) && this.angle <= 0) {
-            this.currentImage = this.tiles[8];
+            this.currentImage = this.tiles[8-animationindex];
         } else if (this.angle > (1 / 8f) * Math.PI && this.angle < (3 / 8f) * Math.PI) {
-            this.currentImage = this.tiles[5];
+            this.currentImage = this.tiles[5-animationindex];
         } else if (this.angle > (3 / 8f) * Math.PI && this.angle < (5 / 8f) * Math.PI) {
-            this.currentImage = this.tiles[2];
+            this.currentImage = this.tiles[2-animationindex];
         } else if (this.angle > (5 / 8) * Math.PI && this.angle < (7 / 8f) * Math.PI) {
-            this.currentImage = this.tiles[23];
+            this.currentImage = this.tiles[23-animationindex];
         } else if ((this.angle > ((7 / 8f) * Math.PI) && this.angle < Math.PI) || (this.angle > -Math.PI && this.angle < (-7 / 8f) * Math.PI)) {
-            this.currentImage = this.tiles[20];
+            this.currentImage = this.tiles[20-animationindex];
         } else if (this.angle > (-7 / 8f) * Math.PI && this.angle < (-5 / 8f) * Math.PI) {
-            this.currentImage = this.tiles[17];
+            this.currentImage = this.tiles[17-animationindex];
         } else if (this.angle > (-5 / 8f) * Math.PI && this.angle < (-3 / 8f) * Math.PI) {
-            this.currentImage = this.tiles[14];
+            this.currentImage = this.tiles[14-animationindex];
         } else if (this.angle > (-3 / 8f) * Math.PI && this.angle < (-1 / 8f) * Math.PI) {
-            this.currentImage = this.tiles[11];
+            this.currentImage = this.tiles[11-animationindex];
         }
     }
 
     private void updatePos(ArrayList<Visitor> visitors) {
         Point2D newPosition = new Point2D.Double(this.position.getX() + this.speed.getX(),
                 this.position.getY() + this.speed.getY());
-        if (!collidesWithVisitors(visitors, newPosition)) {
+
+		//this.position = newPosition;
+
+        if (!hasCollision(visitors, newPosition)) {
             this.position = newPosition;
         } else {
             checkAlternativePath();
         }
-
+		/**/
     }
 
     private void checkAlternativePath() {
-
+		Point2D newPosition = new Point2D.Double(this.position.getX() + this.speed.getY(),
+			this.position.getY() + this.speed.getX());
+		if (!this.map.hasCollision(newPosition)){
+			this.position = newPosition;
+		}
     }
 
-    private boolean collidesWithVisitors(ArrayList<Visitor> visitors, Point2D newPosition) {
+    private boolean hasCollision(ArrayList<Visitor> visitors, Point2D newPosition) {
         AtomicBoolean hasCollision = new AtomicBoolean(false);
         visitors.parallelStream().forEach( visitor -> {
             if (visitor.hasCollision(newPosition)) {
