@@ -32,6 +32,10 @@ public class Simulation {
     private ArrayList<Visitor> visitors;
     private BorderPane mainPane;
     private Camera camera;
+    private LocalTime simTime = LocalTime.of(00,00,00);
+    private int lastSeconds = LocalTime.now().getSecond();
+    private boolean counting = false;
+    private Label time = new Label();
 
     private FestivalDay festivalDay;
 
@@ -217,6 +221,32 @@ public class Simulation {
 		);
 		this.updateSimulationClock();
 	}
+
+    public LocalTime simTimer(){
+        if (counting){
+            if (!simTime.equals(LocalTime.of(23, 50))){
+                if ((lastSeconds + 5) >= 60){
+                    lastSeconds = (lastSeconds + 5) - 60;
+                    if (lastSeconds == LocalTime.now().getSecond()){
+                        System.out.println(LocalTime.now());
+                        System.out.println("5 seconden / is equal");
+                        simTime = simTime.plusMinutes(10);
+                        System.out.println(simTime);
+
+                    }
+                } else if ((lastSeconds + 5) == LocalTime.now().getSecond()){
+                    lastSeconds = LocalTime.now().getSecond();
+                    System.out.println(LocalTime.now());
+                    System.out.println("5 seconden");
+                    simTime = simTime.plusMinutes(10);
+                    System.out.println(simTime);
+
+                }
+            }
+        }
+
+        return simTime;
+    }
 
     public void draw(FXGraphics2D graphics) {
         graphics.setBackground(Color.BLACK);
