@@ -24,7 +24,7 @@ public class Map {
         graphics.drawImage(this.cacheImage, 0, 0, null);
     }
 
-    private Point2D getRequiredCacheSize(){
+    public Point2D getRequiredCacheSize(){
     	int maxX = 0;
     	int maxY = 0;
 		for (Layer layer : this.map.getLayers()) {

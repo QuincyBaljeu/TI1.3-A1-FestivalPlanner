@@ -1,6 +1,5 @@
 package Simulation;
 
-import Data.Configuration.Settings;
 import Data.Tiled.Layer.TiledObject;
 
 import javax.imageio.ImageIO;
@@ -43,7 +42,7 @@ public class Visitor {
         this.speedMult = (Math.random()*2 + 9)/10;
         this.personalSpace = 28;
         try {
-            String link = Settings.rootPath + "\\res\\IMG\\Visitor.png";
+            String link = System.getProperty("user.dir") + "\\res\\IMG\\Visitor.png";
             BufferedImage image = ImageIO.read(new File(link));
             tiles = new BufferedImage[24];
             //knip de afbeelding op in 24 stukjes van 32x32 pixels.

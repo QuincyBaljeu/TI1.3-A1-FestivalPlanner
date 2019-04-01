@@ -17,11 +17,13 @@ public class Camera {
 	private Canvas canvas;
 	private Resizable resizable;
 	private FXGraphics2D g2d;
+	private Point2D dimensions;
 
-	public Camera(Canvas canvas, Resizable resizable, FXGraphics2D g2d) {
+	public Camera(Canvas canvas, Resizable resizable, FXGraphics2D g2d, Point2D dimensions) {
 		this.canvas = canvas;
 		this.resizable = resizable;
 		this.g2d = g2d;
+		this.dimensions = dimensions;
 
 		canvas.setOnMousePressed(e -> {lastMousePos = new Point2D.Double(e.getX(), e.getY());});
 		canvas.setOnMouseDragged(e -> mouseDragged(e));
@@ -42,6 +44,23 @@ public class Camera {
 				centerPoint.getX() - (lastMousePos.getX() - e.getX()) / zoom,
 				centerPoint.getY() - (lastMousePos.getY() - e.getY()) / zoom
 			);
+
+			if (centerPoint.getX() < canvas.getWidth()/2*-1-dimensions.getX()+32){
+				centerPoint = new Point2D.Double(canvas.getWidth()/2*-1-dimensions.getX()+32, centerPoint.getY());
+			}
+
+			if (centerPoint.getY() < canvas.getHeight()/2*-1-dimensions.getY()+32){
+				centerPoint = new Point2D.Double(centerPoint.getX(), canvas.getHeight()/2*-1-dimensions.getY()+32);
+			}
+
+			if (centerPoint.getX() > canvas.getWidth()/2-32){
+				centerPoint = new Point2D.Double(canvas.getWidth()/2-32, centerPoint.getY());
+			}
+
+			if (centerPoint.getX() > canvas.getWidth()/2-32){
+				centerPoint = new Point2D.Double(canvas.getWidth()/2-32, centerPoint.getY());
+			}
+
 			lastMousePos = new Point2D.Double(e.getX(), e.getY());
 			resizable.draw(g2d);
 		}
@@ -49,6 +68,12 @@ public class Camera {
 
 	public void mouseScroll(ScrollEvent e) {
 		zoom *= (1 + e.getDeltaY()/250.0f);
+		if (zoom > 40){
+			zoom = 40;
+		}
+		if (zoom < 0.02){
+			zoom = 0.02;
+		}
 		resizable.draw(g2d);
 	}
 }

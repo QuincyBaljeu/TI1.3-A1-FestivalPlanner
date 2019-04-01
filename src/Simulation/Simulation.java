@@ -1,6 +1,5 @@
 package Simulation;
 
-import Data.Configuration.Settings;
 import Data.FestivalDay;
 import Data.Performance;
 import Data.Tiled.Layer.ObjectGroup;
@@ -8,18 +7,22 @@ import Data.Tiled.Layer.TiledObject;
 import Simulation.Rendering.Camera;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +49,7 @@ public class Simulation {
     private Label currentVisitorCount;
     private Label speedLabel;
     private Label clockLabel;
+    private Button loadButton;
     private TextField speedControl;
     private TextField clockControl;
 	private int maximumVisitors;
@@ -54,43 +58,43 @@ public class Simulation {
 	private double clockMultiplyer;
     private HashMap<String, TiledObject> podiumObjectMap;
     private LocalTime simulationTime;
+    private Stage stage;
 
-    public Simulation(FestivalDay festivalDay) throws Exception {
-    	this.addSimulationControls();
+    public Simulation(FestivalDay festivalDay, Stage stage) throws Exception {
+    	this.stage = stage;
+		this.addSimulationControls();
     	this.festivalDay = festivalDay;
-    	this.simulationTime = LocalTime.of(11, 30, 0);
-        this.canvas = new ResizableCanvas(g -> draw(g), mainPane);
-        FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
-        this.camera = new Camera(canvas, g -> draw(g), g2d);
-        mainPane.setCenter(canvas);
-
-        this.dataMap = new Data.Tiled.Map(Settings.rootPath + "\\res\\Tiled\\FestivalMap.json");
-        this.map = new Map(this.dataMap, this.canvas);
-
-		this.initPodiumObjectMap();
-
-        visitors = new ArrayList<>();
-
-        new AnimationTimer() {
-            long last = -1;
-
-            @Override
-            public void handle(long now) {
-                if (last == -1)
-                    last = now;
-                update((now - last) / 1000000.0);
-                last = now;
-                draw(g2d);
-            }
-        }.start();
-
-        setEvents();
-        this.map.drawCache();
-
-        draw(g2d);
+    	//this.initialize();
     }
 
-    private void addSimulationControls(){
+    private void initialize(String mapFile) throws Exception{
+		this.simulationTime = LocalTime.of(11, 30, 0);
+		this.canvas = new ResizableCanvas(g -> draw(g), mainPane);
+		FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
+		mainPane.setCenter(canvas);
+		this.dataMap = new Data.Tiled.Map(mapFile);
+		this.map = new Map(this.dataMap, this.canvas);
+		this.camera = new Camera(canvas, g -> draw(g), g2d, this.map.getRequiredCacheSize());
+		this.initPodiumObjectMap();
+		visitors = new ArrayList<>();
+		new AnimationTimer() {
+			long last = -1;
+
+			@Override
+			public void handle(long now) {
+				if (last == -1)
+					last = now;
+				update((now - last) / 1000000.0);
+				last = now;
+				draw(g2d);
+			}
+		}.start();
+		setEvents();
+		this.map.drawCache();
+		draw(g2d);
+	}
+
+    private void addSimulationControls() {
 		this.mainPane = new BorderPane();
 		HBox top = new HBox();
 		this.debugDraw = new CheckBox("debugDraw");
@@ -102,8 +106,25 @@ public class Simulation {
 		this.speedControl = new TextField("1");
 		this.clockLabel = new Label("\t simulation clock multiplier: ");
 		this.clockControl = new TextField("1");
+		this.loadButton = new Button("Load map...");
+		this.loadButton.setOnAction((e) -> {
+			FileChooser fileChooser =
+				new FileChooser();
+			fileChooser.getExtensionFilters().add(
+				new FileChooser.ExtensionFilter(
+					"json files (*.json)", "*.json"
+				)
+			);
+			File saveFile = fileChooser.showOpenDialog(this.stage);
+			try {
+				initialize(saveFile.getPath());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
 		mainPane.setTop(top);
 		this.addControlsToTop(
+			loadButton,
 			debugDraw,
 			visitorCountLabel,
 			visitorCount,
