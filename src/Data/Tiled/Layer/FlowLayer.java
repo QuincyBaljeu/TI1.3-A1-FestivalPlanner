@@ -32,8 +32,8 @@ public class FlowLayer {
         this.distMap = new int[collisionLayer.getWidth()][collisionLayer.getHeight()];
         resetDistanceMap();
 
-        int centerX = (int) this.endPoint.getX() / 32;
-        int centerY = (int) this.endPoint.getY() / 32;
+        int centerX = (int) (this.endPoint.getX() / 32) + this.endPoint.getWidth()/64;
+        int centerY = (int) (this.endPoint.getY() / 32) + this.endPoint.getHeight()/64;
 
         Queue<Point2D> frontier = new LinkedList<>();
         frontier.offer(new Point2D(centerX, centerY));
