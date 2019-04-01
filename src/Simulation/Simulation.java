@@ -99,7 +99,7 @@ public class Simulation {
 		HBox top = new HBox();
 		this.debugDraw = new CheckBox("debugDraw");
 		this.clock = new Label();
-		this.visitorCount = new TextField("1000");
+		this.visitorCount = new TextField("100");
 		this.currentVisitorCount = new Label();
 		this.visitorCountLabel = new Label("\tMaximum number of visitors:");
 		this.speedLabel = new Label("\t simulation speed multiplier: ");
