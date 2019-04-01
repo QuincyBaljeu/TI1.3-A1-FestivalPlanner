@@ -1,10 +1,7 @@
 package Data;
 
-import javafx.stage.Screen;
-
 import java.awt.geom.Point2D;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,22 +48,22 @@ public class Performance implements Serializable {
         }
     }
     
-    public void setPodium(Podium podium) {
-        this.podium.removePerformance(this);
-        this.podium = podium;
-        this.podium.addPerformance(this);
-    }
-
     public List<Artist> getArtists() {
         return artists;
+    }
+
+    public void setArtists(List<Artist> artists) {
+        this.artists = artists;
     }
 
     public Podium getPodium() {
         return podium;
     }
 
-    public void setArtists(List<Artist> artists) {
-        this.artists = artists;
+    public void setPodium(Podium podium) {
+        this.podium.removePerformance(this);
+        this.podium = podium;
+        this.podium.addPerformance(this);
     }
 
     public LocalTime getStartTime() {

@@ -30,7 +30,8 @@ public class Visitor {
     private int uid;
 
     private Map map;
-
+	private int animationtimer;
+	private int animationindex;
 
     public Visitor(Point2D position) {
 		this.uid = UUID.randomUUID().hashCode();
@@ -55,7 +56,6 @@ public class Visitor {
         this.target = null;
     }
 
-
     public void update(ArrayList<Visitor> visitors, Map map) {
 //        setNewPosition(visitors, map);
 		this.map = map;
@@ -74,8 +74,6 @@ public class Visitor {
 		}
     }
 
-	private int animationtimer;
-	private int animationindex;
     private void updateAnimationIndex(){
     	if (this.speed.getY() + this.speed.getY() < 0.01){
     		animationindex = 0;
