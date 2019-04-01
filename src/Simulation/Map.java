@@ -96,7 +96,7 @@ public class Map {
     	if (!(layer instanceof TileLayer)){
     		return;
 		}
-    	int[][] data2D = layer.getData2D();
+    	long[][] data2D = layer.getData2D();
 
     	graphics.setComposite(
     		AlphaComposite.getInstance(
@@ -106,9 +106,11 @@ public class Map {
 
     	BufferedImage[] tiles = this.map.getTiles();
 		for (int y = 0; y < data2D.length; y++) {
-			int[] row = data2D[y];
+			long[] row = data2D[y];
 			for (int x = 0; x < row.length; x++) {
-				BufferedImage tile = tiles[row[x]];
+				System.out.println(x + "   max:" + row.length);
+				int index = (int)row[x];
+				BufferedImage tile = tiles[index];
 				if (tile != null){
 					graphics.drawImage(
 						tile, tile.getWidth()*y, tile.getHeight()*x, tile.getWidth(), tile.getHeight(), null

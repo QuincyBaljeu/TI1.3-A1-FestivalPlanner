@@ -7,7 +7,7 @@ import javax.json.JsonValue;
 
 public class TileLayer implements Layer {
 	private int[] data;
-	private int[][] data2D;
+	private long[][] data2D;
 	private boolean visible;
 	private double opacity;
 	private String name;
@@ -26,10 +26,10 @@ public class TileLayer implements Layer {
 		this.opacity = JsonSource.getJsonNumber("opacity").doubleValue();
 		this.height = JsonSource.getInt("height");
 		this.width = JsonSource.getInt("width");
-		this.data2D = new int[this.width][this.height];
+		this.data2D = new long[this.width][this.height];
 		for (int y = 0; y < this.width; y++) {
 			for (int x = 0; x < this.height; x++) {
-				data2D[x][y] = data[(y * this.width) + x];
+				data2D[x][y] = (long)data[(int)((y * this.width) + x)];
 			}
 		}
 	}
@@ -43,7 +43,7 @@ public class TileLayer implements Layer {
 		return data;
 	}
 
-	public int[][] getData2D(){
+	public long[][] getData2D(){
 		return data2D;
 	}
 
