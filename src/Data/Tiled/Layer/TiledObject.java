@@ -1,9 +1,13 @@
 package Data.Tiled.Layer;
 
+import Data.Tiled.Map;
+import Simulation.Visitor;
+
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 import java.awt.geom.Point2D;
+import java.util.List;
 
 public class TiledObject {
 	private int height;
@@ -59,8 +63,8 @@ public class TiledObject {
 		return y;
 	}
 
-	public void generateFlowMap(TileLayer collisionLayer, int[][] data2D) {
-		this.flowLayer = new FlowLayer(collisionLayer, this, data2D);
+	public void generateFlowMap(TileLayer collisionLayer, int[][] data2D, List<Visitor> visitors, Map dataMap) {
+		this.flowLayer = new FlowLayer(collisionLayer, this, data2D, visitors, dataMap);
 	}
 
 	public FlowLayer getFlowLayer() {

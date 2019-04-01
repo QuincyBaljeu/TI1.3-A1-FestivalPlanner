@@ -1,8 +1,12 @@
 package Data.Tiled.Layer;
 
+import Data.Tiled.Map;
+import Simulation.Visitor;
+
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
+import java.util.List;
 
 public class ObjectGroup implements Layer {
 	private String name;
@@ -44,7 +48,7 @@ public class ObjectGroup implements Layer {
 		return objects;
 	}
 
-	public void generateFlowMap(TileLayer collisionLayer) {
+	public void generateFlowMap(TileLayer collisionLayer, List<Visitor> visitors, Map dataMap) {
 		int[][] data2D = new int[collisionLayer.getWidth()][collisionLayer.getHeight()] ;
 
 		for (int i = 0; i < collisionLayer.getData().length; i++) {
@@ -53,7 +57,7 @@ public class ObjectGroup implements Layer {
 		}
 
 		for (TiledObject location : this.objects) {
-			location.generateFlowMap(collisionLayer, data2D);
+			location.generateFlowMap(collisionLayer, data2D, visitors, dataMap);
 		}
 	}
 

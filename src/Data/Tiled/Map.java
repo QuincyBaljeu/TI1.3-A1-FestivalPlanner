@@ -4,6 +4,7 @@ import Data.Tiled.Layer.ImageLayer;
 import Data.Tiled.Layer.Layer;
 import Data.Tiled.Layer.ObjectGroup;
 import Data.Tiled.Layer.TileLayer;
+import Simulation.Visitor;
 
 import javax.imageio.ImageIO;
 import javax.json.Json;
@@ -36,10 +37,10 @@ public class Map {
 
 		this.tiles = this.readTiles(inputObject, workingDirectory);
 		this.layers = readLayers(inputObject);
-		generateFlowPaths();
+		//generateFlowPaths(, List<Visitor> visitors, Map dataMap);
 	}
 
-	public void generateFlowPaths() {
+	public void generateFlowPaths(List<Visitor> visitors, Map dataMap) {
 		TileLayer collisionLayer = null;
 		for (Layer layer : this.layers) {
 			if (layer.getName().toLowerCase().contains("collision"))
@@ -53,7 +54,7 @@ public class Map {
 			for (Layer layer : this.layers) {
 				if (layer.getClass() == ObjectGroup.class) {
 					ObjectGroup objectGroup = (ObjectGroup) layer;
-					objectGroup.generateFlowMap(collisionLayer);
+					objectGroup.generateFlowMap(collisionLayer, visitors, dataMap);
 				}
 			}
 		} else {

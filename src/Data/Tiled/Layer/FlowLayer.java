@@ -1,9 +1,12 @@
 package Data.Tiled.Layer;
 
+import Data.Tiled.Map;
+import Simulation.Visitor;
 import javafx.geometry.Point2D;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class FlowLayer {
@@ -11,15 +14,18 @@ public class FlowLayer {
     private int[][] data2D;
     private int[][] distMap;
     private Point2D[][] flowMap;
+    private List<Visitor> visitors;
+    private Map dataMap;
 
     private TiledObject endPoint;
 
-    public FlowLayer(TileLayer collisionLayer, TiledObject goal, int[][] data2D) {
+    public FlowLayer(TileLayer collisionLayer, TiledObject goal, int[][] data2D, List<Visitor> visitors, Map dataMap) {
         this.data2D = data2D;
         this.endPoint = goal;
+		this.visitors = visitors;
+		this.dataMap = dataMap;
         generateDistMap(collisionLayer);
         generateFlowMap(collisionLayer);
-
     }
 
     private void generateDistMap(TileLayer collisionLayer) {
@@ -42,6 +48,24 @@ public class FlowLayer {
                 this.distMap[(int) neighbor.getX()][(int) neighbor.getY()] = this.distMap[(int) current.getX()][(int) current.getY()] + 1;
             }
         }
+
+        this.visitors.parallelStream().forEach(
+			(visitor) ->{
+				try {
+					java.awt.geom.Point2D currentLocation = visitor.getPosition();
+					int tileWidth = this.dataMap.getTileWidth();
+					int tileHeight = this.dataMap.getTileHeight();
+
+					int tileX = (int)currentLocation.getX() / tileWidth;
+					int tileY = (int)currentLocation.getY() / tileHeight;
+
+					this.distMap[tileX][tileY] += 2;
+				} catch (Exception x) {
+					// Someone walked off the field?
+				}
+			}
+		);
+
         /*
         for (int[] ints : this.distMap) {
             for (int anInt : ints) {

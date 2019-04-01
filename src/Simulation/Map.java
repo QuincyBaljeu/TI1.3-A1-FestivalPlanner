@@ -12,11 +12,11 @@ public class Map {
 
 	private Data.Tiled.Map map;
     private BufferedImage cacheImage;
-    private ResizableCanvas canvas;
+    //private ResizableCanvas canvas;
 
     public Map(Data.Tiled.Map map, ResizableCanvas canvas) throws Exception {
     	this.map = map;
-    	this.canvas = canvas;
+    	//this.canvas = canvas;
     	this.drawCache();
 	}
 
@@ -54,17 +54,17 @@ public class Map {
         }
     }
 
-    public boolean hasCollision(Visitor visitor) {
+    public boolean hasCollision(Point2D position){
 		Layer boundaryLayer = this.map.getLayer("Collision");
 
-        Point2D currentLocation = visitor.getPosition();
-        int tileWidth = this.map.getTileWidth();
-        int tileHeight = this.map.getTileHeight();
+		Point2D currentLocation = position;
+		int tileWidth = this.map.getTileWidth();
+		int tileHeight = this.map.getTileHeight();
 
-        int tileX = (int)currentLocation.getX() / tileWidth;
-        int tileY = (int)currentLocation.getY() / tileHeight;
+		int tileX = (int)currentLocation.getX() / tileWidth;
+		int tileY = (int)currentLocation.getY() / tileHeight;
 
-        if (((TileLayer)boundaryLayer).getData2D()[tileX][tileY] > 1){
+		if (((TileLayer)boundaryLayer).getData2D()[tileX][tileY] > 1){
 			return true;
 		}
 
@@ -85,7 +85,11 @@ public class Map {
             }
         }
         */
-        return false;
+		return false;
+	}
+
+    public boolean hasCollision(Visitor visitor) {
+    	return this.hasCollision(visitor.getPosition());
     }
 
     private void drawLayer(TileLayer layer, Graphics2D graphics) {

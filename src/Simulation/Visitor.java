@@ -77,6 +77,10 @@ public class Visitor {
 	private int animationtimer;
 	private int animationindex;
     private void updateAnimationIndex(){
+    	if (this.speed.getY() + this.speed.getY() < 0.01){
+    		animationindex = 0;
+    		return;
+		}
 		animationtimer += 1;
 		if (animationtimer > 8){
 			animationtimer = 0;
@@ -154,6 +158,9 @@ public class Visitor {
 
 				Point2D newSpeed = new Point2D.Double((speed.getX() * speedMult + tileFlow.getX())/2, (speed.getY() * speedMult + tileFlow.getY())/2);
 				this.speed = newSpeed;
+			}
+			else {
+				this.speed = new Point2D.Double(0, 0);
 			}
 		}
 		catch (Exception x) { }
